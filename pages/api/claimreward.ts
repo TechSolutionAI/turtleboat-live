@@ -1,0 +1,134 @@
+import { NextApiRequest, NextApiResponse } from "next";
+import clientPromise from "@/utils/mongodb";
+import { Session, getServerSession } from "next-auth";
+import { authOptions } from "./auth/[...nextauth]";
+import formidable from "formidable";
+import { ObjectId } from "mongodb";
+import Pusher from 'pusher';
+import { v4 as uuid } from "uuid";
+import { v2 as cloudinary } from 'cloudinary';
+import sendgrid from "@sendgrid/mail";
+
+sendgrid.setApiKey(process.env.SENDGRID_API_KEY ?? "");
+
+const SERVER_ERR_MSG = "Something went wrong in a server.";
+
+export const config = {
+    api: {
+        bodyParser: false,
+    },
+};
+
+interface FileObject {
+    originalFilename: string;
+    mimeType: string;
+    filepath: string;
+    size: number;
+}
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME ?? '',
+    api_key: process.env.CLOUDINARY_API_KEY ?? '',
+    api_secret: process.env.CLOUDINARY_API_SECRET ?? ''
+});
+
+const pusher = new Pusher({
+    appId: process.env.PUSHER_APP_ID ?? '',
+    key: process.env.NEXT_PUBLIC_PUSHER_APP_KEY ?? '',
+    secret: process.env.PUSHER_APP_SECRET ?? '',
+    cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER ?? '',
+    useTLS: true,
+});
+
+export default function handler(
+    req: NextApiRequest,
+    res: NextApiResponse
+) {
+    const { method } = req
+
+    switch (method) {
+        case 'GET':
+            // Handle GET request
+            getClaimRequests(res)
+            break
+        case 'POST':
+            // Handle POST request
+            sendClaimRequest(req, res);
+            break
+        case 'PUT':
+            break
+        default:
+            res.setHeader('Allow', ['GET', 'POST', 'PUT'])
+            res.status(405).end(`Method ${method} Not Allowed`)
+    }
+}
+
+async function getClaimRequests(res: NextApiResponse) {
+    try {
+        const client = await clientPromise;
+        const db = client.db(process.env.MONGODB_NAME);
+  
+        const result = await db
+            .collection("claim_requests")
+            .find({
+                isClaimed: false
+            })
+            .toArray();
+        res.status(200).json({ claimList: result });
+    } catch (err) {
+        res.status(500).json({ err: SERVER_ERR_MSG });
+    }
+}
+
+async function sendClaimRequest(req: NextApiRequest, res: NextApiResponse) {
+    const session: Session | null = await getServerSession(req, res, authOptions);
+    const form = new formidable.IncomingForm();
+    form.parse(req, async (err, fields, files) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send(err.message);
+        }
+
+        const {
+            uid,
+            dates, 
+            content,
+            rewardNo,
+            username
+        } = fields;
+
+        const availableDates = JSON.parse(dates.toString());
+        const client = await clientPromise;
+        const db = client.db(process.env.MONGODB_NAME);
+        const rewardInfo = await db.collection("rewards").findOne({
+            no: parseInt(rewardNo.toString())
+        })
+
+        const userInfo = await db
+            .collection("users")
+            .findOne({ email: session?.user?.email });
+
+        const result = await db
+            .collection("claim_requests")
+            .insertOne({
+                userId: new ObjectId(uid.toString()),
+                createdAt: new Date(),
+                rewardInfo: rewardInfo,
+                isClaimed: false,
+                updatedAt: new Date(),
+                dates: availableDates,
+                content: content,
+                user: {
+                    email: session?.user?.email,
+                    name: username,
+                    image: userInfo.image,
+                    _id: uid,
+                },
+            });
+        if (!result.acknowledged) {
+            return res.status(500).json({ success: false, err: SERVER_ERR_MSG });
+        } else {
+            return res.status(200).json({ success: true });
+        }
+    });
+}
