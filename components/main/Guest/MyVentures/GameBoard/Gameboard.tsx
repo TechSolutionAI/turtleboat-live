@@ -386,6 +386,7 @@ const Gameboard = () => {
               startingPoint={startingPoint}
               ventureId={venture?._id}
               memberType={memberType}
+              storyTrain={venture?.storyTrain}
             />
           </div>
           {/* <div id="Gameboard" className="relative w-[600px] h-[600px] m-auto">
