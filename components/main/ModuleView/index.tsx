@@ -6,7 +6,7 @@ import { ModuleItem } from '@/types/module.type';
 
 import Image from 'next/image'
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-import ico_document from '/public/static/images/document.svg'
+import IcoDocument from '/public/static/images/document.svg'
 
 import Spinner from '@/components/Spinner';
 import CommentItem from './CommentItem';
@@ -95,7 +95,8 @@ const Index = () => {
                                             {
                                                 moduleItem?.module.files.map((fileItem: any, index: number) => {
                                                     return <div className='flex items-center' key={`file_${index}`}>
-                                                        <Image src={ico_document} alt={fileItem.name} />
+                                                        {/* <Image src={ico_document} alt={fileItem.name} /> */}
+                                                        <IcoDocument alt={fileItem.name} />
                                                         <a href={fileItem.url} target="_blank" className='pl-[5px]'>{fileItem.name}</a>
                                                     </div>
                                                 })

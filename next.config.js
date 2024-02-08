@@ -5,9 +5,8 @@ if (
     `${process.env.PWD}/node_modules/canvas/build/Release:`
   )
 ) {
-  process.env.LD_LIBRARY_PATH = `${
-    process.env.PWD
-  }/node_modules/canvas/build/Release:${process.env.LD_LIBRARY_PATH || ""}`;
+  process.env.LD_LIBRARY_PATH = `${process.env.PWD
+    }/node_modules/canvas/build/Release:${process.env.LD_LIBRARY_PATH || ""}`;
 }
 
 const nextConfig = {
@@ -34,6 +33,22 @@ const nextConfig = {
     );
     if (modularizeImports?.["@headlessui/react"])
       delete modularizeImports["@headlessui/react"];
+
+    const fileLoaderRule = config.module.rules.find((rule) => rule.test?.test?.('.svg'))
+
+    config.module.rules.push(
+      // Convert all other *.svg imports to React components
+      {
+        test: /\.svg$/i,
+        issuer: fileLoaderRule.issuer,
+        resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] }, // exclude if *.svg?url
+        use: ['@svgr/webpack'],
+      },
+    )
+
+    // Modify the file loader rule to ignore *.svg, since we have it handled now.
+    fileLoaderRule.exclude = /\.svg$/i
+
     return config;
   },
 };

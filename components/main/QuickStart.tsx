@@ -84,8 +84,8 @@ const QuickStart = () => {
           Turtleboat, a clickable profile picture is visible. From their profile
           page, you can directly add them to your Circle of Resources to curate
           a list of contacts whose knowledge, experience, or other assets are
-          relevant to your specific project (or folks you’re interested in
-          following, even if you’re not actively working on a venture).
+          relevant to your specific project (or folks you&#39;re interested in
+          following, even if you&#39;re not actively working on a venture).
         </p>
         <div className="flex lg:mt-0 mt-10">
           <Image
@@ -158,30 +158,16 @@ const QuickStart = () => {
                 "font-Inter font-bold text-[20px] text-[#232325] leading-tight"
               }
             >
-              Wonder Innovation Journal
+              Thinkspace
             </h3>
             <p className={"mt-1 font-Inter text-[14px]"}>
-              Anyone who&#39;s participated in yCITIES Bootcamps probably
-              remembers the constant encouragement of wondering-out-loud…even if
-              you&#39;re unsure…even if it&#39;s a 1st draft thought...even if
-              it sounds “silly”. It&#39;s important to get those wonders out of
-              the head (out loud in conversation or on paper if solo). Just like
-              an investigative reporter trying to find *the* story, every
-              entrepreneur&#39;s journey should be full of questions and a
-              continuous search for answers with evidence to back up hunches.
-              While everyone&#39;s journey is slightly different, there are key
-              questions that everyone should be wondering about. Clickable
-              Wonder [?] Squares provide food for thought and a journal-like
-              space to record thoughts and track progress. For folks who are
-              also part of a Bootcamp, micro-lessons and homework assignments
-              are accessed through the Wonder Squares for a more structured
-              combination of instruction and reflection.
+              Discover, define, and refine foundational pillars to build your entrepreneurial story.  A nonlinear framework (with prompts provided by yCITIES or partner programming) supports progress of the discovery journey no matter where and how you began your journey.  Click on any (unlocked) puzzle piece for prompts or advice for figuring out your unknowns.  Jot down summary findings you enter into each pillar piece.  When you&#39;re ready, these soundbites get pulled into your Story Train tool for you to refine.
             </p>
           </div>
           <div className="flex items-center justify-center">
             <img
               alt="Venture Dashboard"
-              src="/static/images/quickstart/venture_dashboard.png"
+              src="/static/images/quickstart/puzzle_panel.png"
               className="lg:mt-0 mt-10"
             />
           </div>
@@ -364,48 +350,25 @@ const QuickStart = () => {
           <ArrowRightAltRoundedIcon className="mt-4" fontSize="large" />
           <h3 className={"mt-5 font-Inter text-[14px]"}>
             <strong className={"text-black"}>
-              Circle of Resources (CoR) Worksheet.
+              Circle of Resources (CoR) Mapping.
             </strong>
-            , It&#39;s not just what you know, but also who you know.
-            Resource-rich or resource-constrained is often just a state of mind.
-            Since early stage entrepreneurs usually don&#39;t have a lot of
-            money and can get stuck in a deficit mindset. But money is just
-            another way to get access to people/places/things…many of which may
-            already be accessible to help create, make, and get early validation
-            for ideas.
-          </h3>
-        </div>
-        <div className="flex items-start gap-x-2 ml:[20px] sm:ml-[70px]">
-          <ArrowRightAltRoundedIcon className="mt-4" fontSize="large" />
-          <h3 className={"mt-5 font-Inter text-[14px]"}>
-            <strong className={"text-black"}>
-              Who Should Care & Why? Brainstorm
-            </strong>
-            , In a story, there is always a cast of characters. Through scenario
-            modeling, this worksheet can help provide multiple angles for
-            solving a particular problem by the cast of characters woven in, and
-            the roles they can potentially play. The Character Brainstorm
-            Worksheet is a visual mapping of potential stakeholders, their level
-            of influence, and even ways to bring in seemingly irrelevant
-            characters and innovatively introduce them into the story…which may
-            affect how the solution is distributed or paid for. It is also
-            important to know what their motivations are, and whether they will
-            help or hinder the development of the solution.
+            , Resource-rich or resource-constrained is often just a state of mind.  Map out the people who have the skills, knowledge, venues, and equipment you need to create or test, and tap into the Circle of Resource Exchange (CORE) if they are a fellow member.   Has somebody in the CORE community posted compelling feedback to the community that you  think might be useful for you?  Curate your own CoR map specific to your needs of your current endeavors.&nbsp;
+            <span className={"text-tertiary-red"}>
+              Clicking on profile pictures of any CORE member will bring you to their profile page, where you can strategically add them to your Circle.
+            </span>
           </h3>
         </div>
         <div className="flex items-start gap-x-2 ml:[20px] sm:ml-[70px]">
           <ArrowRightAltRoundedIcon className="mt-4" fontSize="large" />
           <h3 className={"mt-5 font-Inter text-[14px]"}>
             <strong className={"text-black"}>Comic Strip Generators.</strong>,
-            Problems don&#39;t happen in a silo, and solutions don&#39;t just
-            drop into someone&#39;s lap when needed. Comics are an easy way for
-            folks to visualize the problem or solution scenario, its setting,
-            the characters involved on-site, and chronologically what happens
-            before and after. The farther along an entrepreneur is in their
-            discovery journey, the more detailed the comic strip should be.
+            Problems don&#39;t happen in a silo, and solutions don&#39;t just drop into someone&#39;s lap when needed. Comics are an easy way to visualize the problem or solution scenario, its setting, the characters involved on-site, and chronologically what happens before and after. The farther you are along the discovery journey, the more detailed the comic strip should be.&nbsp;
+            <span className={"text-tertiary-red"}>
+              Comic strips are viewable by CORE members when you request help from ERA (Entrepreneurial Roadside Assistance) to get a better sense of where you are in your 4-pillar story formation.
+            </span>
           </h3>
         </div>
-        <div className="flex items-start gap-x-2 ml:[20px] sm:ml-[70px]">
+        {/* <div className="flex items-start gap-x-2 ml:[20px] sm:ml-[70px]">
           <ArrowRightAltRoundedIcon className="mt-4" fontSize="large" />
           <h3 className={"mt-5 font-Inter text-[14px]"}>
             <strong className={"text-black"}>
@@ -416,32 +379,34 @@ const QuickStart = () => {
             reflect on the intersection of one&#39;s strengths, interests, and
             experiences for idea generation.
           </h3>
-        </div>
+        </div> */}
         <div className="flex items-start gap-x-2 ml:[20px] sm:ml-[70px]">
           <ArrowRightAltRoundedIcon className="mt-4" fontSize="large" />
           <h3 className={"mt-5 font-Inter text-[14px]"}>
-            <strong className={"text-black"}>Story Train.</strong>, Distilling
-            information about a venture into the essential yet engaging sound
-            bites is extremely challenging and is often tweaked a million times.
-            The Story Train is a drafting tool that helps ensure all the
-            critical parts of the story are captured, tweakable and
-            rearrangeable without having to rewrite the whole pitch every time.
-            <span className={"text-tertiary-red italic"}>
-              Your story train can also be directly pulled from your Dashboard
-              into an ERA (Entrepreneurial Roadside Assistance) request.
+            <strong className={"text-black"}>Story Train Drafting.</strong>, Every successful entrepreneur needs to be a great storyteller.  However, the process of distilling your story into engaging and digestible sound bites is extremely challenging and is often tweaked a million times. This tool ensures all the critical parts of your story are captured, allowing you to tweak and rearrange without having to rewrite the whole pitch every time.&nbsp;
+            <span className={"text-tertiary-red"}>
+              Your most recent story train draft can be pulled into the ERA request so potential helpers can get a quick overview of the venture.
             </span>
           </h3>
         </div>
         <div className="flex items-start gap-x-2 ml:[20px] sm:ml-[70px]">
           <ArrowRightAltRoundedIcon className="mt-4" fontSize="large" />
           <h3 className={"mt-5 font-Inter text-[14px]"}>
-            <strong className={"text-black"}>50 Ways to Lemonade.</strong>, A
-            divergent brainstorming tool where up to 5 folks can be invited to
-            take part in an asynchronous, scaffolded battle of entrepreneurial
-            wits that challenges participants to creatively connect dots and
-            poke holes in each other&#39;s logic. The initiator sets the tone
-            for the brainstorm, and each participant only has 10 comments
-            available per session.
+            <strong className={"text-black"}>Elevator Pitch Recorder.</strong>, A
+            Practicing an elevator pitch out loud is an important part of the refinement process, and by recording it (with only 90 seconds available), there&#39;s the added opportunity of self-critiquing and hearing any “ummm&#39;s” and other filler words.&nbsp;
+            <span className={"text-tertiary-red"}>
+              Your last recording can also be pulled from the Dashboard into the ERA request so potential helpers can get a quick overview of the venture.
+            </span>
+          </h3>
+        </div>
+        <div className="flex items-start gap-x-2 ml:[20px] sm:ml-[70px]">
+          <ArrowRightAltRoundedIcon className="mt-4" fontSize="large" />
+          <h3 className={"mt-5 font-Inter text-[14px]"}>
+            <strong className={"text-black"}>50 Ways “Shop Talk”.</strong>, Perfecting an elevator pitch is very different from being able to hold a networking style conversation because you are talking with them, not at them.  How do you get your venture idea across without too much or too little detail, especially if they have varying levels of understanding of your venture?  How do you get back on track if you keep getting asked questions, or questions you&#39;d rather not answer at this time?  Alternatively, you can use this tool as a divergent brainstorming tool to take part in an asynchronous, scaffolded battle of entrepreneurial wits that challenges participants to creatively connect dots and poke holes in each other&#39;s logic.
+            Up to 5 folks can be invited in this tool, and each participant has 20 comments available per session. &nbsp;
+            <span className={"text-tertiary-red"}>
+              This tool can be used as a response to an ERA.
+            </span>
           </h3>
         </div>
       </div>

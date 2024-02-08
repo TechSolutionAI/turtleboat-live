@@ -179,7 +179,7 @@ const ResponseModal = ({
                             </button>
                             <div className="px-6 py-4 border-b rounded-t ">
                                 <h3 className="text-base font-semibold text-gray-900 lg:text-xl">
-                                    Response to Help Request
+                                Response to Help Request 
                                 </h3>
                             </div>
                             <div className="p-6">
@@ -199,23 +199,23 @@ const ResponseModal = ({
                                                     'className': styles.tagsinputInput,
                                                     'placeholder': 'Add an email address and press Enter'
                                                 }} />
-                                            {
-                                                isValidEmail &&
-                                                <p className="mt-2 text-sm text-red-600">
-                                                    <span className="font-medium">Oops!</span> Please input a valid email and press enter
-                                                </p>
-                                            }
+                                                {
+                                                    isValidEmail &&
+                                                    <p className="mt-2 text-sm text-red-600">
+                                                        <span className="font-medium">Oops!</span> Please input a valid email and press enter
+                                                    </p>
+                                                }
                                         </div>
                                     )
                                 }
                                 <div>
                                     <label htmlFor="responseText" className={`block font-semibold text-black ${isTextResponse ? 'mt-0' : 'mt-2'}`}>
                                         {
-                                            isTextResponse ?
-                                                'Provide advice, thoughts, or reference links you believe will be helpful.'
-                                                :
-                                                'Enter brief context to your contact before forwarding this help request.'
-                                        }
+                                            isTextResponse ? 
+                                            'Provide advice, thoughts, or reference links you believe will be helpful.'
+                                            :
+                                            'Enter brief context to your contact before forwarding this help request.'
+                                        } 
                                         {isTextResponse ? <span className="text-secondary-red">*</span> : ''}
                                     </label>
                                     <textarea rows={4} className="block p-3 mt-[15px] w-full text-[16px] text-gray-900 bg-white rounded-lg border border-gray-300 focus:outline-none focus:border-primary-blue focus:ring-primary-blue placeholder:text-[16px]"
@@ -253,7 +253,7 @@ const ResponseModal = ({
                                         font-medium rounded-lg text-sm px-5 py-2.5 text-center 
                                         `}
                                     onClick={onSendResponseBtnClicked}>
-                                    {isSending ? <Spinner text='Sending...' /> : 'Send Response'}
+                                    { isSending ? <Spinner text='Sending...' /> : 'Send Response'}
                                 </button>
                             </div>
                         </div>

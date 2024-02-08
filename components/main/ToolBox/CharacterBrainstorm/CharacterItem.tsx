@@ -32,22 +32,26 @@ const CharacterItem = ({ size, data, id, isSelected, handleCharacterSelected, st
             <div className='flex items-center min-h-[38px] pt-[8px] gap-x-1'>
                 {
                     data.isUser && (
-                        <Image src={UserBadge} alt='' width={39} height={39} className="rounded-full cursor-pointer"/>
+                        // <Image src={UserBadge} alt='' width={39} height={39} className="rounded-full cursor-pointer"/>
+                        <UserBadge alt='' width={39} height={39} className="rounded-full cursor-pointer"/>
                     )
                 }
                 {
                     data.isBuyer && (
-                        <Image src={BuyerBadge} alt='' width={39} height={39} className="rounded-full cursor-pointer"/>
+                        // <Image src={BuyerBadge} alt='' width={39} height={39} className="rounded-full cursor-pointer"/>
+                        <BuyerBadge alt='' width={39} height={39} className="rounded-full cursor-pointer"/>
                     )
                 }
                 {
                     data.isPayer && (
-                        <Image src={PayerBadge} alt='' width={39} height={39} className="rounded-full cursor-pointer"/>
+                        // <Image src={PayerBadge} alt='' width={39} height={39} className="rounded-full cursor-pointer"/>
+                        <PayerBadge alt='' width={39} height={39} className="rounded-full cursor-pointer"/>
                     )
                 }
                 {
                     data.solvingPower == 3 && (
-                        <Image src={PowerBadge} alt='' width={39} height={39} className="rounded-full cursor-pointer"/>
+                        // <Image src={PowerBadge} alt='' width={39} height={39} className="rounded-full cursor-pointer"/>
+                        <PowerBadge alt='' width={39} height={39} className="rounded-full cursor-pointer"/>
                     )
                 }
             </div>

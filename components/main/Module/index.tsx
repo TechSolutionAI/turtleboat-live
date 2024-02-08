@@ -12,7 +12,7 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import InfoIcon from "@mui/icons-material/Info";
 import OutsideClickHandler from "react-outside-click-handler";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import ico_document from "/public/static/images/document.svg";
+import IcoDocument from "/public/static/images/document.svg";
 
 import Spinner from "@/components/Spinner";
 import Upload from "./Upload";
@@ -357,7 +357,8 @@ const Index = () => {
                             className="flex items-center"
                             key={`file_${index}`}
                           >
-                            <Image src={ico_document} alt={fileItem.name} />
+                            {/* <Image src={ico_document} alt={fileItem.name} /> */}
+                            <IcoDocument alt={fileItem.name} />
                             <a
                               href={fileItem.url}
                               target="_blank"

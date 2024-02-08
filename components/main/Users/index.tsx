@@ -20,6 +20,7 @@ const UserDetail = () => {
   const { id } = router.query;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [currentUser, setCurrentUser] = useState<User>(user);
   const [userInfo, setUserInfo] = useState<User>();
   const [name, setName] = useState<string>("");
   const [isOpenCircleOfResourceModal, setIsOpenCircleOfResourceModal] =
@@ -33,9 +34,10 @@ const UserDetail = () => {
   });
   const [ventures, setVentures] = useState<any[]>([]);
   const [ventureId, setVentureId] = useState<string>("");
+  const [follow, setFollow] = useState<boolean>(false);
 
   const getVentures = async () => {
-    const response = await fetch(`/api/users/${user._id}`, {
+    const response = await fetch(`/api/users/${currentUser._id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -81,13 +83,18 @@ const UserDetail = () => {
       console.log(err);
     } else {
       const { user } = await response.json();
-      setUserInfo(user);
       setIsLoading(false);
+      setUserInfo(user);
       setName(
-        user.isNewUser
-          ? user.name
+        user?.isNewUser
+          ? user?.name
           : user?.basicProfile?.firstName + " " + user?.basicProfile?.lastName
       );
+      if (currentUser?.followers?.includes(user._id)) {
+        setFollow(true);
+      } else {
+        setFollow(false);
+      }
     }
   };
 
@@ -156,6 +163,42 @@ const UserDetail = () => {
           }
         })
         .catch((err) => console.log(err));
+    }
+  };
+
+  const handleFollow = () => {
+    let followers: any[] = currentUser?.followers ?? [];
+
+    if (followers.includes(userInfo?._id?.toString())) {
+      followers = followers.filter(
+        (followerId) => followerId !== userInfo?._id?.toString()
+      );
+    } else {
+      followers.push(userInfo?._id?.toString());
+    }
+    updateUser({ followers: followers });
+  };
+
+  const updateUser = async (data: any) => {
+    const response = await fetch(`/api/users/${currentUser._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        data: data,
+      }),
+    });
+
+    if (response.ok) {
+      const { user } = await response.json();
+
+      setCurrentUser(user);
+      if (user?.followers?.includes(userInfo?._id as string)) {
+        setFollow(true);
+      } else {
+        setFollow(false);
+      }
     }
   };
 
@@ -238,6 +281,14 @@ const UserDetail = () => {
                   </p>
                   <Image alt="Circle of Resources" src={CorIcon} />
                 </div>
+                {/* {currentUser._id != userInfo._id && (
+                  <div
+                    onClick={handleFollow}
+                    className="cursor-pointer w-[200px] rounded-full bg-red-600  px-4 py-1 mt-4 mx-auto font-Inter font-semibold text-white text-center"
+                  >
+                    {follow ? "Unfollow" : "Follow"}
+                  </div>
+                )} */}
               </div>
             </div>
           )}

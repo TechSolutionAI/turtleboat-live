@@ -34,6 +34,7 @@ import LemonadeIcon from "/public/static/images/toolbox/lemodade_icon.png";
 import OppIdIcon from "/public/static/images/toolbox/opportunity.png";
 import CharacterstakeIcon from "/public/static/images/toolbox/character_stake_icon.png";
 import UserAvatar from "@/components/UserAvatar";
+import WonderSquarePuzzle from "@/components/main/WonderSquarePuzzle";
 
 const ToolBoxes = [
   {
@@ -200,21 +201,21 @@ const Gameboard = () => {
 
   const size = 71;
 
-  const pillars: any[] = [];
-  PILLARS.forEach((item, index) => {
-    pillars.push(
-      <Pillar
-        style={{
-          position: "absolute",
-          ...PILLAR_STYLES[index],
-        }}
-        text={item.name}
-        size={size * 2}
-        color={item.color}
-        key={`pilliars_${index}`}
-      />
-    );
-  });
+  // const pillars: any[] = [];
+  // PILLARS.forEach((item, index) => {
+  //   pillars.push(
+  //     <Pillar
+  //       style={{
+  //         position: "absolute",
+  //         ...PILLAR_STYLES[index],
+  //       }}
+  //       text={item.name}
+  //       size={size * 2}
+  //       color={item.color}
+  //       key={`pilliars_${index}`}
+  //     />
+  //   );
+  // });
 
   const riskMeters: any[] = [];
   PILLARS.forEach((item, index) => {
@@ -260,39 +261,39 @@ const Gameboard = () => {
     );
   });
 
-  const groups: any[] = [];
-  GROUP_STYLES.forEach((groupStyle, index) => {
-    let squareData: ModuleItem[] = [];
-    switch (index) {
-      case 0:
-        squareData = solutions;
-        break;
-      case 1:
-        squareData = settings;
-        break;
-      case 2:
-        squareData = characters;
-        break;
-      case 3:
-        squareData = problems;
-        break;
-    }
+  // const groups: any[] = [];
+  // GROUP_STYLES.forEach((groupStyle, index) => {
+  //   let squareData: ModuleItem[] = [];
+  //   switch (index) {
+  //     case 0:
+  //       squareData = solutions;
+  //       break;
+  //     case 1:
+  //       squareData = settings;
+  //       break;
+  //     case 2:
+  //       squareData = characters;
+  //       break;
+  //     case 3:
+  //       squareData = problems;
+  //       break;
+  //   }
 
-    groups.push(
-      <WonderSquareGroup
-        squareSize={size}
-        data={squareData}
-        ventureId={ventureId}
-        coords={index % 2 == 0 ? leftToRight : rightToLeft}
-        style={{
-          position: "absolute",
-          color: PILLARS[index].color,
-          ...groupStyle,
-        }}
-        key={`style_${index}`}
-      />
-    );
-  });
+  //   groups.push(
+  //     <WonderSquareGroup
+  //       squareSize={size}
+  //       data={squareData}
+  //       ventureId={ventureId}
+  //       coords={index % 2 == 0 ? leftToRight : rightToLeft}
+  //       style={{
+  //         position: "absolute",
+  //         color: PILLARS[index].color,
+  //         ...groupStyle,
+  //       }}
+  //       key={`style_${index}`}
+  //     />
+  //   );
+  // });
 
   const handleModuleClicked = () => {
     if (startingPoint?.module._id != "" && startingPoint?.isCheck) {
@@ -378,14 +379,26 @@ const Gameboard = () => {
       <div className="relative grid grid-cols-1 xl:grid-cols-2 gap-x-8 gap-y-8">
         <div className="w-fit shadow-md rounded-lg px-5 py-0 pb-4 md:w-full justify-center pt-4">
           <h2 className="font-Inter font-bold text-[20px] text-[#232325] py-2">
-            Wonder Out Loud & Iterative Investigation
+            Thinkspace
           </h2>
           <p className="font-Inter text-[12px] mt-0 py-2">
-            Clickable Wonder [?] Squares provide prompts and a journal-like
-            space to document assumptions and discovery test plans, link files,
-            upload sketches, and track iterations.
+            Discover, define, and refine the puzzle pieces that makeup your entrepreneurial story.  Click on any (unlocked) puzzle piece for prompts or advice for figuring out your unknowns.  Jot down summary findings you enter into each pillar and get pulled into your Story Train tool, ready for you to tweak and refine.
           </p>
-          <div id="Gameboard" className="relative w-[600px] h-[600px] m-auto">
+          <div className="relative flex justify-center">
+            <div className="bordering-circle absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[70%] h-[75%] rounded-[50%] border-2 border-[#9d9d9d66] box-border blur-[2px]"></div>
+            <WonderSquarePuzzle
+              type="user"
+              settings={settings}
+              characters={characters}
+              solutions={solutions}
+              problems={problems}
+              startingPoint={startingPoint}
+              ventureId={venture?._id}
+              memberType={memberType}
+              storyTrain={venture?.storyTrain}
+            />
+          </div>
+          {/* <div id="Gameboard" className="relative w-[600px] h-[600px] m-auto">
             <a
               onClick={handleModuleClicked}
               className="z-50 cursor-pointer center-circle absolute top-[50%] left-[50%] w-[130px] h-[130px] bg-[#f5f5f5] border-4 border-[#ffffff] box-border rounded-[88px] -translate-x-1/2 -translate-y-1/2 flex justify-center items-center text-center text-[20px] font-bold text-[#595959] leading-7"
@@ -402,22 +415,16 @@ const Gameboard = () => {
             <div className="bordering-circle absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] rounded-[50%] border-2 border-[#9d9d9d66] box-border blur-[2px]"></div>
             {pillars}
             {groups}
-          </div>
+          </div> */}
         </div>
         <div className="relative grid grid-cols-1 gap-x-8 gap-y-4">
           <div className="relative rounded-xl shadow-md py-4 px-8">
             <div className="font-Inter text-left">
               <h2 className="font-bold text-[20px] text-[#232325] py-2">
-                My Proof of Opportunity
+                Proof of Opportunity
               </h2>
               <p className="text-[12px] mt-0 py-2">
-                The entrepreneurial journey is not a linear one, so it matters
-                less as to which Wonder Square you start on, but rather how
-                complete of a picture you have on your opportunity. Your
-                de-risking process is measured on an x & y axis where the x-axis
-                = how many questions you are asking across the board to figure
-                out the 4 Pillars of your story, and the y-axis = how many times
-                you&#39;ve talked, tested, tweaked within each Pillar.
+                Assess your progress both in terms of how many pieces of the puzzle have been thought about, AND how deeply you&#39;ve addressed them.
               </p>
             </div>
             <div className="flex-col justify-between grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-4">
@@ -549,11 +556,10 @@ const Gameboard = () => {
             item.id != 5 ? (
               <a
                 key={`${item.name}`}
-                href={`${
-                  memberType == "mentee"
+                href={`${memberType == "mentee"
                     ? item.link + ventureId
                     : item.link + ventureId
-                }`}
+                  }`}
                 className="cursor-pointer shadow-md rounded-lg flex flex-col items-center justify-center px-4 py-8"
               >
                 <div className="font-Inter font-bold text-black text-lg text-center">

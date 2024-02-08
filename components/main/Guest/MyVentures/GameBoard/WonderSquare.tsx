@@ -63,7 +63,8 @@ const WonderSquare = ({ size, data, content, style }: WonderSquareProps) => {
             data._id != '' && data.isCheck ?
               data.isLock ?
                 <div className="flex justify-center">
-                  <Image src={LockClosed} className="w-[30px]" alt="" />
+                  {/* <Image src={LockClosed} className="w-[30px]" alt="" /> */}
+                  <LockClosed className="w-[30px]" alt="" />
                 </div>
                 :
                 // <div className="flex justify-center" >

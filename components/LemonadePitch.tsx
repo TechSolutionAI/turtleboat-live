@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image'
 
-import ico_audio from '/public/static/images/audio.svg';
+import IconAudio from '/public/static/images/audio.svg';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 
@@ -140,7 +140,8 @@ const LemonadePitch = ({ isRecordable, audioData, saveAudio, isAudioLoading }: a
                                     </div> :
                                     (playStatus ?
                                         <div style={{ backgroundColor: color }} className='w-[20px] h-[20px] rounded-full'></div> :
-                                        <Image src={ico_audio} alt={'Audio Icon'} />
+                                        // <Image src={ico_audio} alt={'Audio Icon'} />
+                                        <IconAudio alt={'Audio Icon'} />
                                     )
                             }
 

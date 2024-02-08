@@ -275,18 +275,7 @@ const Index = () => {
           My Ventures
         </h1>
         <p className={"mt-5 font-Inter text-[14px]"}>
-          As a CORE Member you have your own Wonder Innovation Journal and
-          corresponding Thinkspace to jot thoughts, track progress, and “be
-          messy” as you figure out whether this is an idea you want to pursue.
-          If you participate in various yCITIES bootcamps and workshops either
-          as a Mentor or Mentee, your multiple ventures will be kept separate
-          below. Mentees will have a dedicated Thinkspace and Dashboard just
-          like their Personal Innovation Journal, except these will have Mentors
-          assigned. Some Bootcamps will have a more scaffolded curriculum to
-          follow through the Wonder Squares, complementing large class
-          instruction and/or small group discussions. Mentors assigned to
-          specific Ventures will have a view-and-comment-only access to the
-          MENTEE Dashboard and Thinkspace.
+          As a CORE Member you have your own Personal Thinkspace to jot thoughts, track progress, and “be messy” as you figure out whether this is an idea you want to pursue. If you are part of a yCITIES or partner program, your multiple ventures will be kept separate below. Mentees will have a dedicated Thinkspace similar to your Personal Thinkspace, except the prompts behind the puzzle pieces are tailored to the specific programming.  Mentors will be able to have a view-and-comment-only access into the MENTEE Thinkspace.
         </p>
       </div>
       {isLoading ? (
@@ -774,9 +763,8 @@ const Index = () => {
           </div>
         </Transition>
         <div
-          className={`bg-gray-900 bg-opacity-50 fixed inset-0 z-40 ${
-            !isOpenInnovation ? "hidden" : ""
-          }`}
+          className={`bg-gray-900 bg-opacity-50 fixed inset-0 z-40 ${!isOpenInnovation ? "hidden" : ""
+            }`}
         ></div>
       </>
     </div>

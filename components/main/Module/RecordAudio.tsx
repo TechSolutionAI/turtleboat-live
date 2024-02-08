@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image'
 
-import ico_audio from '/public/static/images/audio.svg';
-import ico_recording from '/public/static/images/recording.gif';
+import IcoAudio from '/public/static/images/audio.svg';
+import IcoRecording from '/public/static/images/recording.gif';
 
 const RecordAudio = () => {
   const [recording, setRecording] = useState(false);
@@ -120,7 +120,8 @@ const RecordAudio = () => {
               </div> :
               (playStatus ?
                 <div style={{ backgroundColor: color }} className='w-[20px] h-[20px] rounded-full'></div> :
-                <Image src={ico_audio} alt={'ico_audio'} />
+                // <Image src={ico_audio} alt={'ico_audio'} />
+                <IcoAudio alt={'ico_audio'} />
               )
           }
 

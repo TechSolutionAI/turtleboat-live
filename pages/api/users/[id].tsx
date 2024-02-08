@@ -22,12 +22,16 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       // Handle POST request
       getUserVentures(req, res);
       break;
+    case "PUT":
+      // Handle POST request
+      updateUser(req, res);
+      break;
     case "DELETE":
       // Handle DELETE request
       deleteUser(req, res);
       break;
     default:
-      res.setHeader("Allow", ["GET", "POST", "DELETE"]);
+      res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
       res.status(405).end(`Method ${method} Not Allowed`);
   }
 }
@@ -60,6 +64,32 @@ async function getUser(req: NextApiRequest, res: NextApiResponse) {
       .collection("users")
       .findOne({ _id: new ObjectId(id?.toString()) });
     res.status(200).json({ user: result });
+  } catch (err) {
+    res.status(500).json({ err: SERVER_ERR_MSG });
+  }
+}
+
+async function updateUser(req: NextApiRequest, res: NextApiResponse) {
+  try {
+    const { id } = req.query;
+    const { data } = req.body;
+    const client = await clientPromise;
+    const db = client.db(process.env.MONGODB_NAME);
+    const result = await db.collection("users").updateOne(
+      { _id: new ObjectId(id?.toString()) },
+      { $set: data },
+      {
+        upsert: true,
+      }
+    );
+    if (!result.matchedCount) {
+      res.status(500).json({ err: SERVER_ERR_MSG });
+    } else {
+      const user = await db
+        .collection("users")
+        .findOne({ _id: new ObjectId(id?.toString()) });
+      res.status(200).json({ user: user });
+    }
   } catch (err) {
     res.status(500).json({ err: SERVER_ERR_MSG });
   }

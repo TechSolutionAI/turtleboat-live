@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image'
 
-import ico_audio from '/public/static/images/audio.svg';
+import IconAudio from '/public/static/images/audio.svg';
 
 const RecordAudio = ({isRecordable, audioData, saveAudio, isAudioLoading} : any) => {
   const [recording, setRecording] = useState(false);
@@ -136,7 +136,8 @@ const RecordAudio = ({isRecordable, audioData, saveAudio, isAudioLoading} : any)
               </div> :
               (playStatus ?
                 <div style={{ backgroundColor: color }} className='w-[20px] h-[20px] rounded-full'></div> :
-                <Image src={ico_audio} alt={'ico_audio'} />
+                // <Image src={ico_audio} alt={'ico_audio'} />
+                <IconAudio alt={'ico_audio'} />
               )
           }
 

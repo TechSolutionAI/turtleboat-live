@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import lemonade_img from '/public/static/images/lemonade.svg';
+import LemonadeImg from '/public/static/images/lemonade.svg';
 
 const LemonadePanel = () => {
 
@@ -7,7 +7,8 @@ const LemonadePanel = () => {
         <div className="shadow-md rounded-lg px-6 py-5 flex flex-col justify-between">
             <div className='flex flex-col justify-center'>
                 <p className='truncate text-lg font-bold font-Inter py-4 flex gap-x-2'>
-                    <Image src={lemonade_img} alt={'Lemonade Icon'} />50 ways to lemonade</p>
+                    {/* <Image src={lemonade_img} alt={'Lemonade Icon'} />50 ways to lemonade</p> */}
+                    <LemonadeImg alt={'Lemonade Icon'} />50 ways to lemonade</p>
                 <div className="flex -space-x-3 items-center py-3">
                     <img className="w-9 h-9 border-2 border-white rounded-full" src={"/user.png"} alt={"ddd"} />
                     <img className="w-9 h-9 border-2 border-white rounded-full" src={"/user.png"} alt={"ddd"} />

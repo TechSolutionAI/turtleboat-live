@@ -13,7 +13,8 @@ interface PillarProps {
 const Pillar = ({ size, text, style, color }: PillarProps) => {
   const innerContent = (
     <div className="content flex flex-col items-center w-full">
-      <Image src={PillarSvg} className={`w-[23px] h-[34px] ${text == 'risk_meter' ? 'mt-0' : 'mt-[-25px]'}`} alt="" />
+      {/* <Image src={PillarSvg} className={`w-[23px] h-[34px] ${text == 'risk_meter' ? 'mt-0' : 'mt-[-25px]'}`} alt="" /> */}
+      <PillarSvg className={`w-[23px] h-[34px] ${text == 'risk_meter' ? 'mt-0' : 'mt-[-25px]'}`} alt="" />
       <h2 className="font-bold text-[22px] text-center text-white">{text == 'risk_meter' ? '' : text}</h2>
     </div>
   );

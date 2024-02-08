@@ -38,6 +38,8 @@ export const authOptions: any = {
           tokens: 0,
           totalEarnedTokens: 0,
           createdAt: new Date().toString(),
+          lastLogin: new Date().toString(),
+          followers: [],
         };
         return Promise.resolve(user);
       },
@@ -80,6 +82,8 @@ export default async function handler(
             tokens: 0,
             totalEarnedTokens: 0,
             createdAt: new Date().toString(),
+            lastLogin: new Date().toString(),
+            followers: [],
           };
           return Promise.resolve(user);
         },
@@ -114,6 +118,8 @@ export default async function handler(
             session.user.tokens = result[0].tokens;
             session.user.totalEarnedTokens = result[0].totalEarnedTokens;
             session.user.createdAt = result[0].createdAt;
+            session.user.lastLogin = result[0].lastLogin;
+            session.user.followers = result[0].followers;
           } catch (err: any) {
             return Promise.reject(err);
           }
@@ -405,6 +411,7 @@ export default async function handler(
                     totalEarnedTokens: 0,
                     createdAt: new Date(),
                     lastLogin: new Date(),
+                    followers: [],
                   });
                   if (!result.acknowledged) {
                     return Promise.reject(new Error(SERVER_ERR_MSG));

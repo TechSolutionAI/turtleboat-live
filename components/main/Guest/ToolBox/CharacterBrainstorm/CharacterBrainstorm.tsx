@@ -675,8 +675,14 @@ const CharacterBrainstorm = () => {
           <div className="flex grid grid-cols-3 shadow-md rounded-lg py-2 px-4 mt-10">
             <div className="relative">
               <div className="flex font-Inter font-bold gap-x-2">
-                <Image
+                {/* <Image
                   src={UserCard}
+                  alt=""
+                  width={25}
+                  className="cursor-pointer"
+                /> */}
+                <UserCard
+                  // src={UserCard}
                   alt=""
                   width={25}
                   className="cursor-pointer"
@@ -723,8 +729,13 @@ const CharacterBrainstorm = () => {
             </div>
             <div className="relative">
               <div className="flex font-Inter font-bold gap-x-2">
-                <Image
+                {/* <Image
                   src={Cart}
+                  alt=""
+                  width={25}
+                  className="cursor-pointer"
+                /> */}
+                <Cart
                   alt=""
                   width={25}
                   className="cursor-pointer"
@@ -771,8 +782,14 @@ const CharacterBrainstorm = () => {
             </div>
             <div className="relative">
               <div className="flex font-Inter font-bold gap-x-2">
-                <Image
+                {/* <Image
                   src={Payer}
+                  alt=""
+                  width={25}
+                  className="cursor-pointer"
+                /> */}
+                <Payer
+                  // src={Payer}
                   alt=""
                   width={25}
                   className="cursor-pointer"

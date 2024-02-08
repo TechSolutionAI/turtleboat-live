@@ -33,7 +33,7 @@ const NotificationTabs = ({
 
     const tabIcons = [
         <HelpOutlineIcon key={0}/>,
-        selectedTab == 1 ? <Image src={LemonadeActiveIcon} width={24} height={24} alt="Lemonade Tab Selected Icon" key={1}/> : <Image src={LemonadeIcon} width={24} height={24} alt="Lemonade Tab Selected Icon" key={1}/>,
+        selectedTab == 1 ? <LemonadeActiveIcon alt="Lemonade Tab Selected Icon" key={1}/> : <LemonadeIcon alt="Lemonade Tab Selected Icon" key={1}/>,
         <ExtensionOutlinedIcon key={2}/>,
     ];
 

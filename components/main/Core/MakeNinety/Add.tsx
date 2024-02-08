@@ -232,7 +232,7 @@ const Add = () => {
                   if (uploadResult.done || uploadResult.asset_id) {
                     var url = uploadResult.secure_url;
                     // if (uploadResult.format != 'mp4' && uploadResult.eager.length > 0) {
-                    if (uploadResult.eager.length > 0) {
+                    if (uploadResult.eagar && uploadResult.eager.length > 0) {
                       url = uploadResult.eager[0].url;
                     }
                     formData.append("secure_url", url);

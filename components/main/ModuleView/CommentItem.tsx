@@ -1,6 +1,6 @@
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import ico_document from "/public/static/images/document.svg";
+import IcoDocument from "/public/static/images/document.svg";
 import { dateDiff } from "@/utils/utils";
 import { Comment } from "@/types/module.type";
 import UserAvatar from "@/components/UserAvatar";
@@ -35,7 +35,8 @@ const CommentItem = ({
               key={`${comment.user?.name}-${fileItem.name}-${index}`}
               className="flex items-center text-[#2E65F3] pl-[28px] mt-[10px] gap-x-3"
             >
-              <Image src={ico_document} alt="ico_doc" />
+              {/* <Image src={ico_document} alt="ico_doc" /> */}
+              <IcoDocument alt="ico_doc" />
               <a
                 href={fileItem.url}
                 className="text-[14px] font-semibold"

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image'
 
-import ico_audio from '/public/static/images/audio.svg';
+import IconAudio from '/public/static/images/audio.svg';
 
 const AudioPlayer = ({audioData} : any) => {
     const [recording, setRecording] = useState(false);
@@ -88,7 +88,8 @@ const AudioPlayer = ({audioData} : any) => {
         <div>
             <div className='w-full mt-[10px] flex justify-center py-[10px]'>
                 <div className='flex justify-center'>
-                    <Image src={ico_audio} alt={'ico_audio'} />
+                    {/* <Image src={ico_audio} alt={'ico_audio'} /> */}
+                    <IconAudio alt={'ico_audio'} />
                 </div>
                 {   
                     audioBlob &&

@@ -68,7 +68,8 @@ const StoryTrainPanel = ({
                 <div className='py-8 flex justify-center'>
                     {
                         ventureId == undefined || ventureId == null || data == null ?
-                        <Image src={TrainImg} alt={'Train'} /> :
+                        // <Image src={TrainImg} alt={'Train'} /> :
+                        <TrainImg alt={'Train'} /> :
                         data != undefined && data.map((item, index) => { 
                             return (
                                 <div className='relative' key={`train-${index}`}>
