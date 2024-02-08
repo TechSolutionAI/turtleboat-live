@@ -15,5 +15,7 @@ declare module "next-auth" {
     tokens: number | 0;
     totalEarnedTokens: number | 0;
     createdAt: string;
+    lastLogin?: string | undefined;
+    followers?: any;
   }
 }
