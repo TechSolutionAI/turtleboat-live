@@ -103,6 +103,7 @@ const defaultPieces = [
     {
         _id: '',
         isCheck: false,
+        isFlip: false,
         isCheckedOff: false,
         isLock: true,
         title: '',
@@ -111,6 +112,7 @@ const defaultPieces = [
     {
         _id: '',
         isCheck: false,
+        isFlip: false,
         isCheckedOff: false,
         isLock: true,
         title: '',
@@ -119,6 +121,7 @@ const defaultPieces = [
     {
         _id: '',
         isCheck: false,
+        isFlip: false,
         isCheckedOff: false,
         isLock: true,
         title: '',
@@ -127,6 +130,7 @@ const defaultPieces = [
     {
         _id: '',
         isCheck: false,
+        isFlip: false,
         isCheckedOff: false,
         isLock: true,
         title: '',
@@ -135,6 +139,7 @@ const defaultPieces = [
     {
         _id: '',
         isCheck: false,
+        isFlip: false,
         isCheckedOff: false,
         isLock: true,
         title: '',
@@ -143,6 +148,7 @@ const defaultPieces = [
     {
         _id: '',
         isCheck: false,
+        isFlip: false,
         isCheckedOff: false,
         isLock: true,
         title: '',
@@ -211,6 +217,7 @@ export default function WonderSquarePuzzle({
                 return {
                     _id: data[index].module._id,
                     isCheck: data[index].isCheck,
+                    isFlip: data[index].isFlip ?? false,
                     isCheckedOff: data[index].isCheckedOff,
                     isLock: data[index].isLock,
                     title: data[index].module.title,
@@ -220,6 +227,7 @@ export default function WonderSquarePuzzle({
                 return {
                     _id: '',
                     isCheck: false,
+                    isFlip: false,
                     isCheckedOff: false,
                     isLock: true,
                     title: '',
@@ -375,7 +383,7 @@ export default function WonderSquarePuzzle({
                         data-tooltip-content={settingPieces[0]._id != '' && settingPieces[0].isCheck ? settingPieces[0].title : ''}
                     >
                         {
-                            !settingPieces[0].isCheckedOff ?
+                            !settingPieces[0].isFlip ?
                                 <>
                                     <PieceActive01 width={74} height={68} className='group-hover:block hidden absolute -left-[15px] top-[1px] overflow-visible z-20' />
                                     <Piece01 width={74} height={68} className='group-hover:hidden block absolute -left-[15px] top-[1px] overflow-visible z-10' />
@@ -384,7 +392,7 @@ export default function WonderSquarePuzzle({
                         }
                         {
                             settingPieces[0]._id != '' ?
-                                <span className={`overflow-visible z-20 font-bold ${settingPieces[0].isCheckedOff ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
+                                <span className={`overflow-visible z-20 font-bold ${settingPieces[0].isFlip ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
                                 <LockIcon className='overflow-visible z-20 text-gray-500' />
                         }
                     </div>
@@ -395,7 +403,7 @@ export default function WonderSquarePuzzle({
                         data-tooltip-content={characterPieces[0]._id != '' && characterPieces[0].isCheck ? characterPieces[0].title : ''}
                     >
                         {
-                            !characterPieces[0].isCheckedOff ?
+                            !characterPieces[0].isFlip ?
                                 <>
                                     <PieceActive02 width={74} height={68} className='group-hover:block hidden absolute -left-[4px] top-[1px] overflow-visible z-20' />
                                     <Piece02 width={74} height={68} className='group-hover:hidden block absolute -left-[4px] top-[1px] overflow-visible z-10' />
@@ -404,7 +412,7 @@ export default function WonderSquarePuzzle({
                         }
                         {
                             characterPieces[0]._id != '' ?
-                                <span className={`overflow-visible z-20 font-bold ${characterPieces[0].isCheckedOff ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
+                                <span className={`overflow-visible z-20 font-bold ${characterPieces[0].isFlip ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
                                 <LockIcon className='overflow-visible z-20 text-gray-500' />
                         }
                     </div>
@@ -436,7 +444,7 @@ export default function WonderSquarePuzzle({
                         data-tooltip-content={settingPieces[1]._id != '' && settingPieces[1].isCheck ? settingPieces[1].title : ''}
                     >
                         {
-                            !settingPieces[1].isCheckedOff ?
+                            !settingPieces[1].isFlip ?
                                 <>
                                     <PieceActive10 width={74} height={68} className='group-hover:block hidden absolute -top-[4px] left-[0px] overflow-visible z-20' />
                                     <Piece10 width={74} height={68} className='group-hover:hidden block absolute -top-[4px] left-[0px] overflow-visible z-10' />
@@ -445,7 +453,7 @@ export default function WonderSquarePuzzle({
                         }
                         {
                             settingPieces[1]._id != '' ?
-                                <span className={`overflow-visible z-20 font-bold -mt-[4px] ${settingPieces[1].isCheckedOff ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
+                                <span className={`overflow-visible z-20 font-bold -mt-[4px] ${settingPieces[1].isFlip ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
                                 <LockIcon className='overflow-visible z-20 -mt-[4px] text-gray-500' />
                         }
                     </div>
@@ -456,7 +464,7 @@ export default function WonderSquarePuzzle({
                         data-tooltip-content={settingPieces[2]._id != '' && settingPieces[2].isCheck ? settingPieces[2].title : ''}
                     >
                         {
-                            !settingPieces[2].isCheckedOff ?
+                            !settingPieces[2].isFlip ?
                                 <>
                                     <PieceActive11 width={74} height={68} className='group-hover:block hidden z-20 absolute -top-[17px] -left-[5px] overflow-visible' />
                                     <Piece11 width={74} height={68} className='group-hover:hidden block z-10 absolute -top-[17px] -left-[5px] overflow-visible' />
@@ -465,7 +473,7 @@ export default function WonderSquarePuzzle({
                         }
                         {
                             settingPieces[2]._id != '' ?
-                                <span className={`overflow-visible z-20 font-bold -mt-[4px] ${settingPieces[2].isCheckedOff ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
+                                <span className={`overflow-visible z-20 font-bold -mt-[4px] ${settingPieces[2].isFlip ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
                                 <LockIcon className='overflow-visible z-20 -mt-[4px] text-gray-500' />
                         }
                     </div>
@@ -476,7 +484,7 @@ export default function WonderSquarePuzzle({
                         data-tooltip-content={characterPieces[1]._id != '' && characterPieces[1].isCheck ? characterPieces[1].title : ''}
                     >
                         {
-                            !characterPieces[1].isCheckedOff ?
+                            !characterPieces[1].isFlip ?
                                 <>
                                     <PieceActive12 width={74} height={68} className='group-hover:block hidden z-20 absolute -top-[20px] -left-[20px] overflow-visible' />
                                     <Piece12 width={74} height={68} className='group-hover:hidden block z-10 absolute -top-[20px] -left-[20px] overflow-visible' />
@@ -485,7 +493,7 @@ export default function WonderSquarePuzzle({
                         }
                         {
                             characterPieces[1]._id != '' ?
-                                <span className={`overflow-visible z-20 font-bold -mt-[4px] ${characterPieces[1].isCheckedOff ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
+                                <span className={`overflow-visible z-20 font-bold -mt-[4px] ${characterPieces[1].isFlip ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
                                 <LockIcon className='overflow-visible z-20 -mt-[4px] text-gray-500' />
                         }
                     </div>
@@ -496,7 +504,7 @@ export default function WonderSquarePuzzle({
                         data-tooltip-content={characterPieces[2]._id != '' && characterPieces[2].isCheck ? characterPieces[2].title : ''}
                     >
                         {
-                            !characterPieces[2].isCheckedOff ?
+                            !characterPieces[2].isFlip ?
                                 <>
                                     <PieceActive13 width={74} height={68} className='group-hover:block hidden z-20 absolute -top-[7px] -left-[20px] overflow-visible' />
                                     <Piece13 width={74} height={68} className='group-hover:hidden block z-10 absolute -top-[7px] -left-[20px] overflow-visible' />
@@ -505,7 +513,7 @@ export default function WonderSquarePuzzle({
                         }
                         {
                             characterPieces[2]._id != '' ?
-                                <span className={`overflow-visible z-20 font-bold -mt-[4px] ${characterPieces[2].isCheckedOff ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
+                                <span className={`overflow-visible z-20 font-bold -mt-[4px] ${characterPieces[2].isFlip ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
                                 <LockIcon className='overflow-visible z-20 -mt-[4px] text-gray-500' />
                         }
                     </div>
@@ -518,7 +526,7 @@ export default function WonderSquarePuzzle({
                         data-tooltip-content={settingPieces[3]._id != '' && settingPieces[3].isCheck ? settingPieces[3].title : ''}
                     >
                         {
-                            !settingPieces[3].isCheckedOff ?
+                            !settingPieces[3].isFlip ?
                                 <>
                                     <PieceActive20 width={74} height={68} className='group-hover:block hidden z-20 absolute -top-[8px] left-[0px] overflow-visible' />
                                     <Piece20 width={74} height={68} className='group-hover:hidden block z-10 absolute -top-[8px] left-[0px] overflow-visible' />
@@ -527,7 +535,7 @@ export default function WonderSquarePuzzle({
                         }
                         {
                             settingPieces[3]._id != '' ?
-                                <span className={`overflow-visible z-20 font-bold -mt-[10px] ${settingPieces[3].isCheckedOff ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
+                                <span className={`overflow-visible z-20 font-bold -mt-[10px] ${settingPieces[3].isFlip ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
                                 <LockIcon className='overflow-visible z-20 -mt-[5px] text-gray-500' />
                         }
                     </div>
@@ -538,7 +546,7 @@ export default function WonderSquarePuzzle({
                         data-tooltip-content={settingPieces[4]._id != '' && settingPieces[4].isCheck ? settingPieces[4].title : ''}
                     >
                         {
-                            !settingPieces[4].isCheckedOff ?
+                            !settingPieces[4].isFlip ?
                                 <>
                                     <PieceActive21 width={74} height={68} className='group-hover:block hidden z-20 absolute -top-[6px] -left-[21px] overflow-visible' />
                                     <Piece21 width={74} height={68} className='group-hover:hidden block z-10 absolute -top-[6px] -left-[21px] overflow-visible' />
@@ -547,7 +555,7 @@ export default function WonderSquarePuzzle({
                         }
                         {
                             settingPieces[4]._id != '' ?
-                                <span className={`overflow-visible z-20 font-bold -mt-[10px] ${settingPieces[4].isCheckedOff ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
+                                <span className={`overflow-visible z-20 font-bold -mt-[10px] ${settingPieces[4].isFlip ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
                                 <LockIcon className='overflow-visible z-20 -mt-[5px] text-gray-500' />
                         }
                     </div>
@@ -558,7 +566,7 @@ export default function WonderSquarePuzzle({
                         data-tooltip-content={characterPieces[3]._id != '' && characterPieces[3].isCheck ? characterPieces[3].title : ''}
                     >
                         {
-                            !characterPieces[3].isCheckedOff ?
+                            !characterPieces[3].isFlip ?
                                 <>
                                     <PieceActive22 width={74} height={68} className='group-hover:block hidden z-20 absolute -top-[18px] -left-[5px] overflow-visible' />
                                     <Piece22 width={74} height={68} className='group-hover:hidden block z-10 absolute -top-[18px] -left-[5px] overflow-visible' />
@@ -567,7 +575,7 @@ export default function WonderSquarePuzzle({
                         }
                         {
                             characterPieces[3]._id != '' ?
-                                <span className={`overflow-visible z-20 font-bold -mt-[10px] ${characterPieces[3].isCheckedOff ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
+                                <span className={`overflow-visible z-20 font-bold -mt-[10px] ${characterPieces[3].isFlip ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
                                 <LockIcon className='overflow-visible z-20 -mt-[10px] text-gray-500' />
                         }
                     </div>
@@ -578,7 +586,7 @@ export default function WonderSquarePuzzle({
                         data-tooltip-content={characterPieces[4]._id != '' && characterPieces[4].isCheck ? characterPieces[4].title : ''}
                     >
                         {
-                            !characterPieces[4].isCheckedOff ?
+                            !characterPieces[4].isFlip ?
                                 <>
                                     <PieceActive23 width={74} height={68} className='group-hover:block hidden z-20 absolute -top-[9px] -left-[21px] overflow-visible' />
                                     <Piece23 width={74} height={68} className='group-hover:hidden block z-10 absolute -top-[9px] -left-[21px] overflow-visible' />
@@ -587,7 +595,7 @@ export default function WonderSquarePuzzle({
                         }
                         {
                             characterPieces[4]._id != '' ?
-                                <span className={`overflow-visible z-20 font-bold -mt-[10px] ${characterPieces[4].isCheckedOff ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
+                                <span className={`overflow-visible z-20 font-bold -mt-[10px] ${characterPieces[4].isFlip ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
                                 <LockIcon className='overflow-visible z-20 -mt-[10px] text-gray-500' />
                         }
                     </div>
@@ -596,12 +604,12 @@ export default function WonderSquarePuzzle({
                     <div className='relative w-[74px] h-[136px] flex items-center justify-center'>
                         {
                             settingPieces[5]._id != '' ?
-                                <span className={`overflow-visible z-30 font-bold absolute top-[15px] ${settingPieces[5].isCheckedOff ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
+                                <span className={`overflow-visible z-30 font-bold absolute top-[15px] ${settingPieces[5].isFlip ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
                                 <LockIcon className='overflow-visible z-30 font-bold absolute top-[15px] text-gray-500' />
                         }
                         {
                             solutionPieces[5]._id != '' ?
-                                <span className={`overflow-visible z-30 font-bold absolute bottom-[30px] ${solutionPieces[5].isCheckedOff ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
+                                <span className={`overflow-visible z-30 font-bold absolute bottom-[30px] ${solutionPieces[5].isFlip ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
                                 <LockIcon className='overflow-visible z-30 font-bold absolute bottom-[30px] text-gray-500' />
                         }
                         {/* <span className='overflow-visible z-30 font-bold absolute top-[15px]'>?</span>
@@ -613,7 +621,7 @@ export default function WonderSquarePuzzle({
                             data-tooltip-content={settingPieces[5]._id != '' && settingPieces[5].isCheck ? settingPieces[5].title : ''}
                         >
                             {
-                                !settingPieces[5].isCheckedOff ?
+                                !settingPieces[5].isFlip ?
                                     <>
                                         <PieceActive30 width={74} height={68} className='group-hover:block hidden z-20 absolute -top-[9px] left-[0px] overflow-visible' />
                                         <Piece30 width={74} height={68} className='group-hover:hidden block z-10 absolute -top-[9px] left-[0px] overflow-visible' />
@@ -628,7 +636,7 @@ export default function WonderSquarePuzzle({
                             data-tooltip-content={solutionPieces[5]._id != '' && solutionPieces[5].isCheck ? solutionPieces[5].title : ''}
                         >
                             {
-                                !solutionPieces[5].isCheckedOff ?
+                                !solutionPieces[5].isFlip ?
                                     <>
                                         <PieceActive31 width={74} height={68} className='group-hover:block hidden z-20 absolute bottom-[24px] left-[0px] overflow-visible' />
                                         <Piece31 width={74} height={68} className='group-hover:hidden block z-10 absolute bottom-[24px] left-[0px] overflow-visible' />
@@ -645,26 +653,26 @@ export default function WonderSquarePuzzle({
                         data-tooltip-place="top"
                     >
                         {
-                            startingPoint && !startingPoint.isCheckedOff ?
+                            startingPoint && !startingPoint.isFlip ?
                                 <>
                                     <PieceActive32 width={148} height={68} className='group-hover:block hidden z-20 absolute -top-[22px] -left-[19px] overflow-visible' />
                                     <Piece32 width={148} height={68} className='group-hover:hidden block z-10 absolute -top-[22px] -left-[19px] overflow-visible' />
                                 </> :
                                 <></>
                         }
-                        <span className={`overflow-visible z-20 font-bold text-lg -mt-[16px] text-center ${startingPoint?.isCheckedOff ? 'text-white' : 'text-[#3a3a3a]'}`}>My Starting<br />Point</span>
+                        <span className={`overflow-visible z-20 font-bold text-lg -mt-[16px] text-center ${startingPoint?.isFlip ? 'text-white' : 'text-[#3a3a3a]'}`}>My Starting<br />Point</span>
                     </div>
                     <div className='relative w-[74px] h-[136x] flex items-center justify-center'>
                         {/* <span className='overflow-visible z-30 font-bold absolute top-[15px] -ml-[10px]'>?</span>
                     <span className='overflow-visible z-30 font-bold absolute bottom-[30px] -ml-[10px]'>?</span> */}
                         {
                             characterPieces[5]._id != '' ?
-                                <span className={`overflow-visible z-30 font-bold absolute top-[15px] -ml-[10px] ${characterPieces[5].isCheckedOff ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
+                                <span className={`overflow-visible z-30 font-bold absolute top-[15px] -ml-[10px] ${characterPieces[5].isFlip ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
                                 <LockIcon className='overflow-visible z-30 font-bold absolute top-[15px] -ml-[10px] text-gray-500' />
                         }
                         {
                             problemPieces[5]._id != '' ?
-                                <span className={`overflow-visible z-30 font-bold absolute bottom-[30px] -ml-[10px] ${problemPieces[5].isCheckedOff ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
+                                <span className={`overflow-visible z-30 font-bold absolute bottom-[30px] -ml-[10px] ${problemPieces[5].isFlip ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
                                 <LockIcon className='overflow-visible z-30 font-bold absolute bottom-[30px] -ml-[10px] text-gray-500' />
                         }
                         <div
@@ -674,7 +682,7 @@ export default function WonderSquarePuzzle({
                             data-tooltip-content={characterPieces[5]._id != '' && characterPieces[5].isCheck ? characterPieces[5].title : ''}
                         >
                             {
-                                !characterPieces[5].isCheckedOff ?
+                                !characterPieces[5].isFlip ?
                                     <>
                                         <PieceActive33 width={74} height={68} className='group-hover:block hidden z-20 absolute -top-[24px] -left-[8px] overflow-visible' />
                                         <Piece33 width={74} height={68} className='group-hover:hidden block z-10 absolute -top-[24px] -left-[8px] overflow-visible' />
@@ -689,7 +697,7 @@ export default function WonderSquarePuzzle({
                             data-tooltip-content={problemPieces[5]._id != '' && problemPieces[5].isCheck ? problemPieces[5].title : ''}
                         >
                             {
-                                !problemPieces[5].isCheckedOff ?
+                                !problemPieces[5].isFlip ?
                                     <>
                                         <PieceActive34 width={74} height={68} className='group-hover:block hidden z-20 absolute bottom-[11px] -left-[23px] overflow-visible' />
                                         <Piece34 width={74} height={68} className='group-hover:hidden block z-10 absolute bottom-[11px] -left-[23px] overflow-visible' />
@@ -707,7 +715,7 @@ export default function WonderSquarePuzzle({
                         data-tooltip-content={solutionPieces[3]._id != '' && solutionPieces[3].isCheck ? solutionPieces[3].title : ''}
                     >
                         {
-                            !solutionPieces[3].isCheckedOff ?
+                            !solutionPieces[3].isFlip ?
                                 <>
                                     <PieceActive40 width={74} height={68} className='group-hover:block hidden z-20 absolute -top-[18px] left-[0px] overflow-visible' />
                                     <Piece40 width={74} height={68} className='group-hover:hidden block z-10 absolute -top-[18px] left-[0px] overflow-visible' />
@@ -716,7 +724,7 @@ export default function WonderSquarePuzzle({
                         }
                         {
                             solutionPieces[3]._id != '' ?
-                                <span className={`overflow-visible z-20 font-bold -mt-[32px] ${solutionPieces[3].isCheckedOff ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
+                                <span className={`overflow-visible z-20 font-bold -mt-[32px] ${solutionPieces[3].isFlip ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
                                 <LockIcon className='overflow-visible z-20 -mt-[32px] text-gray-500' />
                         }
                     </div>
@@ -727,7 +735,7 @@ export default function WonderSquarePuzzle({
                         data-tooltip-content={solutionPieces[4]._id != '' && solutionPieces[4].isCheck ? solutionPieces[4].title : ''}
                     >
                         {
-                            !solutionPieces[4].isCheckedOff ?
+                            !solutionPieces[4].isFlip ?
                                 <>
                                     <PieceActive41 width={74} height={68} className='group-hover:block hidden z-20 absolute -top-[15px] -left-[15px] overflow-visible' />
                                     <Piece41 width={74} height={68} className='group-hover:hidden block z-10 absolute -top-[15px] -left-[15px] overflow-visible' />
@@ -736,7 +744,7 @@ export default function WonderSquarePuzzle({
                         }
                         {
                             solutionPieces[4]._id != '' ?
-                                <span className={`overflow-visible z-20 font-bold -mt-[32px] ${solutionPieces[4].isCheckedOff ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
+                                <span className={`overflow-visible z-20 font-bold -mt-[32px] ${solutionPieces[4].isFlip ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
                                 <LockIcon className='overflow-visible z-20 -mt-[32px] text-gray-500' />
                         }
                     </div>
@@ -747,7 +755,7 @@ export default function WonderSquarePuzzle({
                         data-tooltip-content={problemPieces[4]._id != '' && problemPieces[4].isCheck ? problemPieces[4].title : ''}
                     >
                         {
-                            !problemPieces[4].isCheckedOff ?
+                            !problemPieces[4].isFlip ?
                                 <>
                                     <PieceActive42 width={74} height={68} className='group-hover:block hidden z-20 absolute -top-[16px] -left-[19px] overflow-visible' />
                                     <Piece42 width={74} height={68} className='group-hover:hidden block z-10 absolute -top-[16px] -left-[19px] overflow-visible' />
@@ -756,7 +764,7 @@ export default function WonderSquarePuzzle({
                         }
                         {
                             problemPieces[4]._id != '' ?
-                                <span className={`overflow-visible z-20 font-bold -mt-[32px] ${problemPieces[4].isCheckedOff ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
+                                <span className={`overflow-visible z-20 font-bold -mt-[32px] ${problemPieces[4].isFlip ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
                                 <LockIcon className='overflow-visible z-20 -mt-[32px] text-gray-500' />
                         }
                     </div>
@@ -767,7 +775,7 @@ export default function WonderSquarePuzzle({
                         data-tooltip-content={problemPieces[3]._id != '' && problemPieces[3].isCheck ? problemPieces[3].title : ''}
                     >
                         {
-                            !problemPieces[3].isCheckedOff ?
+                            !problemPieces[3].isFlip ?
                                 <>
                                     <PieceActive43 width={74} height={68} className='group-hover:block hidden z-20 absolute -top-[17px] -left-[2px] overflow-visible' />
                                     <Piece43 width={74} height={68} className='group-hover:hidden block z-10 absolute -top-[17px] -left-[2px] overflow-visible' />
@@ -776,7 +784,7 @@ export default function WonderSquarePuzzle({
                         }
                         {
                             problemPieces[3]._id != '' ?
-                                <span className={`overflow-visible z-20 font-bold -mt-[32px] ${problemPieces[3].isCheckedOff ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
+                                <span className={`overflow-visible z-20 font-bold -mt-[32px] ${problemPieces[3].isFlip ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
                                 <LockIcon className='overflow-visible z-20 -mt-[32px] text-gray-500' />
                         }
                     </div>
@@ -789,7 +797,7 @@ export default function WonderSquarePuzzle({
                         data-tooltip-content={solutionPieces[1]._id != '' && solutionPieces[1].isCheck ? solutionPieces[1].title : ''}
                     >
                         {
-                            !solutionPieces[1].isCheckedOff ?
+                            !solutionPieces[1].isFlip ?
                                 <>
                                     <PieceActive50 width={74} height={68} className='group-hover:block hidden z-20 absolute -top-[20px] left-[0px] overflow-visible' />
                                     <Piece50 width={74} height={68} className='group-hover:hidden block z-10 absolute -top-[20px] left-[0px] overflow-visible' />
@@ -798,7 +806,7 @@ export default function WonderSquarePuzzle({
                         }
                         {
                             solutionPieces[1]._id != '' ?
-                                <span className={`overflow-visible z-20 font-bold -mt-[40px] ${solutionPieces[1].isCheckedOff ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
+                                <span className={`overflow-visible z-20 font-bold -mt-[40px] ${solutionPieces[1].isFlip ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
                                 <LockIcon className='overflow-visible z-20 -mt-[40px] text-gray-500' />
                         }
                     </div>
@@ -809,7 +817,7 @@ export default function WonderSquarePuzzle({
                         data-tooltip-content={solutionPieces[2]._id != '' && solutionPieces[2].isCheck ? solutionPieces[2].title : ''}
                     >
                         {
-                            !solutionPieces[2].isCheckedOff ?
+                            !solutionPieces[2].isFlip ?
                                 <>
                                     <PieceActive51 width={74} height={68} className='group-hover:block hidden z-20 absolute -top-[33px] -left-[17px] overflow-visible' />
                                     <Piece51 width={74} height={68} className='group-hover:hidden block z-10 absolute -top-[33px] -left-[17px] overflow-visible' />
@@ -818,7 +826,7 @@ export default function WonderSquarePuzzle({
                         }
                         {
                             solutionPieces[2]._id != '' ?
-                                <span className={`overflow-visible z-20 font-bold -mt-[40px] ${solutionPieces[2].isCheckedOff ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
+                                <span className={`overflow-visible z-20 font-bold -mt-[40px] ${solutionPieces[2].isFlip ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
                                 <LockIcon className='overflow-visible z-20 -mt-[40px] text-gray-500' />
                         }
                     </div>
@@ -829,7 +837,7 @@ export default function WonderSquarePuzzle({
                         data-tooltip-content={problemPieces[2]._id != '' && problemPieces[2].isCheck ? problemPieces[2].title : ''}
                     >
                         {
-                            !problemPieces[2].isCheckedOff ?
+                            !problemPieces[2].isFlip ?
                                 <>
                                     <PieceActive52 width={74} height={68} className='group-hover:block hidden z-20 absolute -top-[36px] -left-[23px] overflow-visible' />
                                     <Piece52 width={74} height={68} className='group-hover:hidden block z-10 absolute -top-[36px] -left-[23px] overflow-visible' />
@@ -838,7 +846,7 @@ export default function WonderSquarePuzzle({
                         }
                         {
                             problemPieces[2]._id != '' ?
-                                <span className={`overflow-visible z-20 font-bold -mt-[40px] ${problemPieces[2].isCheckedOff ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
+                                <span className={`overflow-visible z-20 font-bold -mt-[40px] ${problemPieces[2].isFlip ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
                                 <LockIcon className='overflow-visible z-20 -mt-[40px] text-gray-500' />
                         }
                     </div>
@@ -849,7 +857,7 @@ export default function WonderSquarePuzzle({
                         data-tooltip-content={problemPieces[1]._id != '' && problemPieces[1].isCheck ? problemPieces[1].title : ''}
                     >
                         {
-                            !problemPieces[1].isCheckedOff ?
+                            !problemPieces[1].isFlip ?
                                 <>
                                     <PieceActive53 width={74} height={68} className='group-hover:block hidden z-20 absolute -top-[19px] -left-[5px] overflow-visible' />
                                     <Piece53 width={74} height={68} className='group-hover:hidden block z-10 absolute -top-[19px] -left-[5px] overflow-visible' />
@@ -858,7 +866,7 @@ export default function WonderSquarePuzzle({
                         }
                         {
                             problemPieces[1]._id != '' ?
-                                <span className={`overflow-visible z-20 font-bold -mt-[40px] ${problemPieces[1].isCheckedOff ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
+                                <span className={`overflow-visible z-20 font-bold -mt-[40px] ${problemPieces[1].isFlip ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
                                 <LockIcon className='overflow-visible z-20 -mt-[40px] text-gray-500' />
                         }
                     </div>
@@ -890,7 +898,7 @@ export default function WonderSquarePuzzle({
                         data-tooltip-content={solutionPieces[0]._id != '' && solutionPieces[0].isCheck ? solutionPieces[0].title : ''}
                     >
                         {
-                            !solutionPieces[0].isCheckedOff ?
+                            !solutionPieces[0].isFlip ?
                                 <>
                                     <PieceActive61 width={74} height={68} className='group-hover:block hidden z-20 absolute -top-[35px] -left-[19px] overflow-visible' />
                                     <Piece61 width={74} height={68} className='group-hover:hidden block z-10 absolute -top-[35px] -left-[19px] overflow-visible' />
@@ -899,7 +907,7 @@ export default function WonderSquarePuzzle({
                         }
                         {
                             solutionPieces[0]._id != '' ?
-                                <span className={`overflow-visible z-20 font-bold -mt-[46px] ${solutionPieces[0].isCheckedOff ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
+                                <span className={`overflow-visible z-20 font-bold -mt-[46px] ${solutionPieces[0].isFlip ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
                                 <LockIcon className='overflow-visible z-20 -mt-[46px] text-gray-500' />
                         }
                     </div>
@@ -910,7 +918,7 @@ export default function WonderSquarePuzzle({
                         data-tooltip-content={problemPieces[0]._id != '' && problemPieces[0].isCheck ? problemPieces[0].title : ''}
                     >
                         {
-                            !problemPieces[0].isCheckedOff ?
+                            !problemPieces[0].isFlip ?
                                 <>
                                     <PieceActive62 width={74} height={68} className='group-hover:block hidden z-20 absolute -top-[33px] -left-[18px] overflow-visible' />
                                     <Piece62 width={74} height={68} className='group-hover:hidden block z-10 absolute -top-[33px] -left-[18px] overflow-visible' />
@@ -919,7 +927,7 @@ export default function WonderSquarePuzzle({
                         }
                         {
                             problemPieces[0]._id != '' ?
-                                <span className={`overflow-visible z-20 font-bold -mt-[46px] ${problemPieces[0].isCheckedOff ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
+                                <span className={`overflow-visible z-20 font-bold -mt-[46px] ${problemPieces[0].isFlip ? 'text-white' : 'text-[#3a3a3a]'}`}>?</span> :
                                 <LockIcon className='overflow-visible z-20 -mt-[46px] text-gray-500' />
                         }
                     </div>

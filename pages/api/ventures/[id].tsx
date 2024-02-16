@@ -142,6 +142,24 @@ async function getVentureModule(req: NextApiRequest, res: NextApiResponse) {
         },
       ])
       .toArray();
+    if (result.length > 0 && result[0].matchedModules.length > 0) {
+      if (result[0].matchedModules[0].module.item == 'Starting Point') {
+        await db.collection("ventures").updateOne(
+          {
+            _id: ventureId,
+            $or: [
+              { "course.modules.module._id": moduleId.toString() },
+              { "course.modules.module._id": moduleId },
+            ],
+          },
+          {
+            $set: {
+              "course.modules.$.isFlip": true,
+            },
+          }
+        );
+      }
+    }
     res.status(200).json({ venture: result, serverTime: new Date() });
   } catch (err) {
     res.status(500).json({ err: SERVER_ERR_MSG });

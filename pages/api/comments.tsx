@@ -148,6 +148,9 @@ async function saveComment(req: NextApiRequest, res: NextApiResponse) {
             $each: [commentData],
           },
         },
+        $set: {
+          "course.modules.$.isFlip": true,
+        },
       }
     );
     if (!result.matchedCount) {
