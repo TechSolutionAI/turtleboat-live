@@ -19,7 +19,6 @@ import Upload from "./Upload";
 import CommentItem from "./CommentItem";
 import { Comment } from "@/types/module.type";
 import { checkListLabels } from "@/database/modules";
-import CommentList from "./CommentList";
 const EditorView = dynamic(() => import("@/components/EditorView"), {
     ssr: false,
 });
@@ -382,8 +381,7 @@ const Index = () => {
                             <h1 className="font-Inter font-bold text-xl sm:mt-[35px] mt-[10px]">
                                 Mentor/Mentee Discussion
                             </h1>
-                            <CommentList comments={comments} serverTime={serverTime} />
-                            {/* {
+                            {
                                 comments != null &&
                                 comments.length > 0 &&
                                 comments.map((comment: Comment, index: number) => {
@@ -393,7 +391,7 @@ const Index = () => {
                                         </div>
                                     );
                                 })
-                            } */}
+                            }
                             {
                                 memberType == "mentee" ? (
                                     <Upload setFormFiles={setFormFiles} isInit={isCommentSaved} />

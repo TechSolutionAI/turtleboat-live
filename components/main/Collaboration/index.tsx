@@ -11,7 +11,7 @@ import Upload from "./Upload";
 import TokenItem from "@/components/layouts/TokenItem";
 import { Comment } from "@/types/module.type";
 import { collaTablist } from "@/utils/constant";
-import CommentList from "./CommentList";
+import CommentItem from "./CommentItem";
 const Editor = dynamic(() => import("./Editor"), { ssr: false });
 
 const Index = () => {
@@ -198,7 +198,17 @@ const Index = () => {
           </div>
           <div className="mt-[40px] rounded-xl bg-[#F7F7F9] lg:mx-[5%] xl:mx-[10%] 2xl:mx-[15%] px-[40px] py-[34px] flex flex-col justify-center font-Inter">
             <h1 className="font-Inter font-bold text-xl">Team Collaboration</h1>
-            <CommentList comments={comments} serverTime={serverTime} />
+            {
+                comments != null &&
+                comments.length > 0 &&
+                comments.map((comment: Comment, index: number) => {
+                  return (
+                    <div key={`comment-${index}`}>
+                      <CommentItem comment={comment} serverTime={serverTime} />
+                    </div>
+                  )
+                })
+            }
             <Upload setFormFiles={setFormFiles} isInit={isCommentSaved} />
             <Editor
               value={commentContent}
