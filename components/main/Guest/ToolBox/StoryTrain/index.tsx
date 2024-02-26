@@ -21,6 +21,7 @@ import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownR
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 import Spinner from '@/components/Spinner';
+import { trains } from '@/utils/constant';
 
 const trainAssets = [
     {
@@ -52,45 +53,6 @@ const trainAssets = [
         color: '#000000',
         textColor: '#000000',
         img: ClosingImg
-    },
-]
-
-const trains = [
-    {
-        id: 'opening',
-        label: 'Opening Hook',
-        value: '',
-        order: 0
-    },
-    {
-        id: 'problem',
-        label: 'Problem',
-        value: '',
-        order: 1
-    },
-    {
-        id: 'character',
-        label: 'Character',
-        value: '',
-        order: 2
-    },
-    {
-        id: 'setting',
-        label: 'Setting',
-        value: '',
-        order: 3
-    },
-    {
-        id: 'solution',
-        label: 'Solution',
-        value: '',
-        order: 4
-    },
-    {
-        id: 'closing',
-        label: 'Closing Hook',
-        value: '',
-        order: 5
     },
 ]
 

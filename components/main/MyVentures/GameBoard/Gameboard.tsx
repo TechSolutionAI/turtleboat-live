@@ -332,6 +332,14 @@ const Gameboard = () => {
     };
   };
 
+  const updateStoryTrain = (data: any) => {
+    if (venture != undefined) {
+      let tempVenture: Venture = {...venture};
+      tempVenture.storyTrain = data;
+      setVenture(tempVenture);
+    }
+  }
+
   return isLoading ? (
     <div className="grid place-items-center h-screen">
       <Spinner text={"Loading Venture ..."} />
@@ -396,6 +404,7 @@ const Gameboard = () => {
               ventureId={venture?._id}
               memberType={memberType}
               storyTrain={venture?.storyTrain}
+              updateStoryTrain={updateStoryTrain}
             />
           </div>
           {/* <div id="Gameboard" className="relative w-[600px] h-[600px] m-auto">

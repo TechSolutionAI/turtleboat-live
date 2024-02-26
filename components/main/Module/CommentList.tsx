@@ -1,3 +1,4 @@
+import React, { memo, useCallback } from 'react';
 import dynamic from "next/dynamic";
 import IcoDocument from "/public/static/images/document.svg";
 import { dateDiff } from "@/utils/utils";
@@ -8,7 +9,7 @@ const EditorView = dynamic(() => import("@/components/EditorView"), {
     ssr: false,
 });
 
-const CommentItem = ({
+const CommentItem = memo(({
     comment,
     serverTime,
 }: {
@@ -58,5 +59,30 @@ const CommentItem = ({
             </div>
         </div>
     );
+});
+
+const CommentList = ({
+    comments,
+    serverTime
+}: {
+    comments: Comment[],
+    serverTime: string
+}) => {
+    const renderCommentItem = useCallback((comment: Comment, index: number) => (
+        <div key={`comment-${index}`}>
+            <CommentItem comment={comment} serverTime={serverTime} />
+        </div>
+    ), [serverTime]);
+
+    return (
+        <div>
+            {
+                comments != null &&
+                comments.length > 0 &&
+                comments.map((comment, index) => renderCommentItem(comment, index))
+            }
+        </div>
+    );
 };
-export default CommentItem;
+
+export default CommentList;

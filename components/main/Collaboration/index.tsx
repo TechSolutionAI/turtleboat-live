@@ -8,10 +8,10 @@ import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
 import Spinner from "@/components/Spinner";
 import Upload from "./Upload";
-import CommentItem from "./CommentItem";
 import TokenItem from "@/components/layouts/TokenItem";
 import { Comment } from "@/types/module.type";
 import { collaTablist } from "@/utils/constant";
+import CommentList from "./CommentList";
 const Editor = dynamic(() => import("./Editor"), { ssr: false });
 
 const Index = () => {
@@ -198,15 +198,7 @@ const Index = () => {
           </div>
           <div className="mt-[40px] rounded-xl bg-[#F7F7F9] lg:mx-[5%] xl:mx-[10%] 2xl:mx-[15%] px-[40px] py-[34px] flex flex-col justify-center font-Inter">
             <h1 className="font-Inter font-bold text-xl">Team Collaboration</h1>
-            {comments != null &&
-              comments.length > 0 &&
-              comments.map((comment: Comment, index: number) => {
-                return (
-                  <div key={`comment-${comment.type + "_" + index}`}>
-                    <CommentItem comment={comment} serverTime={serverTime} />
-                  </div>
-                );
-              })}
+            <CommentList comments={comments} serverTime={serverTime} />
             <Upload setFormFiles={setFormFiles} isInit={isCommentSaved} />
             <Editor
               value={commentContent}

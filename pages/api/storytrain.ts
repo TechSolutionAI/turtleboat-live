@@ -4,44 +4,7 @@ import clientPromise from "@/utils/mongodb";
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
-const trains = [
-    {
-        id: "opening",
-        label: "Opening Hook",
-        value: "",
-        order: 0,
-    },
-    {
-        id: "problem",
-        label: "Problem",
-        value: "",
-        order: 1,
-    },
-    {
-        id: "character",
-        label: "Character",
-        value: "",
-        order: 2,
-    },
-    {
-        id: "setting",
-        label: "Setting",
-        value: "",
-        order: 3,
-    },
-    {
-        id: "solution",
-        label: "Solution",
-        value: "",
-        order: 4,
-    },
-    {
-        id: "closing",
-        label: "Closing Hook",
-        value: "",
-        order: 5,
-    },
-];
+import { trains } from "@/utils/constant";
 
 export default function handler(
     req: NextApiRequest,
@@ -125,8 +88,6 @@ async function updateFromW4Puzzle(req: NextApiRequest, res: NextApiResponse) {
                     updatedAt: new Date()
                 }
             });
-
-        console.log(result.matchedCount);
 
         if (!result.matchedCount) {
             const storyTrain = trains.map((trainItem: any) => {

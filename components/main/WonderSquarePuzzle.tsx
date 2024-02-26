@@ -99,6 +99,8 @@ import WonderSquareBackground from '@/public/static/images/puzzle/wonder4_bg.png
 import Spinner from '../Spinner';
 import Swal from 'sweetalert2';
 
+import { trains } from '@/utils/constant';
+
 const defaultPieces = [
     {
         _id: '',
@@ -165,7 +167,8 @@ export default function WonderSquarePuzzle({
     startingPoint,
     ventureId,
     memberType,
-    storyTrain
+    storyTrain,
+    updateStoryTrain,
 }: {
     type: string
     settings: any[],
@@ -175,7 +178,8 @@ export default function WonderSquarePuzzle({
     startingPoint: any,
     ventureId: string | undefined,
     memberType: string,
-    storyTrain: any | undefined
+    storyTrain: any | undefined,
+    updateStoryTrain?: Function
 }) {
     const router = useRouter();
     const [isSavingDraft, setIsSavingDraft] = useState<boolean>(false);
@@ -254,6 +258,38 @@ export default function WonderSquarePuzzle({
         }
     }
 
+    const updateStoryTrainData = (pillarType: string, isDraft: boolean, content: string) => {
+        let newStoryTrain: any = null;
+        if (storyTrain != undefined) {
+            newStoryTrain = storyTrain.map((trainItem: any) => {
+                if (trainItem.id == pillarType) {
+                    return {
+                        ...trainItem,
+                        draft: isDraft ? content : trainItem.draft ?? '',
+                        value: !isDraft ? content : trainItem.value ?? ''
+                    }
+                } else {
+                    return trainItem;
+                }
+            })
+        } else {
+            newStoryTrain = trains.map((trainItem: any) => {
+                if (trainItem.id == pillarType) {
+                    return {
+                        ...trainItem,
+                        draft: isDraft ? content : trainItem.draft ?? '',
+                        value: !isDraft ? content : trainItem.value ?? ''
+                    }
+                } else {
+                    return trainItem;
+                }
+            })
+        }
+        if (updateStoryTrain) {
+            updateStoryTrain(newStoryTrain);
+        }
+    }
+
     const handleUpdateStoryTrain = async (type: string) => {
         if (storyContent != '') {
             if (type == 'draft') {
@@ -298,6 +334,7 @@ export default function WonderSquarePuzzle({
                 } else {
                     setIsPublishing(false);
                 }
+                updateStoryTrainData(pillarType, type == 'draft', storyContent);
                 Swal.fire({
                     icon: "success",
                     title: "Success!",

@@ -45,3 +45,42 @@ export const emotionList = [
 ];
 
 export const collaTablist = ["Project Planning", "Meeting Minutes", "T-Reports"];
+
+export const trains = [
+    {
+      id: "opening",
+      label: "Opening Hook",
+      value: "",
+      order: 0,
+    },
+    {
+      id: "problem",
+      label: "Problem",
+      value: "",
+      order: 1,
+    },
+    {
+      id: "character",
+      label: "Character",
+      value: "",
+      order: 2,
+    },
+    {
+      id: "setting",
+      label: "Setting",
+      value: "",
+      order: 3,
+    },
+    {
+      id: "solution",
+      label: "Solution",
+      value: "",
+      order: 4,
+    },
+    {
+      id: "closing",
+      label: "Closing Hook",
+      value: "",
+      order: 5,
+    },
+  ];
