@@ -85,4 +85,6 @@ const CommentList = ({
     );
 };
 
+CommentList.displayName = 'CommentList';
+
 export default CommentList;
