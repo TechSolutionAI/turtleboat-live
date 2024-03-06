@@ -359,7 +359,7 @@ const Gameboard = () => {
                             width={40}
                             height={40}
                         />
-                        <strong className="ml-2">{venture?.mentee.name} ff</strong>
+                        <strong className="ml-2">{venture?.mentee.name}</strong>
                     </div>
                     <p className="text-[12px] py-1">
                         ThinkSpace for capturing the messy, iterative, and non-linear
