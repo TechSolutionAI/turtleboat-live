@@ -123,7 +123,7 @@ async function inviteMembers(req: NextApiRequest, res: NextApiResponse) {
             const notificationForComment = {
                 from: fromId.toString(),
                 to: participant._id,
-                message: `${from} has invited you to 50 ways Battle`,
+                message: `${from} has invited you to Coffee Chat`,
                 link: `/dashboard/toolbox/lemonade/${lemonadeId.toString()}`,
                 isRead: false,
                 isFlag: false,
@@ -140,11 +140,11 @@ async function inviteMembers(req: NextApiRequest, res: NextApiResponse) {
                         email: "yCITIES1@gmail.com",
                         name: "Turtle Boat"
                     },
-                    subject: `${from} has invited you to 50 ways Battle`,
+                    subject: `${from} has invited you to Coffee Chat`,
                     cc: process.env.CC_EMAIL,
                     templateId: "d-fe729e80a4e64a18be0907571cfe5e61",
                     dynamicTemplateData: {
-                        subject: `${from} has invited you to 50 ways Battle`,
+                        subject: `${from} has invited you to Coffee Chat`,
                         inviteAddress: `${process.env.HOME_URL}/dashboard/toolbox/lemonade/invite?id=${uniqueId}`,
                     },
                     isMultiple: false,
@@ -208,7 +208,7 @@ async function postMessage(req: NextApiRequest, res: NextApiResponse) {
                 const notificationForComment = {
                     from: user._id,
                     to: participant._id,
-                    message: `${user?.name} post messages to 50 Ways to Lemonade Battle on ${formattedDate}`,
+                    message: `${user?.name} post messages to Coffee Chat on ${formattedDate}`,
                     link: `/dashboard/toolbox/lemonade/${lemonadeId.toString()}`,
                     isRead: false,
                     isFlag: false,
@@ -244,7 +244,7 @@ async function postMessage(req: NextApiRequest, res: NextApiResponse) {
             }
         })
 
-        // Get Token Action for "Post/Comment within a 50 Ways to Lemonade Battle": no is 15
+        // Get Token Action for "Post/Comment within a Coffee Chat": no is 15
         const tokenAction = await db
             .collection("token_actions")
             .findOne({ no: 15 });
@@ -293,11 +293,11 @@ async function postMessage(req: NextApiRequest, res: NextApiResponse) {
                         email: "yCITIES1@gmail.com",
                         name: "Turtle Boat"
                     },
-                    subject: `${user?.name} post messages to 50 Ways to Lemonade Battle`,
+                    subject: `${user?.name} post messages to Coffee Chat`,
                     cc: process.env.CC_EMAIL,
                     templateId: "d-a7c7bab476384b6c89207cfc067fc285",
                     dynamicTemplateData: {
-                        subject: `${user?.name} post messages to 50 Ways to Lemonade Battle`,
+                        subject: `${user?.name} post messages to Coffee Chat`,
                         notificationlink: notify.notificationLink,
                         ventureTitle: orgLemonade.name,
                         fromName: notify.fromName

@@ -373,7 +373,7 @@ const RoadAssistanceDetail = () => {
                   className="bg-white px-7 py-8 shadow-md rounded-lg border border-1 border-secondary-gray-3 cursor-pointer"
                 >
                   <h3 className="font-Inter font-bold text-black">
-                    Start a 50 Ways to Lemonade Chat
+                    Start a Coffee Chat
                   </h3>
                 </Link>
               </div>

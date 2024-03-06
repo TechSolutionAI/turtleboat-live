@@ -172,7 +172,7 @@ const Add = ({}: {}) => {
         icon: "success",
         title: "Success!",
         allowOutsideClick: false,
-        text: `50 Ways to Battle was created successfully!`,
+        text: `Coffee Chat was created successfully!`,
       })
         .then(() => {
           if (success) {
@@ -184,7 +184,7 @@ const Add = ({}: {}) => {
   };
 
   useEffect(() => {
-    document.title = "Create 50 Ways Lemonade - Turtle Boat";
+    document.title = "Create Coffee Chat - Turtle Boat";
   }, []);
 
   return (
@@ -193,7 +193,7 @@ const Add = ({}: {}) => {
     >
       <div className="relative w-11/12 sm:w-11/12 my-0">
         <h1 className="font-Inter font-bold text-[20px] mb-4">
-          50 Ways to Lemonade
+          Coffee Chat
         </h1>
 
         <div className="border-0 rounded-lg relative flex flex-col w-full sm:px-[20px]">
@@ -243,7 +243,7 @@ const Add = ({}: {}) => {
             <label className="font-Inter font-semibold tracking-[0.1em] text-[#232325]">
               ANCHOR PILLAR{" "}
               <span className="font-normal tracking-normal">
-                {`(select if you have a particular pillar you don’t want to change)`}
+                {`(select if you have a particular pillar you don&#39;t want to change)`}
               </span>
             </label>
             <Select
@@ -308,16 +308,16 @@ const Add = ({}: {}) => {
             )}
           </div>
           <div className="mt-6 flex-auto">
-            If you’re using 50 Ways to brainstorm ideas and value propositions,
-            provide short context as to why you’re fixed on the pillar you chose
-            as the anchor. Do you have a problem that you’re looking for ways to
+            If you&#39;re using Coffee Chat to brainstorm ideas and value propositions,
+            provide short context as to why you&#39;re fixed on the pillar you chose
+            as the anchor. Do you have a problem that you&#39;re looking for ways to
             address the most efficiently with your skills and Circle of
             Resources? Do you have a “solution” looking for the right problem to
             solve (aka some piece of tech or design, looking for the best
             Problem and/or Character to need it)? Or is your problem too big and
-            you’re looking for ways to break it down into pain points felt by
+            you&#39;re looking for ways to break it down into pain points felt by
             different Characters? Record a 30 second version of your thoughts to
-            support. If you’re using this as a networking simulation, you don’t
+            support. If you&#39;re using this as a networking simulation, you don&#39;t
             have to write anything here because your 30 second sound bite will
             be what you say after you introduce yourself to a small group of
             folks (some may already know you, others might not know anything

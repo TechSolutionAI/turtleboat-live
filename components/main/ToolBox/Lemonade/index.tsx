@@ -37,7 +37,7 @@ const Index = () => {
   const [invitedBrainstorms, setInvitedBrainStorms] = useState<any[]>([]);
 
   useEffect(() => {
-    document.title = "ToolBox - 50 Ways Lemonade - Turtle Boat";
+    document.title = "ToolBox - Coffee Chat - Turtle Boat";
     getList();
   }, []);
 
@@ -191,7 +191,7 @@ const Index = () => {
           <div className="flex justify-between items-center mt-5">
             <div className="flex items-center text-[20px] font-Inter font-bold lg:flex">
               <h1 className="font-Inter font-bold mr-1">
-                50 Ways to Lemonade Battle
+                Coffee Chat
               </h1>
             </div>
             <button
@@ -209,14 +209,14 @@ const Index = () => {
               von Szent-Györgyi
             </p>
             <p className="mt-4 text-[14px]">
-              Use 50 Ways for a quick divergent-to-convergent thinking exercise.
+              Use Coffee Chat for a quick divergent-to-convergent thinking exercise.
               Leveraging the Anchor Pillar as the prompt, and each participant
               comments to question, add, modify, and take away pieces of the
-              story in a collaborative and/or devil’s advocate manner (doesn’t
+              story in a collaborative and/or devil&#39;s advocate manner (doesn&#39;t
               have to be turn-based). After a participant has reached 20
               comments, they will be prompted to creatively connect their
               favorites from the collective input to form an elevator pitch.
-              Alternatively, use 50 Ways for a networking simulation. No matter
+              Alternatively, use Coffee Chat for a networking simulation. No matter
               how large a networking event is, usually groups of 2-5 people
               huddle together. Unable to deliver your full elevator pitch,
               sharing the essence of your venture becomes more chaotic than a
@@ -225,15 +225,15 @@ const Index = () => {
               summarize what they feel your elevator pitch is, and you can
               decide how well you steered the conversation based off of their
               interpretation. Try with different people and combinations of
-              folks because that changes the dynamics too! To initiate 50 Ways,
+              folks because that changes the dynamics too! To initiate Coffee Chat,
               record a 30 second elevator pitch (or just an idea, depending on
-              what stage you’re at) to set the tone, provide brief context, and
+              what stage you&#39;re at) to set the tone, provide brief context, and
               invite some CORE members!
             </p>
           </div>
           <div className="flex justify-between items-center mt-8">
             <h4 className="truncate text-[20px] font-bold font-Inter py-0">
-              My 50 Ways to Lemonade Battles ({brainstorms.length})
+              My Coffee Chats ({brainstorms.length})
             </h4>
           </div>
           {brainstorms.length > 0 ? (
@@ -248,7 +248,7 @@ const Index = () => {
           )}
           <div className="flex justify-between items-center mt-10">
             <h4 className="truncate text-[20px] font-bold font-Inter py-0">
-              Invited 50 Ways to Lemonade Battles ({invitedBrainstorms.length})
+              Invited Coffee Chats ({invitedBrainstorms.length})
             </h4>
           </div>
           {invitedBrainstorms.length > 0 ? (

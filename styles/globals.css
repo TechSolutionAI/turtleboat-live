@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
 @font-face {
     font-family: 'ObelixPro';
     font-weight: 400;
@@ -17,7 +18,8 @@
     min-height: 150px !important;
 }
 
-.ck-editor__editable a, .viewer .ck-editor__editable a{
+.ck-editor__editable a,
+.viewer .ck-editor__editable a {
     color: blue;
 }
 
@@ -26,7 +28,8 @@
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.stroke-text.panel-item:hover, .selected-panel.stroke-text {
+.stroke-text.panel-item:hover,
+.selected-panel.stroke-text {
     -webkit-text-stroke: 2px #E5632B;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
@@ -35,7 +38,8 @@
     min-height: auto !important;
 }
 
-.ck-content ul, .ck-content ol{
+.ck-content ul,
+.ck-content ol {
     padding-left: 20px !important;
     padding-right: 0px !important;
 }
@@ -48,9 +52,10 @@
     border: none !important;
     background-color: transparent !important;
 }
-  
+
 .readonly-editor .editor-wrapper .ck.ck-editor__main {
-    padding: 0; /* remove padding within the editor */
+    padding: 0;
+    /* remove padding within the editor */
 }
 
 .custom-cursor {
@@ -76,7 +81,7 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 .bg-comic_bg {
-    /* Set the background image and cover the entire container */  
+    /* Set the background image and cover the entire container */
     background-image: url('../public/static/images/comicbackground.svg');
     background-size: cover;
 }
@@ -85,29 +90,34 @@ input[type="search"]::-webkit-search-cancel-button {
     width: calc(100% - 35px);
 }
 
-@media (min-width: 640px){
+@media (min-width: 640px) {
     .venture-filter-bar {
         width: calc(100% - 9rem);
     }
+
     .comic-generator-header {
         width: calc(100vw - 7rem);
     }
 }
 
-@media (max-width: 640px){
+@media (max-width: 640px) {
     .comic-generator-header {
         width: 100%;
     }
 }
 
-@media (min-width: 768px){
+@media (min-width: 768px) {
     .venture-filter-bar {
         width: calc(100% - 12rem);
     }
 }
 
-@media (min-width: 1024px){
+@media (min-width: 1024px) {
     .venture-filter-bar {
         width: calc(100% - 12rem);
     }
+}
+
+img {
+    visibility: visible !important;
 }

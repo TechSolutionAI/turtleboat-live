@@ -282,7 +282,7 @@ const LemonadeDetail = () => {
       Swal.fire({
         icon: "warning",
         title: "Oops...",
-        text: "This 50 Ways to Lemonade Battle is full",
+        text: "This Coffee Chat is full",
       });
     }
   };
@@ -331,7 +331,7 @@ const LemonadeDetail = () => {
   };
 
   useEffect(() => {
-    document.title = "50 Ways to Lemonade Battle Detail - Turtle Boat";
+    document.title = "Coffee Chat Detail - Turtle Boat";
     getLemonade();
     const channel = pusher.subscribe(`user-${user._id}`);
 
@@ -371,7 +371,7 @@ const LemonadeDetail = () => {
           <span className="flex">
             <KeyboardBackspaceIcon />
           </span>
-          <h1 className="ml-[15px]">All 50 Ways to Lemonade</h1>
+          <h1 className="ml-[15px]">All Coffee Chats</h1>
         </a>
       </div>
       <div className="px-0 sm:px-5 font-Inter">

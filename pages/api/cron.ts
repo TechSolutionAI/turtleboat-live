@@ -87,11 +87,11 @@ export default async function handler(
                         email: "yCITIES1@gmail.com",
                         name: "Turtle Boat"
                     },
-                    subject: 'Reminder: Your 50 Ways to Lemonade Battle has no participants.',
+                    subject: 'Reminder: Your Coffee Chat has no participants.',
                     cc: process.env.CC_EMAIL,
                     templateId: "d-ca312bdf0b344d48b2a50e10a9977de6",
                     dynamicTemplateData: {
-                        subject: 'Reminder: Your 50 Ways to Lemonade Battle has no participants.',
+                        subject: 'Reminder: Your Coffee Chat has no participants.',
                         inviteAddress: `${process.env.HOME_URL}/dashboard/toolbox/lemonade/${remindLemonades[j]._id.toString()}`
                     },
                     isMultiple: false,
@@ -121,11 +121,11 @@ export default async function handler(
                         email: "yCITIES1@gmail.com",
                         name: "Turtle Boat"
                     },
-                    subject: 'Reminder: You did not accept invitation of 50 Ways to Lemonade Battle',
+                    subject: 'Reminder: You did not accept invitation of Coffee Chat',
                     cc: process.env.CC_EMAIL,
                     templateId: "d-fe729e80a4e64a18be0907571cfe5e61",
                     dynamicTemplateData: {
-                        subject: 'Reminder: You did not accept invitation of 50 Ways to Lemonade Battle',
+                        subject: 'Reminder: You did not accept invitation of Coffee Chat',
                         inviteAddress: `${process.env.HOME_URL}/dashboard/toolbox/lemonade/invite?id=${remindLemonadeInvites[k].inviteId}`
                     },
                     isMultiple: false,

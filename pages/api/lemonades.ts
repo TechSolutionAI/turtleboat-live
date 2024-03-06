@@ -77,7 +77,7 @@ async function createLemonade(req: NextApiRequest, res: NextApiResponse) {
         }
         const result = await db.collection("lemonades").insertOne(lemonade)
 
-        // Get Token Action for "Participate in 50 Ways to Lemonade Brainstorm": no is 14
+        // Get Token Action for "Participate in Coffee Chat": no is 14
         const tokenAction = await db
             .collection("token_actions")
             .findOne({ no: 14 });
@@ -140,7 +140,7 @@ async function createLemonade(req: NextApiRequest, res: NextApiResponse) {
                 const notificationForComment = {
                     from: data.user._id,
                     to: participant._id,
-                    message: `${data.user.name} has invited you to 50 ways Battle`,
+                    message: `${data.user.name} has invited you to Coffee Chat`,
                     link: `/dashboard/toolbox/lemonade/${lemonadeId.toString()}`,
                     isRead: false,
                     isFlag: false,
@@ -157,11 +157,11 @@ async function createLemonade(req: NextApiRequest, res: NextApiResponse) {
                             email: "yCITIES1@gmail.com",
                             name: "Turtle Boat"
                         },
-                        subject: `${data.user.name} has invited you to 50 ways Battle`,
+                        subject: `${data.user.name} has invited you to Coffee Chat`,
                         cc: process.env.CC_EMAIL,
                         templateId: "d-fe729e80a4e64a18be0907571cfe5e61",
                         dynamicTemplateData: {
-                            subject: `${data.user.name} has invited you to 50 ways Battle`,
+                            subject: `${data.user.name} has invited you to Coffee Chat`,
                             inviteAddress: `${process.env.HOME_URL}/dashboard/toolbox/lemonade/invite?id=${uniqueId}`,
                         },
                         isMultiple: false,
@@ -264,8 +264,8 @@ async function updateLemonade(req: NextApiRequest, res: NextApiResponse) {
                             email: "yCITIES1@gmail.com",
                             name: "Turtle Boat"
                         },
-                        subject: `50 Ways to Lemonade Battle Completion`,
-                        text: 'Thank you for participating in this 50 Ways to Lemonade Battle of Entrepreneurial Wits. It is now complete, and your input has helped move the needle.',
+                        subject: `Coffee Chat Completion`,
+                        text: 'Thank you for participating in this Coffee Chat of Entrepreneurial Wits. It is now complete, and your input has helped move the needle.',
                         cc: process.env.CC_EMAIL,
                         isMultiple: false,
                     });

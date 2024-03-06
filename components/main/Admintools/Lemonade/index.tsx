@@ -29,7 +29,7 @@ const Index = () => {
     const [brainstorms, setBrainStorms] = useState<any[]>([])
 
     useEffect(() => {
-        document.title = "50 Ways Lemonade Admin - Turtle Boat"
+        document.title = "Coffee Chat Admin - Turtle Boat"
         getList()
     }, []);
 

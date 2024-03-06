@@ -26,7 +26,7 @@ const NotificationTabs = ({
             link: '/dashboard/messages/roadassistances' 
         },
         {
-            label: '50 Ways to Lemonade',
+            label: 'Coffee Chat',
             link: '/dashboard/messages/lemonades' 
         }
     ];

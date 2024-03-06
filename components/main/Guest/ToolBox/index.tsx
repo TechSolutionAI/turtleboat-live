@@ -10,6 +10,7 @@ import LemonadePanel from "./LemonadePanel";
 import CorIcon from "/public/static/images/toolbox/circleofresource_icon.png";
 import ComicIcon from "/public/static/images/toolbox/comic_strip_icon.png";
 import LemonadeIcon from "/public/static/images/toolbox/lemodade_icon.png";
+import CoffeeChatIcon from "/public/static/images/toolbox/coffee_chat.jpg";
 import OppIdIcon from "/public/static/images/toolbox/opportunity.png";
 import StorytrainIcon from "/public/static/images/toolbox/train_icon.png";
 import CharacterstakeIcon from "/public/static/images/toolbox/character_stake_icon.png";
@@ -40,7 +41,7 @@ const ToolBoxes = [
     icon: StorytrainIcon,
     link: "/guest/toolbox/storytrain",
   },
-  { name: "50 Ways to Lemonade", icon: LemonadeIcon, link: "/guest/toolbox/" },
+  { name: "Coffee Chat", icon: CoffeeChatIcon, link: "/guest/toolbox/" },
 ];
 
 const Index = () => {

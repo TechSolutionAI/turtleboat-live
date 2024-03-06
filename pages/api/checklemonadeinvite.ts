@@ -89,7 +89,7 @@ export default async function handler(
                             }
                         });
 
-                    // Get Token Action for "Participate in 50 Ways to Lemonade Brainstorm": no is 14
+                    // Get Token Action for "Participate in Coffee Chat": no is 14
                     const tokenAction = await db
                         .collection("token_actions")
                         .findOne({ no: 14 });

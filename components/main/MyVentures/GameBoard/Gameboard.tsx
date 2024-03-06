@@ -31,6 +31,7 @@ import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import BusinessCenterOutlinedIcon from "@mui/icons-material/BusinessCenterOutlined";
 import CorIcon from "/public/static/images/toolbox/circleofresource_icon.png";
 import LemonadeIcon from "/public/static/images/toolbox/lemodade_icon.png";
+import CoffeeChatIcon from "/public/static/images/toolbox/coffee_chat.jpg";
 import OppIdIcon from "/public/static/images/toolbox/opportunity.png";
 import CharacterstakeIcon from "/public/static/images/toolbox/character_stake_icon.png";
 import UserAvatar from "@/components/UserAvatar";
@@ -53,8 +54,8 @@ const ToolBoxes = [
   { name: "Opportunity Identification", icon: OppIdIcon, link: "", id: 3 },
   // { name: 'Story Train', icon: StorytrainIcon , link: '/dashboard/toolbox/storytrain/', id: 4},
   {
-    name: "50 Ways to Lemonade",
-    icon: LemonadeIcon,
+    name: "Coffee Chat",
+    icon: CoffeeChatIcon,
     link: "/dashboard/toolbox/lemonade/add",
     id: 5,
   },

@@ -15,7 +15,7 @@ const Invite = ({
                 Swal.fire({
                     icon: 'success',
                     title: 'Welcome!',
-                    text: `${from} has invited you to 50 Ways Battle.`,
+                    text: `${from} has invited you to Coffee Chat.`,
                     imageUrl: image,
                     imageAlt: 'Custom image'
                 })
@@ -27,7 +27,7 @@ const Invite = ({
                 Swal.fire({
                     icon: 'warning',
                     title: 'Welcome!',
-                    text: `This 50 Ways to Lemonade Battle is full. You may initiate a 50 Ways Battle to start a new one`,
+                    text: `This Coffee Chat is full. You may initiate a Coffee Chat to start a new one`,
                     imageUrl: image,
                     imageAlt: 'Custom image'
                 })
