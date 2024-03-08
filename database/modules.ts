@@ -40,15 +40,15 @@ export const categories: Category[] = [
 ]
 
 export const checkListLabels: string[] = [
-    "Jotted thoughts, ideas, assumptions",
-    "Talked to people, found links to research papers/YouTubes/etc (and pasted links in this Wonder Square)",
-    "Jotted down questions, doubts, hopes, and what “haters/doubters” have expressed",
-    "Listed tiny tasks to do (ie. instead of “clean my room”, I have “put my books away”, “fold laundry”, “make bed”)",
-    "Chose a tiny task",
-    "Finished a tiny task",
-    "Have a “Before & After” jotted down",
-    "Made tweaks",
-    "Test, Talk, Tweak",
+    "Jotted thoughts, ideas, assumptions here",
+    "Talked to people, found links to research papers/YouTubes/etc, and jotted them down here",
+    "Jotted down my questions, doubts, hopes  (and/or what “doubters” have expressed to you) here",
+    "Designed a test (what the test will do, where test will be run, who will test) to validate what I'm hoping to be true",
+    "Created the simplest possible prototype/pilot to be used in the test, and have uploaded screenshots/videos/links here",
+    "Compared post-test results w/what I thought pre-test in useful manner here",
+    "Jotted down findings summary and/or next steps for this puzzle piece here",
+    // "Made tweaks",
+    // "Test, Talk, Tweak",
 ]
 
 export const modules: Module[] = [

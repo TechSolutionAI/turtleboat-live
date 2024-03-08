@@ -243,7 +243,7 @@ const Add = ({}: {}) => {
             <label className="font-Inter font-semibold tracking-[0.1em] text-[#232325]">
               ANCHOR PILLAR{" "}
               <span className="font-normal tracking-normal">
-                {`(select if you have a particular pillar you don&#39;t want to change)`}
+                {`(select if you have a particular pillar you don't want to change)`}
               </span>
             </label>
             <Select

@@ -301,9 +301,7 @@ const Index = () => {
                                         >
                                             <div className="absolute right-[0px] top-[40px] left-0 mt-[10px] z-10 border-2 border-secondary-gray w-[225px] rounded-lg bg-white">
                                                 <div className="font-Inter font-bold text-black text-[13px] px-[15px] pt-[8px]">
-                                                    You and/or your mentors can check off (or uncheck) below
-                                                    to help you figure out if you have “Enough Proof” or “Need
-                                                    More Proof”:
+                                                    Below is a checklist to help you gain traction.  The more you check off, the more traction you have, and the more you&#39;re de-risking the opportunity.  You  and/or your mentors can (un)check off tasks below.  Once the all the boxes are checked, switch to “Enough Proof” and move the needle in your Risk/Opportunity Meters of your dashboard:
                                                 </div>
                                                 <ul className="font-Inter font-semibold text-[12px] px-[15px] py-[5px]">
                                                     {checkListLabels.map((label: string, index: number) => {
