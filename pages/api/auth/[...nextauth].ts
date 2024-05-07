@@ -69,6 +69,8 @@ export default async function handler(
       LinkedinProvider({
         clientId: process.env.LINKEDIN_CLIENT_ID ?? "",
         clientSecret: process.env.LINKEDIN_CLIENT_SECRET ?? "",
+        wellKnown:
+          "https://www.linkedin.com/oauth/.well-known/openid-configuration",
         authorization: { params: { scope: "openid profile email" } },
         idToken: true,
         issuer: "https://www.linkedin.com",
