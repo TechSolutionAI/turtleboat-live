@@ -4,6 +4,7 @@ export type Module = {
   _id: string,
   title: string,
   content: string,
+  summarize?: string,
   item: string,
   files: any[]
 }
@@ -14,7 +15,8 @@ export type ModuleItem = {
   isCheckedOff?: boolean,
   module: Module,
   comments?: Comment[],
-  checkList?: boolean[]
+  checkList?: boolean[],
+  evaluations?: MentorEvaluation[]
 }
 
 export type Comment = {
@@ -23,4 +25,17 @@ export type Comment = {
   user: User,
   createdAt: string,
   type: number
+}
+
+export type MentorEvaluation = {
+  _id: string,
+  value: number,
+  lastUpdated: string
+}
+
+export type VentureAssessment = {
+  _id: string,
+  value: number[],
+  articulates: [],
+  lastUpdated: string
 }

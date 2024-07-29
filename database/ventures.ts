@@ -827,6 +827,7 @@ export const ventures: DummyVenture[] = [
 export const DUMMY_VENTURE: Venture = {
     _id: "6483571833d1838f8c4af311",
     title: "Friday Venture #1",
+    assessments: [],
     course: {
         _id: "647f3cc619f0f99312a0086b",
         title: "Test Course for Milestone 5",

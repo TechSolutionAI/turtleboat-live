@@ -1,5 +1,6 @@
 import { Course } from "./course.type";
 import { ComicStrip } from "./comicstrip.type";
+import { VentureAssessment } from "./module.type";
 
 export type Venture = {
   _id: string,
@@ -19,7 +20,8 @@ export type Venture = {
   audio?: any,
   isTeam?: boolean,
   isArchive: boolean,
-  collabId: string
+  collabId: string,
+  assessments: VentureAssessment[]
 }
 
 export type StakeholderScenario = {

@@ -3,7 +3,7 @@
     display: inline-block;
     border-bottom: 1px dotted black;
 }
-  
+
 .tooltip .tooltiptext {
     visibility: hidden;
     width: 120px;
@@ -22,4 +22,22 @@
 
 .tooltip:hover .tooltiptext {
     visibility: visible;
+}
+
+.ribbon1 {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    overflow: hidden;
+    width: 35px;
+    height: 35px;
+    text-align: left;
+}
+
+.ribbon1 div {
+    transform: rotate(-45deg);
+    width: 40px;
+    position: absolute;
+    top: 19px;
+    left: -21px;
 }
