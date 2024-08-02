@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { User } from "next-auth";
 import { useRouter } from "next/router";
@@ -7,9 +7,12 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import Swal from "sweetalert2";
 import SmsOutlinedIcon from "@mui/icons-material/SmsOutlined";
-import WonderSquareGroup from "./WonderSquareGroup";
+import TrendingUp from "@mui/icons-material/TrendingUp";
+import Download from "@mui/icons-material/Download";
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 import { Venture } from "@/types/venture.type";
-import { ModuleItem } from "@/types/module.type";
+import { ModuleItem, VentureAssessment } from "@/types/module.type";
 import { categories } from "@/database/modules";
 import { Category } from "@/database/modules";
 import Spinner from "@/components/Spinner";
@@ -36,6 +39,8 @@ import OppIdIcon from "/public/static/images/toolbox/opportunity.png";
 import CharacterstakeIcon from "/public/static/images/toolbox/character_stake_icon.png";
 import UserAvatar from "@/components/UserAvatar";
 import WonderSquarePuzzle from "@/components/main/WonderSquarePuzzle";
+import EvaluatorAssessmentModal from "./EvaluatorAssessmentModal";
+import RiskAssessmentDoc from "./RiskAssessmentDoc";
 
 const ToolBoxes = [
   {
@@ -104,7 +109,6 @@ const rightToLeft = [
 ];
 
 const Gameboard = () => {
-  const [redirect, setRedirect] = useState<string>("");
   const { data: session } = useSession();
   const user = session?.user as User;
   const router = useRouter();
@@ -114,6 +118,8 @@ const Gameboard = () => {
     localStorage.setItem("selectedVentureId", id.toString());
     ventureId = id.toString();
   }
+  const exportRef = useRef<HTMLDivElement>(null);
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isAudioLoading, setIsAudioLoading] = useState<boolean>(false);
@@ -127,6 +133,10 @@ const Gameboard = () => {
   const [solutions, setSolutions] = useState<ModuleItem[]>([]);
   const [audioData, setAudioData] = useState<Blob | null>(null);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [showEvaluatorAssessmentModal, setShowEvaluatorAssessmentModal] = useState<boolean>(false);
+  const [assessment, setAssessment] = useState<number[]>([]);
+  const [assessmentCnt, setAssessmentCnt] = useState(0);
+  const [articulate, setArticulate] = useState<number[]>([]);
 
   const getVenture = async () => {
     setIsLoading(true);
@@ -158,6 +168,17 @@ const Gameboard = () => {
       }
       if (venture.collabId != null && venture.collabId != undefined) {
         setCollabId(venture.collabId);
+      }
+      if (venture.assessments != null && venture.assessments != undefined) {
+        if (venture.assessments.length != 0) {
+          setAssessmentCnt(venture.assessments.length);
+          venture.assessments.map((item: VentureAssessment) => {
+            if (item._id == user._id) {
+              setAssessment(item.value);
+              setArticulate(item.articulates);
+            }
+          });
+        }
       }
       if (venture != null && venture.course && venture.course.modules) {
         categories.map((category: Category) => {
@@ -194,6 +215,15 @@ const Gameboard = () => {
       setIsLoading(false);
     }
   };
+
+  const handleShowModal = () => {
+    getVenture();
+    setShowEvaluatorAssessmentModal(true);
+  }
+
+  const closeEvaluatorAssessmentModal = () => {
+    setShowEvaluatorAssessmentModal(false);
+  }
 
   useEffect(() => {
     document.title = "Venture Dashboard - Turtle Boat";
@@ -335,10 +365,52 @@ const Gameboard = () => {
 
   const updateStoryTrain = (data: any) => {
     if (venture != undefined) {
-      let tempVenture: Venture = {...venture};
+      let tempVenture: Venture = { ...venture };
       tempVenture.storyTrain = data;
       setVenture(tempVenture);
     }
+  }
+
+  const handleExport = async () => {
+    if (!exportRef.current) return;
+
+    const input = exportRef.current;
+
+    // Temporarily make the element visible
+    input.style.display = 'block';
+
+    try {
+      // Convert the element to a canvas
+      const canvas = await html2canvas(exportRef.current);
+      const imgData = canvas.toDataURL('image/png');
+
+      // Create the PDF
+      const pdf = new jsPDF();
+      const imgWidth = 210; // A4 width in mm
+      const pageHeight = 295; // A4 height in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      // Save the PDF
+      pdf.save(venture?.title + '-' + user.name + '.pdf');
+    } finally {
+      input.style.display = 'none';
+    }
+  };
+
+  const handleUpdates = async() => {
+    getVenture();
   }
 
   return isLoading ? (
@@ -350,6 +422,9 @@ const Gameboard = () => {
       <div className="font-bold font-Inter text-[24px] text-center text-tertiary-red">
         Progress Over Perfection
       </div>
+      <p className="font-Inter text-[12px] mt-0 py-2 text-center">
+        Focused on the pre-idea to pre-recurring revenue stage, the purpose of the Turtleboat platform is to support early stage founders and increase the success rate of sustainable and scalable innovation. Recurring revenue is concrete data that a founder is on the right track, but in the earliest stages of a venture, there&#39;s usually no revenue yet. “Traction” becomes key, because it is demonstrable progress of feasibility and potential (and therefore lower risk).  Traction here  is assessed in terms of depth, breadth, and ability to articulate.
+      </p>
       <div className="block sm:flex items-center font-Inter justify-between">
         <div className="flex items-center">
           <Link className="cursor-pointer" href="/dashboard/myventures">
@@ -391,7 +466,7 @@ const Gameboard = () => {
             Thinkspace
           </h2>
           <p className="font-Inter text-[12px] mt-0 py-2">
-            Discover, define, and refine the puzzle pieces that makeup your entrepreneurial story.  Click on any (unlocked) puzzle piece for prompts or advice for figuring out your unknowns.  Jot down summary findings you enter into each pillar and get pulled into your Story Train tool, ready for you to tweak and refine.
+            The founder&#39;s Thinkspace is illustrated as a puzzle.  The number of puzzle pieces “flipped” over (how many puzzle pieces have thoughtful -- yet unproven -- hypotheses documented)  illustrate how much breadth has been uncovered.  Depth is measured by the amount of talking/prototyping/testing/validating documented in each puzzle piece, assessed within each puzzle piece, and is reflected by the risk meters on this dashboard.
           </p>
           <div className="relative flex justify-center">
             <div className="bordering-circle absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[70%] h-[75%] rounded-[50%] border-2 border-[#9d9d9d66] box-border blur-[2px]"></div>
@@ -434,11 +509,32 @@ const Gameboard = () => {
                 Proof of Opportunity
               </h2>
               <p className="text-[12px] mt-0 py-2">
-                Assess your progress both in terms of how many pieces of the puzzle have been thought about, AND how deeply you&#39;ve addressed them.
+                Connected to the “enough proof” switch inside each puzzle piece, founders can self-assess their progress and get a 30,000 foot view of the current state of the journey.  If there are assigned mentor(s), their risk assessment can be downloaded below.  Compare/contrast your self-assessment, includes how well you have transformed an “I believe” into an “I now know this is true” through iterations of talking/building prototypes/testing.
               </p>
             </div>
             <div className="flex-col justify-between grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-4">
               {riskMeters}
+            </div>
+            <div className="flex flex-row justify-center mt-[30px]">
+              {memberType == "mentor" &&
+                <>
+                  {assessment.length == 0 &&
+                    <button className="shadow-custom-md px-2 py-1 rounded-md font-semibold" onClick={handleShowModal}><TrendingUp /> Evaluator Assessment <span className="bg-eval-sel-yellow rounded-full p-[5px] text-xs">Not Started</span></button>
+                  }
+                  {assessment.length != 0 &&
+                    <>
+                      <button className="shadow-custom-md px-2 py-1 rounded-md font-semibold" onClick={handleShowModal}><TrendingUp /> Edit Evaluator Assessment <span className="bg-eval-sel-green rounded-full p-[5px] text-xs">Done</span></button>
+                      <button className="shadow-custom-md px-2 py-1 rounded-md font-semibold ml-5" onClick={handleExport}><Download /> Download Risk Assessment </button>
+                    </>
+                  }
+                  <EvaluatorAssessmentModal closeModal={closeEvaluatorAssessmentModal} showModal={showEvaluatorAssessmentModal} vid={ventureId} user={user} assessment={assessment} articulate={articulate} handleUpdates={handleUpdates} />
+                </>
+              }
+
+              {(memberType == "mentee" && assessmentCnt != 0) &&
+                <button className="shadow-custom-md px-2 py-1 rounded-md font-semibold ml-5" onClick={handleExport}><Download /> Download Risk Assessment </button>
+              }
+
             </div>
           </div>
           <div className="relative grid grid-cols-1 xl:grid-cols-3 gap-x-4 gap-y-4">
@@ -567,8 +663,8 @@ const Gameboard = () => {
               <a
                 key={`${item.name}`}
                 href={`${memberType == "mentee"
-                    ? item.link + ventureId
-                    : item.link + ventureId
+                  ? item.link + ventureId
+                  : item.link + ventureId
                   }`}
                 className="cursor-pointer shadow-md rounded-lg flex flex-col items-center justify-center px-4 py-8"
               >
@@ -637,6 +733,9 @@ const Gameboard = () => {
         audioData={audioUrl}
         ventureId={venture?._id}
       />
+      <div ref={exportRef} className="w-[1100px]" style={{ display: 'none' }}>
+        <RiskAssessmentDoc venture={venture} />
+      </div>
     </div>
   );
 };

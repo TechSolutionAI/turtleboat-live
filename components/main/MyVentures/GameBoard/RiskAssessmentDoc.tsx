@@ -1,0 +1,271 @@
+import { useSession } from "next-auth/react";
+import AnalysisAssessment from "./AnalysisAssessment"
+import { User } from "next-auth";
+import { useEffect, useState } from "react";
+import { Venture } from "@/types/venture.type";
+
+
+interface RiskAssessmentDocProps {
+    venture: Venture | undefined;
+}
+
+interface BubbleData {
+    x: number;
+    y: number;
+    z: number;
+    color: string;
+    svg_color: string;
+}
+
+const RiskAssessmentDoc = ({ venture }: RiskAssessmentDocProps) => {
+    const { data: session } = useSession();
+    const user = session?.user as User;
+
+    const [memberType, setMemberType] = useState<string>("mentor");
+    const [coMentees, setCoMentees] = useState<User[]>([]);
+    const [coMentors, setCoMentors] = useState<User[]>([]);
+
+    const formatDate = (dateString: string) => {
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+        const year = date.getFullYear();
+        return `${month}/${day}/${year}`;
+    }
+
+    const alreadyAssessed = (_id: string) => {
+        if (venture && venture.assessments != null && venture.assessments != undefined) {
+            return venture.assessments.some(item => item._id.toString() === _id.toString());
+        }
+        return false;
+    }
+
+    const getMentorInfo = (_id: string) => {
+        if (venture && venture.mentors != null && venture.mentors != undefined) {
+            for (const item of venture.mentors) {
+                if (item._id.toString() === _id.toString()) {
+                    return { name: item.name, img: item.image }; // Return the name once found
+                }
+            }
+        }
+
+        return { name: "", img: "" }; // Return "Unknown" if mentor with _id is not found
+    }
+
+    const getChartData = (_id: string) => {
+        let tempData: BubbleData[] = [
+            { x: 0, y: 0, z: 0, color: 'rgba(72, 106, 217, 0.6)', svg_color: 'rgb(72, 106, 217)' },
+            { x: 0, y: 0, z: 0, color: 'rgba(90, 35, 145, 0.6)', svg_color: 'rgb(90, 35, 145)' },
+            { x: 0, y: 0, z: 0, color: 'rgba(84, 187, 189, 0.6)', svg_color: 'rgb(84, 187, 189)' },
+            { x: 0, y: 0, z: 0, color: 'rgba(234, 59, 247, 0.6)', svg_color: 'rgb(234, 59, 247)' },
+        ];
+        let depthData = [{ sum: 0, cnt: 0 }, { sum: 0, cnt: 0 }, { sum: 0, cnt: 0 }, { sum: 0, cnt: 0 }];
+        if (venture && venture.assessments != null && venture.assessments != undefined) {
+            for (const item of venture.assessments) {
+                if (item._id.toString() === _id.toString()) {
+                    tempData[0].x = item.value[0] * 10;
+                    tempData[1].x = item.value[1] * 10;
+                    tempData[2].x = item.value[2] * 10;
+                    tempData[3].x = item.value[3] * 10;
+                    tempData[0].z = item?.articulates[0] * 14;
+                    tempData[1].z = item?.articulates[1] * 14;
+                    tempData[2].z = item?.articulates[2] * 14;
+                    tempData[3].z = item?.articulates[3] * 14;
+                    if (venture.course && venture.course.modules != null && venture.course.modules != undefined) {
+                        for (const unit of venture.course.modules) {
+                            if (unit.evaluations && unit.evaluations != null && unit.evaluations != undefined) {
+                                if (unit.module.item == "Problem") {
+                                    for (const unit2 of unit.evaluations) {
+                                        if (unit2._id.toString() === _id.toString()) {
+                                            depthData[0].sum += Number(unit2.value);
+                                            depthData[0].cnt += 1;
+                                        }
+                                    }
+                                } else if (unit.module.item === "Character") {
+                                    for (const unit2 of unit.evaluations) {
+                                        if (unit2._id.toString() === _id.toString()) {
+                                            depthData[1].sum += Number(unit2.value);
+                                            depthData[1].cnt += 1;
+                                        }
+                                    }
+                                } else if (unit.module.item === "Setting") {
+                                    for (const unit2 of unit.evaluations) {
+                                        if (unit2._id.toString() === _id.toString()) {
+                                            depthData[2].sum += Number(unit2.value);
+                                            depthData[2].cnt += 1;
+                                        }
+                                    }
+                                } else if (unit.module.item === "Solution") {
+                                    for (const unit2 of unit.evaluations) {
+                                        if (unit2._id.toString() === _id.toString()) {
+                                            depthData[3].sum += Number(unit2.value);
+                                            depthData[3].cnt += 1;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            for (let i = 0; i < depthData.length; i++) {
+                if (depthData[i].cnt !== 0)
+                    tempData[i].y = (depthData[i].sum / depthData[i].cnt) * 9;
+            }
+            return tempData;
+        }
+    }
+
+    const getCollaborators = async () => {
+        const url = `/api/collaboration/${venture?.collabId.toString()}-${venture?._id}`;
+
+        const response = await fetch(url, {
+            method: "GET",
+        });
+
+        if (!response.ok) {
+            const { err } = await response.json();
+            console.log(err);
+        } else {
+            const { collaboration } = await response.json();
+            setCoMentees(collaboration.mentees);
+            setCoMentors(collaboration.mentors);
+
+        }
+    }
+
+    useEffect(() => {
+        if (venture && venture.mentee != null && venture.mentee != undefined) {
+            if (venture.mentee.email == user.email) {
+                setMemberType("mentee");
+            } else {
+                setMemberType("mentor");
+            }
+        }
+        getCollaborators();
+    }, []);
+
+    return (
+        <div className="mx-auto w-[795px]">
+            <div className="flex flex-col w-full font-Inter">
+                <h1 className="text-2xl font-Inter text-center font-bold mt-10">{venture?.title}</h1>
+                <h1 className="font-Inter text-center text-xl">Reported from: {formatDate(venture?.updatedAt)}</h1>
+            </div>
+            <h1 className="font-Inter mt-6 font-semibold text-xl">Veture Team:
+                {coMentees.map((item, index) => {
+                    return (
+                        <div key={index}>
+                            <span className="font-md"> {item.name},</span>
+                        </div>
+                    )
+                })}
+                {coMentors.map((item, index) => {
+                    return (
+                        <div key={index}>
+                            <span className="font-md"> {item.name}</span>
+                            {index != coMentors.length - 1 && <span>,</span>}
+                        </div>
+                    )
+                })}
+            </h1>
+            <h1 className="font-Inter mt-6 font-semibold text-xl">Mentors:
+                {venture?.mentors.map((item, index) => {
+                    return (
+                        <div key={index}>
+                            <span>{item.name}</span>
+                            {alreadyAssessed(item?._id) && <span>*</span>}
+                            {index != venture?.mentors.length - 1 && <span>, </span>}
+                        </div>
+                    )
+                })}
+            </h1>
+            <p className="font-Inter">* Indicates completion of risk assessment</p>
+            <h1 className="font-Inter mt-6 text-xl font-semibold">Elevator Pitch</h1>
+            <p className="font-Inter">Imagine unlocking the full potential of your iPads with just one case. Introducing Dual Pad, the revolutionary iPad case that allows you to seamlessly connect two iPads together for unparalleled multitasking. Whether you&#39;re a student, professional, or creative, Dual Pad enhances your productivity by letting you run two apps simultaneously, collaborate effortlessly, and streamline your workflow like never before. With its sleek design and intuitive functionality, Dual Pad is the must-have accessory for anyone looking to maximize their iPad experience. Reshape the way you work and play with Dual Pad.</p>
+            <h1 className="font-Inter mt-10 text-2xl font-semibold">Individual Mentor Assessments</h1>
+            {venture?.assessments && venture?.assessments.map((item, index) => {
+                if (memberType == "mentee")
+                    return (
+                        <div key={index}>
+                            <div className="flex flex-row items-center my-3">
+                                <img className="rounded-full" width={24} height={24} src={getMentorInfo(item._id).img} alt={"ddd"} />
+                                <h1 className="font-Inter ml-3 text-xl font-light">{getMentorInfo(item._id).name}:</h1>
+                            </div>
+                            <AnalysisAssessment chartData={getChartData(item._id)} />
+                            {/* <div className="flex flex-col w-[712px] mx-12 mt-4">
+                                <div className="ml-[120px] mb-2 flex justify-between mr-[16px]">
+                                    <span className="italic font-Inter text-[9px]">Highly risky</span>
+                                    <span className="italic font-Inter text-[9px]">Lower probable risk</span>
+                                </div>
+                                <IndividualRiskAssess index={0} assessment={item.value} handlePoint={() => { }} />
+                                <IndividualRiskAssess index={1} assessment={item.value} handlePoint={() => { }} />
+                                <IndividualRiskAssess index={2} assessment={item.value} handlePoint={() => { }} />
+                                <IndividualRiskAssess index={3} assessment={item.value} handlePoint={() => { }} />
+                                <div className="flex flex-row justify-center my-[2px]">
+                                    <div className="w-[60px] lg:w-[100px] h-[74px] rounded-md">
+                                    </div>
+                                    <div className="w-[100px] ml-2 mr-1 text-center my-[auto]">
+                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">Little to no proof/ traction</p>
+                                    </div>
+                                    <div className="w-[100px] ml-2 mr-1 text-center my-[auto]">
+                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">Some proof, not enough</p>
+                                    </div>
+                                    <div className="w-[100px] ml-2 mr-1 text-center my-[auto]">
+                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">On the right track</p>
+                                    </div>
+                                    <div className="w-[100px] ml-2 mr-1 text-center my-[auto]">
+                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">Promise evidence</p>
+                                    </div>
+                                    <div className="w-[100px] ml-2 mr-1 text-center my-[auto]">
+                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">Solid evidence, given stage of venture</p>
+                                    </div>
+                                </div>
+                            </div> */}
+                        </div>
+                    )
+                else if (user?._id == item._id)
+                    return (
+                        <div key={index}>
+                            <div className="flex flex-row items-center my-3">
+                                <img className="rounded-full" width={24} height={24} src={getMentorInfo(item._id).img} alt={"ddd"} />
+                                <h1 className="font-Inter ml-3 text-xl font-light">{getMentorInfo(item._id).name}:</h1>
+                            </div>
+                            <AnalysisAssessment chartData={getChartData(item._id)} />
+                            {/* <div className="flex flex-col w-[712px] mx-12 mt-4">
+                                <div className="ml-[120px] mb-2 flex justify-between mr-[16px]">
+                                    <span className="italic font-Inter text-[9px]">Highly risky</span>
+                                    <span className="italic font-Inter text-[9px]">Lower probable risk</span>
+                                </div>
+                                <IndividualRiskAssess index={0} assessment={item.value} handlePoint={() => { }} />
+                                <IndividualRiskAssess index={1} assessment={item.value} handlePoint={() => { }} />
+                                <IndividualRiskAssess index={2} assessment={item.value} handlePoint={() => { }} />
+                                <IndividualRiskAssess index={3} assessment={item.value} handlePoint={() => { }} />
+                                <div className="flex flex-row justify-center my-[2px]">
+                                    <div className="w-[60px] lg:w-[100px] h-[74px] rounded-md">
+                                    </div>
+                                    <div className="w-[100px] ml-2 mr-1 text-center my-[auto]">
+                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">Little to no proof/ traction</p>
+                                    </div>
+                                    <div className="w-[100px] ml-2 mr-1 text-center my-[auto]">
+                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">Some proof, not enough</p>
+                                    </div>
+                                    <div className="w-[100px] ml-2 mr-1 text-center my-[auto]">
+                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">On the right track</p>
+                                    </div>
+                                    <div className="w-[100px] ml-2 mr-1 text-center my-[auto]">
+                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">Promise evidence</p>
+                                    </div>
+                                    <div className="w-[100px] ml-2 mr-1 text-center my-[auto]">
+                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">Solid evidence, given stage of venture</p>
+                                    </div>
+                                </div>
+                            </div> */}
+                        </div>
+                    )
+            })}
+        </div>
+    )
+}
+
+export default RiskAssessmentDoc;

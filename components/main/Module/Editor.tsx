@@ -34,13 +34,13 @@ const Editor = ({ value, onChange }: EditorProps) => {
     };
 
     const handleEditorReady = (editor: any) => {
-        editor.setData(editorData);
+        editor.setData(editorData?editorData:"");
         editorRef.current = editor;
     };
 
     return (
-        <div className='sm:mt-[35px] mt-[10px]'>
-            <div className='sm:mt-[35px] mt-[10px] min-h-64'>
+        <div className='sm:mt-[25px] mt-[10px]'>
+            <div className='sm:mt-[25px] mt-[10px]'>
                     <>
                         <CKEditor
                             editor={ClassicEditor}
