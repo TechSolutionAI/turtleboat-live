@@ -36,6 +36,6 @@ export type MentorEvaluation = {
 export type VentureAssessment = {
   _id: string,
   value: number[],
-  articulates: [],
+  articulates: number[],
   lastUpdated: string
 }
