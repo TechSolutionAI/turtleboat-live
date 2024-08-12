@@ -490,7 +490,7 @@ const Index = () => {
                                     }
                                     {memberType == "mentee" &&
                                         <>
-                                            <h4 className="mt-[20px] font-bold font-Inter mb-[-35px]">Latest Draft Content</h4>
+                                            <h4 className="mt-[20px] font-bold font-Inter mb-[-35px]">Latest Founder Summary</h4>
                                             <Editor
                                                 value={summarize}
                                                 onChange={(data) => {
@@ -507,7 +507,7 @@ const Index = () => {
                                     }
                                     {(memberType == "mentor" && summarize) &&
                                         <>
-                                            <h4 className="mt-[20px] font-bold font-Inter mb-[20px]">Latest Draft Content</h4>
+                                            <h4 className="mt-[20px] font-bold font-Inter mb-[20px]">Latest Founder Summary</h4>
                                             <div className="flex flex-col">
                                                 <div className="flex flex-row justify-start items-center">
                                                     <img className="rounded-full" width={24} height={24} src={menteeImg ? menteeImg : ""} alt={"ddd"} />

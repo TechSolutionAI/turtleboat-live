@@ -70,7 +70,7 @@ const BubbleChart = ({ chartData }: {chartData: { x: number; y: number; z: numbe
                     </Scatter>
                 </ScatterChart>
             </ResponsiveContainer>
-            <div className='flex flex-col rounded-xl w-[650px] mt-6 px-10 py-4 bg-[#F2F8FC]'>
+            <div className='flex flex-col rounded-xl w-[650px] mt-3 px-10 py-2 bg-[#F2F8FC]'>
                 <h2 className='font-bold text-md font-Inter'>Ability to Articulate</h2>
                 <div className='flex flex-row justify-center'>
                     <div className='flex flex-col justify-center'>

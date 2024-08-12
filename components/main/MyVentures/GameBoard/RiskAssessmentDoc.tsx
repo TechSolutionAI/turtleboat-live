@@ -150,9 +150,9 @@ const RiskAssessmentDoc = ({ venture }: RiskAssessmentDocProps) => {
         <div className="mx-auto w-[795px]">
             <div className="flex flex-col w-full font-Inter">
                 <h1 className="text-2xl font-Inter text-center font-bold mt-10">{venture?.title}</h1>
-                <h1 className="font-Inter text-center text-xl">Reported from: {formatDate(venture?.updatedAt)}</h1>
+                <h1 className="font-Inter text-center text-xl">Reported from: {formatDate(new Date().toDateString())}</h1>
             </div>
-            <h1 className="font-Inter mt-6 font-semibold text-xl">Veture Team:
+            <h1 className="font-Inter mt-6 font-semibold text-xl">Venture Team:
                 {coMentees.map((item, index) => {
                     return (
                         <div key={index}>
@@ -182,8 +182,27 @@ const RiskAssessmentDoc = ({ venture }: RiskAssessmentDocProps) => {
             </h1>
             <p className="font-Inter">* Indicates completion of risk assessment</p>
             <h1 className="font-Inter mt-6 text-xl font-semibold">Elevator Pitch</h1>
-            <p className="font-Inter">Imagine unlocking the full potential of your iPads with just one case. Introducing Dual Pad, the revolutionary iPad case that allows you to seamlessly connect two iPads together for unparalleled multitasking. Whether you&#39;re a student, professional, or creative, Dual Pad enhances your productivity by letting you run two apps simultaneously, collaborate effortlessly, and streamline your workflow like never before. With its sleek design and intuitive functionality, Dual Pad is the must-have accessory for anyone looking to maximize their iPad experience. Reshape the way you work and play with Dual Pad.</p>
-            <h1 className="font-Inter mt-10 text-2xl font-semibold">Individual Mentor Assessments</h1>
+            {
+                venture?.storyTrain ?
+                    <>
+                        {
+                            venture.storyTrain.map((item, index) => {
+                                return (
+                                    <>
+                                        <p className="font-Inter text-md font-bold">{item.label}</p>
+                                        <p className="font-Inter">{item.value == "" ? "N/A" : item.value}</p>
+                                    </>
+                                )
+                            })
+                        }
+                    </> :
+                    <p className="font-Inter">N/A</p>
+            }
+            {
+                venture?.storyTrain ? 
+                <h1 className="font-Inter mt-[840px] text-2xl font-semibold">Individual Mentor Assessments</h1> : 
+                <h1 className="font-Inter mt-10 text-2xl font-semibold">Individual Mentor Assessments</h1>
+            }
             {venture?.assessments && venture?.assessments.map((item, index) => {
                 if (memberType == "mentee")
                     return (
