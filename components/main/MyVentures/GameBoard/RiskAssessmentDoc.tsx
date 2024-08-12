@@ -155,14 +155,14 @@ const RiskAssessmentDoc = ({ venture }: RiskAssessmentDocProps) => {
             <h1 className="font-Inter mt-6 font-semibold text-xl">Venture Team:
                 {coMentees.map((item, index) => {
                     return (
-                        <div key={index}>
+                        <div key={index} className="font-normal">
                             <span className="font-md"> {item.name},</span>
                         </div>
                     )
                 })}
                 {coMentors.map((item, index) => {
                     return (
-                        <div key={index}>
+                        <div key={index} className="font-normal">
                             <span className="font-md"> {item.name}</span>
                             {index != coMentors.length - 1 && <span>,</span>}
                         </div>
@@ -172,7 +172,7 @@ const RiskAssessmentDoc = ({ venture }: RiskAssessmentDocProps) => {
             <h1 className="font-Inter mt-6 font-semibold text-xl">Mentors:
                 {venture?.mentors.map((item, index) => {
                     return (
-                        <div key={index}>
+                        <div key={index} className="font-normal">
                             <span>{item.name}</span>
                             {alreadyAssessed(item?._id) && <span>*</span>}
                             {index != venture?.mentors.length - 1 && <span>, </span>}
@@ -208,7 +208,7 @@ const RiskAssessmentDoc = ({ venture }: RiskAssessmentDocProps) => {
                     return (
                         <div key={index}>
                             <div className="flex flex-row items-center my-3">
-                                <img className="rounded-full" width={24} height={24} src={getMentorInfo(item._id).img} alt={"ddd"} />
+                                {/* <img className="rounded-full" width={24} height={24} src={getMentorInfo(item._id).img} alt={"ddd"} /> */}
                                 <h1 className="font-Inter ml-3 text-xl font-light">{getMentorInfo(item._id).name}:</h1>
                             </div>
                             <AnalysisAssessment chartData={getChartData(item._id)} />
@@ -247,7 +247,7 @@ const RiskAssessmentDoc = ({ venture }: RiskAssessmentDocProps) => {
                     return (
                         <div key={index}>
                             <div className="flex flex-row items-center my-3">
-                                <img className="rounded-full" width={24} height={24} src={getMentorInfo(item._id).img} alt={"ddd"} />
+                                {/* <img className="rounded-full" width={24} height={24} src={getMentorInfo(item._id).img} alt={"ddd"} /> */}
                                 <h1 className="font-Inter ml-3 text-xl font-light">{getMentorInfo(item._id).name}:</h1>
                             </div>
                             <AnalysisAssessment chartData={getChartData(item._id)} />
