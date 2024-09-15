@@ -339,7 +339,7 @@ const Index = () => {
                 icon: "success",
                 title: "Success!",
                 allowOutsideClick: false,
-                text: `You evaluated successfully!`,
+                text: `You updated successfully!`,
             })
                 .then(() => {
                 })
