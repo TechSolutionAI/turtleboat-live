@@ -423,7 +423,7 @@ const Gameboard = () => {
         Progress Over Perfection
       </div>
       <p className="font-Inter text-[12px] mt-0 py-2 text-center">
-        Focused on the pre-idea to pre-recurring revenue stage, the purpose of the Turtleboat platform is to support early stage founders and increase the success rate of sustainable and scalable innovation. Recurring revenue is concrete data that a founder is on the right track, but in the earliest stages of a venture, there&#39;s usually no revenue yet. &#39;Traction&#39; becomes key, because it is demonstrable progress of feasibility and potential (and therefore lower risk).  Traction here  is assessed in terms of depth, breadth, and ability to articulate.
+        Focused on the pre-idea to pre-recurring revenue stage, the purpose of the Turtleboat platform is to support early stage founders and increase the success rate of sustainable and scalable innovation. Recurring revenue is concrete data that a founder is on the right track, but in the earliest stages of a venture, there&#39;s usually no revenue yet. “Traction” becomes key, because it is demonstrable progress of feasibility and potential (and therefore lower risk).  Traction here  is assessed in terms of depth, breadth, and ability to articulate.
       </p>
       <div className="block sm:flex items-center font-Inter justify-between">
         <div className="flex items-center">
@@ -466,7 +466,7 @@ const Gameboard = () => {
             Thinkspace
           </h2>
           <p className="font-Inter text-[12px] mt-0 py-2">
-            The founder&#39;s Thinkspace is illustrated as a puzzle.  The number of puzzle pieces &#39;flipped&#39; over (how many puzzle pieces have thoughtful -- yet unproven -- hypotheses documented)  illustrate how much breadth has been uncovered.  Depth is measured by the amount of talking/prototyping/testing/validating documented in each puzzle piece, assessed within each puzzle piece, and is reflected by the risk meters on this dashboard.
+            The founder&#39;s Thinkspace is illustrated as a puzzle.  The number of puzzle pieces “flipped” over (how many puzzle pieces have thoughtful -- yet unproven -- hypotheses documented)  illustrate how much breadth has been uncovered.  Depth is measured by the amount of talking/prototyping/testing/validating documented in each puzzle piece, assessed within each puzzle piece, and is reflected by the risk meters on this dashboard.
           </p>
           <div className="relative flex justify-center">
             <div className="bordering-circle absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[70%] h-[75%] rounded-[50%] border-2 border-[#9d9d9d66] box-border blur-[2px]"></div>
@@ -509,7 +509,7 @@ const Gameboard = () => {
                 Proof of Opportunity
               </h2>
               <p className="text-[12px] mt-0 py-2">
-                Connected to the &#39;enough proof&#39; switch inside each puzzle piece, founders can self-assess their progress and get a 30,000 foot view of the current state of the journey.  If there are assigned mentor(s), their risk assessment can be downloaded below.  Compare/contrast your self-assessment, includes how well you have transformed an &#39;I believe&#39; into an &#39;I now know this is true&#39; through iterations of talking/building prototypes/testing.
+                Connected to the “enough proof” switch inside each puzzle piece, founders can self-assess their progress and get a 30,000 foot view of the current state of the journey.  If there are assigned mentor(s), their risk assessment can be downloaded below.  Compare/contrast your self-assessment, includes how well you have transformed an “I believe” into an “I now know this is true” through iterations of talking/building prototypes/testing.
               </p>
             </div>
             <div className="flex-col justify-between grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-4">

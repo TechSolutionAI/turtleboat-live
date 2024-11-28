@@ -304,7 +304,7 @@ const Videos = () => {
             onChange={handleTypeChange}
             isSearchable={false}
             styles={{
-              control: (provided, state) => ({
+              control: (provided: any, state: any) => ({
                 ...provided,
                 borderRadius: "5px",
                 marginTop: "0px",
@@ -313,7 +313,7 @@ const Videos = () => {
                   ? "1px solid #2E65F3"
                   : "1px solid #2E65F3",
               }),
-              option: (provided, state) => ({
+              option: (provided: any, state: any) => ({
                 ...provided,
                 backgroundColor: state.isSelected ? "#2E65F3" : "transparent",
                 color: state.isSelected ? "white" : "#4a5568",
@@ -331,7 +331,7 @@ const Videos = () => {
             onChange={handleStatusChange}
             isSearchable={false}
             styles={{
-              control: (provided, state) => ({
+              control: (provided: any, state: any) => ({
                 ...provided,
                 borderRadius: "5px",
                 marginTop: "0px",
@@ -340,7 +340,7 @@ const Videos = () => {
                   ? "1px solid #2E65F3"
                   : "1px solid #2E65F3",
               }),
-              option: (provided, state) => ({
+              option: (provided: any, state: any) => ({
                 ...provided,
                 backgroundColor: state.isSelected ? "#2E65F3" : "transparent",
                 color: state.isSelected ? "white" : "#4a5568",

@@ -212,7 +212,7 @@ const Add = ({}: {}) => {
               }}
               className="mt-3"
               styles={{
-                control: (provided, state) => ({
+                control: (provided: any, state: any) => ({
                   ...provided,
                   borderRadius: "5px",
                   padding: "3px",
@@ -220,7 +220,7 @@ const Add = ({}: {}) => {
                     ? "1px solid #2E65F3"
                     : "1px solid #2E65F3",
                 }),
-                option: (provided, state) => ({
+                option: (provided: any, state: any) => ({
                   ...provided,
                   backgroundColor: state.isSelected ? "#2E65F3" : "transparent",
                   color: state.isSelected ? "white" : "#4a5568",
@@ -257,7 +257,7 @@ const Add = ({}: {}) => {
               }}
               className="mt-3"
               styles={{
-                control: (provided, state) => ({
+                control: (provided: any, state: any) => ({
                   ...provided,
                   borderRadius: "5px",
                   padding: "3px",
@@ -265,7 +265,7 @@ const Add = ({}: {}) => {
                     ? "1px solid #2E65F3"
                     : "1px solid #2E65F3",
                 }),
-                option: (provided, state) => ({
+                option: (provided: any, state: any) => ({
                   ...provided,
                   backgroundColor: state.isSelected ? "#2E65F3" : "transparent",
                   color: state.isSelected ? "white" : "#4a5568",

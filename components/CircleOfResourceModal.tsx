@@ -140,7 +140,7 @@ const CircleOfResourceModal = ({
                         chooseVenture(venture.value);
                       }}
                       styles={{
-                        control: (provided, state) => ({
+                        control: (provided: any, state: any) => ({
                           ...provided,
                           borderRadius: "5px",
                           padding: "3px",
@@ -148,7 +148,7 @@ const CircleOfResourceModal = ({
                             ? "1px solid #2E65F3"
                             : "1px solid #2E65F3",
                         }),
-                        option: (provided, state) => ({
+                        option: (provided: any, state: any) => ({
                           ...provided,
                           backgroundColor: state.isSelected
                             ? "#2E65F3"
@@ -187,7 +187,7 @@ const CircleOfResourceModal = ({
                     )}
                     placeholder={`Select Circle of Resource..`}
                     isSearchable={false}
-                    onChange={(circle) => {
+                    onChange={(circle: any) => {
                       let tempData: CircleOfResource = {
                         ...data,
                         circleDistance: circle!.value,
@@ -195,7 +195,7 @@ const CircleOfResourceModal = ({
                       setData(tempData);
                     }}
                     styles={{
-                      control: (provided, state) => ({
+                      control: (provided: any, state: any) => ({
                         ...provided,
                         borderRadius: "5px",
                         padding: "3px",
@@ -203,7 +203,7 @@ const CircleOfResourceModal = ({
                           ? "1px solid #2E65F3"
                           : "1px solid #2E65F3",
                       }),
-                      option: (provided, state) => {
+                      option: (provided: any, state: any) => {
                         return {
                           ...provided,
                           backgroundColor: state.isSelected
@@ -217,7 +217,7 @@ const CircleOfResourceModal = ({
                           },
                         };
                       },
-                      singleValue: (provided, state) => ({
+                      singleValue: (provided: any, state: any) => ({
                         ...provided,
                         ...dot(state.data.color),
                       }),
@@ -267,12 +267,12 @@ const CircleOfResourceModal = ({
                     )}
                     placeholder={`Select type of asset..`}
                     isSearchable={false}
-                    onChange={(type) => {
+                    onChange={(type: any) => {
                       let tempData = { ...data, typeOfAsset: type!.label };
                       setData(tempData);
                     }}
                     styles={{
-                      control: (provided, state) => ({
+                      control: (provided: any, state: any) => ({
                         ...provided,
                         borderRadius: "5px",
                         padding: "3px",
@@ -280,7 +280,7 @@ const CircleOfResourceModal = ({
                           ? "1px solid #2E65F3"
                           : "1px solid #2E65F3",
                       }),
-                      option: (provided, state) => ({
+                      option: (provided: any, state: any) => ({
                         ...provided,
                         backgroundColor: state.isSelected
                           ? "#2E65F3"
