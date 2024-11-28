@@ -36,7 +36,7 @@ const View = ({
                                 <label className='font-Inter font-semibold tracking-[0.1em] text-[#232325]'>Attachments</label>
                                 <div className='mt-[10px] flex flex-col items-center justify-evenly'>
                                     {
-                                        existFiles.map((file, index) => {
+                                        existFiles.map((file: any, index: number) => {
                                             return (
                                                 <div key={`"exist_file_"${index}`} className='w-full flex items-center justify-between rounded py-3 px-2'>
                                                     <div className="flex flex-row items-center gap-2">

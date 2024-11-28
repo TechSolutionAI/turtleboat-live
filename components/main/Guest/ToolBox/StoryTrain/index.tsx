@@ -194,7 +194,7 @@ const Index = () => {
                         </div>
                         <div className="py-10 flex space-between font-Inter">
                             {
-                                trainItems.map((item, index) => { 
+                                trainItems.map((item: any, index: number) => { 
                                     return (
                                         <div className='relative' key={`train-${index}`}>
                                             <Image src={trainAssets[item.order].img} alt={item.label}/>
@@ -242,7 +242,7 @@ const Index = () => {
                                 {(provided) => (
                                     <div ref={provided.innerRef} {...provided.droppableProps} className="grid grid-cols-1 lg:grid-cols-6 gap-y-[30px] gap-x-8 trains">
                                         {
-                                            trainItems.map((item, index) => {
+                                            trainItems.map((item: any, index: number) => {
                                                 if (index == 0 || index == trainItems.length - 1) {
                                                     return (
                                                         <div

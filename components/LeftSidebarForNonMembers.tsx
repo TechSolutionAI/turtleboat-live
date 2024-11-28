@@ -67,7 +67,7 @@ const LeftSidebarForNonMembers = ({ noSelNav }: { noSelNav?: boolean }) => {
                 <div className="w-full m-auto">
                     <div className="flex flex-col items-center w-full">
                     {
-                        guestMenu.map((item, idx) => {
+                        guestMenu.map((item: string, idx: number) => {
                             return (
                                 <SidebarItem
                                     key={idx}

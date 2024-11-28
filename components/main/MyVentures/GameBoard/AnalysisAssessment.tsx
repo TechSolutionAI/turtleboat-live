@@ -64,7 +64,7 @@ const BubbleChart = ({ chartData }: {chartData: { x: number; y: number; z: numbe
                     <XAxis type="number" dataKey="x" name='X Axis' label={{ value: 'Breadth', position: 'insideBottomRight', offset: -5 }} tickCount={4} tickFormatter={customTickFormatter} />
                     <YAxis type="number" dataKey="y" name='Y Axis' label={{ value: 'Depth', position: 'insideTopLeft', offset: -5 }} tickCount={4} tickFormatter={customTickFormatter} />
                     <Scatter name="Bubbles" data={chartData} shape={<CustomBubble />}>
-                        {chartData && chartData.map((entry, index) => (
+                        {chartData && chartData.map((entry: any, index: number) => (
                             <CustomBubble key={`bubble-${index}`} {...entry} />
                         ))}
                     </Scatter>

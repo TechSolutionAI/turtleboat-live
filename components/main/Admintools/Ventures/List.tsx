@@ -188,7 +188,7 @@ const List = ({
             </tr>
           </thead>
           <tbody>
-            {ventures.map((item, index) => {
+            {ventures.map((item: Venture, index: number) => {
               return archivingIndex === index ? (
                 <tr className="bg-white border-b" key={"archiving_" + index}>
                   <th

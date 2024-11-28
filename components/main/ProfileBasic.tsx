@@ -116,7 +116,7 @@ const ProfileBasic = ({
                                 ?
                                 <CountryDropdown
                                   value={country}
-                                  onChange={(val) => {
+                                  onChange={(val: string) => {
                                     val == '' ? setCountryError(`${question.fieldName} is required`) : setCountryError('');
                                     handleChange(question.name, val);
                                     setFormCountry(val);
@@ -131,7 +131,7 @@ const ProfileBasic = ({
                                   <RegionDropdown
                                     value={region}
                                     country={country}
-                                    onChange={(val) => {
+                                    onChange={(val: string) => {
                                       val == '' ? setRegionError(`${question.fieldName} is required`) : setRegionError('');
                                       handleChange(question.name, val);
                                       setFormRegion(val);

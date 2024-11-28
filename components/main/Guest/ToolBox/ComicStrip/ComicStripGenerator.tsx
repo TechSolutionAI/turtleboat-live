@@ -96,7 +96,7 @@ const ComicStripGenerator = () => {
                 <div className="flex justify-center lg:pl-[250px] xl:pl-[300px] sm-w-full">
                     <ul className="flex text-gray-500">
                         {
-                            tablist.map((item, index) => {
+                            tablist.map((item: string, index: number) => {
                                 return (
                                     <li className="mr-2" key={`tab-${index}`}>
                                         <a href="#"

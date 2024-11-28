@@ -51,7 +51,7 @@ const Index = () => {
         <Spinner text={"Loading ventures..."} />
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-[30px] gap-x-10 items-center">
-          {ventures.map((item, index) => {
+          {ventures.map((item: Venture, index: number) => {
             return (
               <div
                 className={`cursor-pointer`}

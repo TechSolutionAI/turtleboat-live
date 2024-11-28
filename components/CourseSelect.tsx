@@ -52,12 +52,12 @@ const CourseSelect = ({ setCourse, courseValue }: any) => {
                 value={selectedCourse}
                 placeholder={`Select Course ...`}
                 isSearchable={true}
-                onChange={(course) => {
+                onChange={(course: any) => {
                     setSelectedCourse(course)
                     setCourse(course?.value)
                 }}
-                onInputChange={(text) => setSearchText(text)}
-                filterOption={(course, inputValue) => {
+                onInputChange={(text: string) => setSearchText(text)}
+                filterOption={(course: any, inputValue: string) => {
                     const label = course.label.toLowerCase();
                     const value = course.value.toLowerCase();
                     const search = inputValue.toLowerCase();

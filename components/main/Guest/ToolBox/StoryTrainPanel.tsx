@@ -70,7 +70,7 @@ const StoryTrainPanel = ({
                         ventureId == undefined || ventureId == null || data == null ?
                         // <Image src={TrainImg} alt={'Train'} /> :
                         <TrainImg alt={'Train'} /> :
-                        data != undefined && data.map((item, index) => { 
+                        data != undefined && data.map((item: any, index: number) => { 
                             return (
                                 <div className='relative' key={`train-${index}`}>
                                     <Image src={trainAssets[item.order].img} alt={item.label}/>

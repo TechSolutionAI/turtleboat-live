@@ -45,7 +45,7 @@ const InviteLemonadeParticipants = ({
     const onSendClicked = () => {
         const sendInvite = async () => {
             setIsSending(true);
-            const participantList = participants.map((participant) => {
+            const participantList = participants.map((participant: any) => {
                 return {
                     _id: participant.value,
                     name: participant.label,

@@ -657,7 +657,7 @@ const Gameboard = () => {
         </p>
       </div>
       <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-y-[30px] gap-x-8">
-        {ToolBoxes.map((item) => {
+        {ToolBoxes.map((item: any) => {
           return item.link != "" ? (
             item.id != 5 ? (
               <a

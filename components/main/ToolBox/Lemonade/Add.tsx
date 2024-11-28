@@ -207,7 +207,7 @@ const Add = ({}: {}) => {
               value={purpose}
               placeholder={`Select type of purpose`}
               isSearchable={false}
-              onChange={(type) => {
+              onChange={(type: any) => {
                 setPurpose(type);
               }}
               className="mt-3"
@@ -252,7 +252,7 @@ const Add = ({}: {}) => {
               placeholder={`Select type of pillar`}
               isClearable={true}
               isSearchable={false}
-              onChange={(type) => {
+              onChange={(type: any) => {
                 setPillar(type);
               }}
               className="mt-3"

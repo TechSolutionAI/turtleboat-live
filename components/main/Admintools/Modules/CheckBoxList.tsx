@@ -70,7 +70,7 @@ const CheckBoxList = ({
     return (
         <div className="grid sm:grid-cols-3 grid-cols-2 gap-3 ml-[10px] sm:mt-[35px] mt-[10px]">
             {
-                selectableData.map((item, index) => {
+                selectableData.map((item: string, index: number) => {
                     return (
                         <div className='flex items-center font-Inter font-bold text-[16px]' key={index}>
                             <input

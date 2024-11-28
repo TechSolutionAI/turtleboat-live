@@ -73,7 +73,7 @@ const VideosWithType = ({
       {
         <>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {videos.map((item, index) => {
+            {videos.map((item: NinetyVideo, index: number) => {
               if (index < 6 || showAll)
                 return (
                   <div key={`video_${index}`}>

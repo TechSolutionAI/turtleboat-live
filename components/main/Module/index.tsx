@@ -494,7 +494,7 @@ const Index = () => {
                                             <h4 className="mt-[20px] font-bold font-Inter mb-[-35px]">Latest Founder Summary</h4>
                                             <Editor
                                                 value={summarize}
-                                                onChange={(data) => {
+                                                onChange={(data: string) => {
                                                     setSummarize(data);
                                                 }}
                                             />
@@ -546,7 +546,7 @@ const Index = () => {
                                     }
                                     <Editor
                                         value={commentContent}
-                                        onChange={(data) => {
+                                        onChange={(data: string) => {
                                             setCommentContent(data);
                                         }}
                                     />

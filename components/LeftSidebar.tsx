@@ -146,7 +146,7 @@ const LeftSidebar = ({ noSelNav }: { noSelNav?: boolean }) => {
             </a>
             <div className="w-full">
               <div className="flex flex-col items-center w-full">
-                {menu.map((item, idx) => {
+                {menu.map((item: string, idx: number) => {
                   return (
                     <SidebarItem
                       key={idx}

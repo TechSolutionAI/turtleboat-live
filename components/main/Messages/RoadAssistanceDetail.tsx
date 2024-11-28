@@ -144,7 +144,7 @@ const RoadAssistanceDetail = () => {
             </a>
             <div className="flex justify-center sm-w-full">
               <ul className="block md:flex text-gray-500">
-                {tablist.map((item, index) => {
+                {tablist.map((item: any, index: number) => {
                   return (
                     <li className="mr-2 flex items-center" key={`tab-${index}`}>
                       <Link

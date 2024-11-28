@@ -48,7 +48,7 @@ const RoadAssistanceUpload = ({
 
             {
                 files.length > 0 && <div className='mt-[10px] flex flex-col items-center justify-evenly'>
-                    {files.map((file, index) => {
+                    {files.map((file: any, index: number) => {
                         return (
                             <div key={`"uploading_file_"${index}`} className='w-full flex items-center justify-between rounded p-3'>
                                 <div className="flex flex-row items-center gap-2">

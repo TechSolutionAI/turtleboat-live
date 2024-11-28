@@ -146,7 +146,7 @@ const Index = () => {
                 My Activity Level
               </h1>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-[30px] gap-x-10 items-center">
-                {rewards.map((item, index) => {
+                {rewards.map((item: any, index: number) => {
                   return (
                     <div
                       className={`cursor-pointer`}

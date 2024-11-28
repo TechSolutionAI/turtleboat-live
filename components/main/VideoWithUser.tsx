@@ -50,7 +50,7 @@ const VideoWithUser = ({
         <div className="flex -space-x-2 items-center h-10 px-[10px] py-[10px]"></div>
       ) : (
         <div className="flex -space-x-2 items-center h-10 px-[10px] py-[10px]">
-          {usedEmojis.map((value, index) => {
+          {usedEmojis.map((value: number, index: number) => {
             return (
               <Image
                 key={index}

@@ -382,7 +382,7 @@ const Details = () => {
                       </div>
                     )}
 
-                    {commentList.map((item, index) => {
+                    {commentList.map((item: VideoComment, index: number) => {
                       return (
                         <div
                           key={`comment_${index}`}

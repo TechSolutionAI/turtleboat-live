@@ -216,7 +216,7 @@ const ModuleEdit = ({ setEditOpen, selectedData, editData, index }: any) => {
                                                     </div>
                                                     <Editor
                                                         value={content}
-                                                        onChange={(data) => {
+                                                        onChange={(data: string) => {
                                                         if (data == "") {
                                                             setContentError("Content is required");
                                                         }

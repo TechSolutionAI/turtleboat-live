@@ -296,7 +296,7 @@ const NotificationGroup = () => {
         />
         {isOpen && (
           <div className="ml-10">
-            {notifications.map((notification, idx: number) => (
+            {notifications.map((notification: Notification, idx: number) => (
               <NotificationComponent
                 notification={notification}
                 key={`${groupKey}-${idx}`}

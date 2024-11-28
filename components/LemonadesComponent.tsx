@@ -4,6 +4,7 @@ import { useNotification } from "@/lib/useNotification";
 import assistance_img from "/public/static/images/assistance_black.png";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Flag from "./Flag";
+import { Notification } from '@/types/notification.type';
 
 const LemonadesComponent = () => {
   const router = useRouter();
@@ -86,7 +87,7 @@ const LemonadesComponent = () => {
 
   return (
     <div>
-      {notifications.map((notification, idx: number) => (
+      {notifications.map((notification: Notification, idx: number) => (
         <div
           key={notification._id}
           className="flex mt-4 justify-between px-[10px] py-[15px] font-Inter text-[16px] border border-primary-blue bg-white rounded-lg hover:bg-tertiary-blue"

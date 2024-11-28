@@ -153,14 +153,14 @@ const RiskAssessmentDoc = ({ venture }: RiskAssessmentDocProps) => {
                 <h1 className="font-Inter text-center text-xl">Reported from: {formatDate(new Date().toDateString())}</h1>
             </div>
             <h1 className="font-Inter mt-6 font-semibold text-xl">Venture Team:
-                {coMentees.map((item, index) => {
+                {coMentees.map((item: User, index: number) => {
                     return (
                         <div key={index} className="font-normal">
                             <span className="font-md"> {item.name},</span>
                         </div>
                     )
                 })}
-                {coMentors.map((item, index) => {
+                {coMentors.map((item: User, index: number) => {
                     return (
                         <div key={index} className="font-normal">
                             <span className="font-md"> {item.name}</span>
@@ -170,7 +170,7 @@ const RiskAssessmentDoc = ({ venture }: RiskAssessmentDocProps) => {
                 })}
             </h1>
             <h1 className="font-Inter mt-6 font-semibold text-xl">Mentors:
-                {venture?.mentors.map((item, index) => {
+                {venture?.mentors.map((item: any, index: number) => {
                     return (
                         <div key={index} className="font-normal">
                             <span>{item.name}</span>
@@ -186,7 +186,7 @@ const RiskAssessmentDoc = ({ venture }: RiskAssessmentDocProps) => {
                 venture?.storyTrain ?
                     <>
                         {
-                            venture.storyTrain.map((item, index) => {
+                            venture.storyTrain.map((item: any, index: number) => {
                                 return (
                                     <>
                                         <p className="font-Inter text-md font-bold">{item.label}</p>

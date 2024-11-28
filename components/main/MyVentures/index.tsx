@@ -491,7 +491,7 @@ const Index = () => {
                 Ventures as Mentor
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-[30px] gap-x-10 items-center">
-                {venturesAsMentor.map((item, index) => {
+                {venturesAsMentor.map((item: Venture, index: number) => {
                   // const memberList = [item.mentee, ...item.mentors];
                   const memberList = [item.mentee];
                   const groupLength = Math.min(2, memberList.length);
@@ -576,7 +576,7 @@ const Index = () => {
                 Team Ventures
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-[30px] gap-x-10 items-center">
-                {teamVentures.map((item, index) => {
+                {teamVentures.map((item: Venture, index: number) => {
                   // const memberList = [item.mentee, ...item.mentors];
                   const memberList = [item.mentee];
                   const groupLength = Math.min(2, memberList.length);

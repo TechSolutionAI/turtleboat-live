@@ -175,7 +175,7 @@ const Index = () => {
           </div>
           <div className="flex justify-center">
             <ul className="flex text-gray-500">
-              {collaTablist.map((item, index) => {
+              {collaTablist.map((item: string, index: number) => {
                 return (
                   <li className="mr-2" key={`tab-${index}`}>
                     <a
@@ -212,7 +212,7 @@ const Index = () => {
             <Upload setFormFiles={setFormFiles} isInit={isCommentSaved} />
             <Editor
               value={commentContent}
-              onChange={(data) => {
+              onChange={(data: string) => {
                 setCommentContent(data);
               }}
             />

@@ -206,7 +206,7 @@ const ClaimRewardModal = ({
                                                         useRange={false} 
                                                         asSingle={true} 
                                                         value={selectedDates[index]} 
-                                                        onChange={(date) => handleDateSelected(date, index)}
+                                                        onChange={(date: any) => handleDateSelected(date, index)}
                                                         minDate={new Date()} 
                                                         maxDate={new Date(new Date().getTime() + (6 * 7 * 24 * 60 * 60 * 1000))}
                                                     /> 

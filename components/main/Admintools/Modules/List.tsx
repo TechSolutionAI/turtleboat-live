@@ -135,7 +135,7 @@ const List = ({ data, editData, deleteData, duplicateData, setSelectedTitle }: {
                 !editOpen && !viewOpen &&
                 <div className='pt-[75px] grid grid-cols-1 xl:grid-cols-2 gap-x-[100px]'>
                     {
-                        data.map((item, index) => {
+                        data.map((item: Module, index: number) => {
                             return (
                                 deletingIndex === index
                                     ?

@@ -186,7 +186,7 @@ const Ventures = () => {
                   value={selectedCourse}
                   placeholder={`Select Course ...`}
                   isSearchable={true}
-                  onChange={(course) => {
+                  onChange={(course: any) => {
                     if (course != null) {
                       setSelectedCourse(course);
                       let temp = [...venturesData];
