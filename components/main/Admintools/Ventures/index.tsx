@@ -200,8 +200,8 @@ const Ventures = () => {
                       );
                     }
                   }}
-                  onInputChange={(text) => setSearchText(text)}
-                  filterOption={(course, inputValue) => {
+                  onInputChange={(text: string) => setSearchText(text)}
+                  filterOption={(course: any, inputValue: string) => {
                     const label = course.label.toLowerCase();
                     const value = course.value.toLowerCase();
                     const search = inputValue.toLowerCase();
