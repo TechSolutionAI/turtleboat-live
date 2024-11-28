@@ -173,7 +173,7 @@ const UserSelect = ({
                                 color: state.isSelected ? 'white' : '#4a5568'
                             }
                         }),
-                        multiValueRemove: (base) => ({
+                        multiValueRemove: (base: any) => ({
                             ...base,
                             ':hover': {
                                 backgroundColor: 'transparent',
