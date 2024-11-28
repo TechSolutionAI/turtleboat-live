@@ -90,11 +90,11 @@ const UserDetail = () => {
           ? user?.name
           : user?.basicProfile?.firstName + " " + user?.basicProfile?.lastName
       );
-      if (currentUser?.followers?.includes(user._id)) {
-        setFollow(true);
-      } else {
-        setFollow(false);
-      }
+      // if (currentUser?.followers?.includes(user._id)) {
+      //   setFollow(true);
+      // } else {
+      //   setFollow(false);
+      // }
     }
   };
 
