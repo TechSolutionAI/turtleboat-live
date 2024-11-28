@@ -166,18 +166,18 @@ const UserDetail = () => {
     }
   };
 
-  const handleFollow = () => {
-    let followers: any[] = currentUser?.followers ?? [];
+  // const handleFollow = () => {
+  //   let followers: any[] = currentUser?.followers ?? [];
 
-    if (followers.includes(userInfo?._id?.toString())) {
-      followers = followers.filter(
-        (followerId) => followerId !== userInfo?._id?.toString()
-      );
-    } else {
-      followers.push(userInfo?._id?.toString());
-    }
-    updateUser({ followers: followers });
-  };
+  //   if (followers.includes(userInfo?._id?.toString())) {
+  //     followers = followers.filter(
+  //       (followerId) => followerId !== userInfo?._id?.toString()
+  //     );
+  //   } else {
+  //     followers.push(userInfo?._id?.toString());
+  //   }
+  //   updateUser({ followers: followers });
+  // };
 
   const updateUser = async (data: any) => {
     const response = await fetch(`/api/users/${currentUser._id}`, {
