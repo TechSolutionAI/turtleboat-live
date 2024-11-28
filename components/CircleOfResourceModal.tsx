@@ -134,7 +134,7 @@ const CircleOfResourceModal = ({
                       )}
                       placeholder={`Select Venture`}
                       isSearchable={false}
-                      onChange={(venture) => {
+                      onChange={(venture: any) => {
                         setVentureSelected(true);
                         setVentureId(venture.value);
                         chooseVenture(venture.value);
