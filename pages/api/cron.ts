@@ -2,7 +2,10 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import clientPromise from "@/utils/mongodb";
 import sendgrid from "@sendgrid/mail";
 import { ObjectId } from "mongodb";
+
 const SERVER_ERR_MSG = "Something went wrong in a server.";
+
+sendgrid.setApiKey(process.env.SENDGRID_API_KEY ?? "");
 
 export default async function handler(
     req: NextApiRequest,
@@ -13,9 +16,9 @@ export default async function handler(
         const db = client.db(process.env.MONGODB_NAME);
 
         // Remove Expired Ninety Videos
-        const result = await db
-            .collection("ninetyvideos")
-            .deleteMany({ expireAt: { $lt: new Date() } })
+        // const result = await db
+        //     .collection("ninetyvideos")
+        //     .deleteMany({ expireAt: { $lt: new Date() } })
 
         // Send Daily Digest Notifications
         const unreadNotifications = await db.collection("notifications")

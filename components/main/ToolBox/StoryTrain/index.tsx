@@ -21,7 +21,11 @@ import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownR
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 import Spinner from "@/components/Spinner";
+import CommentItem from "@/components/main/Module/CommentItem";
+import Upload from "@/components/main/Module/Upload";
+import Editor from "@/components/main/Module/Editor";
 import { Venture } from "@/types/venture.type";
+import { Comment } from "@/types/module.type";
 import { trains } from "@/utils/constant";
 
 const trainAssets = [
@@ -75,6 +79,13 @@ const Index = () => {
   const [ventureList, setVentureList] = useState<any[]>([]);
   const [saveDropdownOpen, setSaveDropdownOpen] = useState<boolean>(false);
   const [selectedVentureIndex, setSelectedVentureIndex] = useState<number>(-1);
+  const [serverTime, setServerTime] = useState<string>("");
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [commentContent, setCommentContent] = useState<string>("");
+  const [memberType, setMemberType] = useState<string>("");
+  const [files, setFormFiles] = useState<FileList | null>(null);
+  const [isCommentSaved, setIsCommentSaved] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
 
   const getVenture = async () => {
     if (ventureId != "") {
@@ -93,10 +104,16 @@ const Index = () => {
         if (venture.mentee != null && venture.mentee != undefined) {
           if (venture.mentee.email == user.email) {
             setIsEditable(true);
+            setMemberType("mentee");
+          } else {
+            setMemberType("mentor");
           }
         }
         if (venture.storyTrain != undefined && venture.storyTrain != null) {
           setTrainItems(venture.storyTrain);
+        }
+        if (venture.storyTrainComments != undefined && venture.storyTrainComments != null) {
+          setComments(venture.storyTrainComments);
         }
         setIsLoading(false);
       }
@@ -181,7 +198,7 @@ const Index = () => {
           allowOutsideClick: false,
           text: `Story Train was save successfully!`,
         })
-          .then(() => {})
+          .then(() => { })
           .catch((err) => console.log(err));
       }
     } else {
@@ -211,6 +228,53 @@ const Index = () => {
     let temp = [...trainItems];
     temp[index].value = e.target.value;
     setTrainItems(temp);
+  };
+
+  const addComment = (comment: Comment) => {
+    setComments((prev) => [...prev, comment]);
+    setCommentContent("");
+    setFormFiles(null);
+    setIsCommentSaved(true);
+  };
+
+  const saveComment = async () => {
+    if (commentContent != "" || files != null) {
+      const formData = new FormData();
+      formData.append("content", commentContent);
+      if (typeof ventureId === "string" && ventureId !== "") {
+        formData.append("vid", ventureId.toString());
+      }
+      if (typeof user._id === "string" && user._id !== "") {
+        formData.append("uid", user._id.toString());
+      }
+      if (files != null) {
+        for (let i = 0; i < files.length; i++) {
+          formData.append(`file${i}`, files[i]);
+        }
+      }
+
+      setIsCreating(true);
+      const response = await fetch("/api/comments/storytrain", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        setIsCreating(false);
+        const { err } = await response.json();
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: err,
+        }).then(() => {
+          setIsCreating(false);
+        }).catch((err) => console.log(err));
+      } else {
+        const { result } = await response.json();
+        setIsCreating(false);
+        addComment(result);
+      }
+    }
   };
 
   return (
@@ -315,9 +379,8 @@ const Index = () => {
                 <div className="relative" key={`train-${index}`}>
                   <Image src={trainAssets[item.order].img} alt={item.label} />
                   <p
-                    className={`font-Inter font-bold pt-5 truncate text-center text-[${
-                      trainAssets[item.order].color
-                    }]`}
+                    className={`font-Inter font-bold pt-5 truncate text-center text-[${trainAssets[item.order].color
+                      }]`}
                     style={{
                       color: `${trainAssets[item.order].color}`,
                     }}
@@ -326,9 +389,8 @@ const Index = () => {
                   </p>
                   {index == 0 ? (
                     <p
-                      className={`hidden lg:visible absolute w-full top-[30%] pr-[8%] pl-[15%] font-Inter font-bold break-words lg:text-xs xl:line-clamp-3 xl:text-sm text-xs line-clamp-3 text-[${
-                        trainAssets[item.order].color
-                      }]`}
+                      className={`hidden lg:visible absolute w-full top-[30%] pr-[8%] pl-[15%] font-Inter font-bold break-words lg:text-xs xl:line-clamp-3 xl:text-sm text-xs line-clamp-3 text-[${trainAssets[item.order].color
+                        }]`}
                       style={{
                         color: `${trainAssets[item.order].textColor}`,
                       }}
@@ -340,9 +402,8 @@ const Index = () => {
                     </p>
                   ) : (
                     <p
-                      className={`hidden lg:visible absolute w-full top-[20%] px-[8%] font-Inter font-bold break-words lg:text-xs xl:line-clamp-4 xl:text-sm text-xs line-clamp-3 text-[${
-                        trainAssets[item.order].color
-                      }]`}
+                      className={`hidden lg:visible absolute w-full top-[20%] px-[8%] font-Inter font-bold break-words lg:text-xs xl:line-clamp-4 xl:text-sm text-xs line-clamp-3 text-[${trainAssets[item.order].color
+                        }]`}
                       style={{
                         color: `${trainAssets[item.order].textColor}`,
                       }}
@@ -444,6 +505,52 @@ const Index = () => {
               )}
             </Droppable>
           </DragDropContext>
+
+          {/* <div className="mt-[40px] rounded-xl bg-[#F7F7F9] px-[40px] py-[34px] flex flex-col justify-center font-Inter">
+            <h1 className="font-Inter font-bold text-xl sm:mt-[35px] mt-[10px]">
+              Mentor/Mentee Discussion
+            </h1>
+            {
+              comments != null &&
+              comments.length > 0 &&
+              comments.map((comment: Comment, index: number) => {
+                return (
+                  <div key={`comment-${index}`}>
+                    <CommentItem comment={comment} serverTime={serverTime} />
+                  </div>
+                );
+              })
+            }
+            {
+              memberType == "mentee" ? (
+                <Upload setFormFiles={setFormFiles} isInit={isCommentSaved} />
+              ) : (
+                <></>
+              )
+            }
+            <Editor
+              value={commentContent}
+              onChange={(data) => {
+                setCommentContent(data);
+              }}
+            />
+            <div className="flex items-center justify-end font-Inter font-bold pt-5">
+              <button
+                className="text-[#232325] background-transparent px-6 py-2 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                type="button"
+                onClick={handleCancelClicked}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-primary-blue text-white active:bg-primary-blue px-6 py-3 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                type="button"
+                onClick={saveComment}
+              >
+                {isCreating ? <Spinner text="Posting..." /> : "Post"}
+              </button>
+            </div>
+          </div> */}
           {/* <ul className="grid grid-cols-6 gap-y-[30px] gap-x-8 trains">
                             {
                                 trains.map((item: any, index: number) => { 

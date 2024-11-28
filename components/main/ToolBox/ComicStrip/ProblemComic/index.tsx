@@ -58,7 +58,7 @@ const ProblemComicGenerator = ({
     const onCloseBtnClicked = () => {
         setShowModal(false);
     }
-    
+
     const updatePanel = (data: ComicPanel) => {
         let temp = [...panels];
         temp[selectedPanel] = data;
@@ -118,7 +118,7 @@ const ProblemComicGenerator = ({
 
     const onDragEnd = (result: any) => {
         if (!result.destination) return;
-       
+
         const items = Array.from(panels);
         const [reorderedItem] = items.splice(result.source.index, 1);
         items.splice(result.destination.index, 0, reorderedItem);
@@ -181,29 +181,29 @@ const ProblemComicGenerator = ({
                             <div className="p-6">
                                 <div>
                                     <p className="block mb-2 text-[#6F727A]">
-                                    Working through your Problem Comic Strip. 
-                                    This might take multiple iterations as you dig deeper to understand a problem better. Start off creating a visual of the problem you&#39;re thinking about. What is it? Is it back pain? You might start with an image of a throbbing back in the panel. Great start!
+                                        Working through your Problem Comic Strip.
+                                        This might take multiple iterations as you dig deeper to understand a problem better. Start off creating a visual of the problem you&#39;re thinking about. What is it? Is it back pain? You might start with an image of a throbbing back in the panel. Great start!
                                     </p>
                                     <p className="block mb-3 text-[#6F727A]">
-                                    Who has the problem? 
-                                    <br/>
-                                    You probably have someone in mind…maybe it&#39;s you, or your grandparent. Add that character into your comic strip, either in the same panel or in a different one.
+                                        Who has the problem?
+                                        <br />
+                                        You probably have someone in mind…maybe it&#39;s you, or your grandparent. Add that character into your comic strip, either in the same panel or in a different one.
                                     </p>
                                     <p className="block mb-3 text-[#6F727A]">
-                                    What triggers the problem? When/where does the problem happen? 
-                                    <br/>
-                                    Start to add images or captions to add context to the problem, such as on-the-job at a construction sight, playing with grandkids, or something else.
+                                        What triggers the problem? When/where does the problem happen?
+                                        <br />
+                                        Start to add images or captions to add context to the problem, such as on-the-job at a construction sight, playing with grandkids, or something else.
                                     </p>
                                     <p className="block mb-3 text-[#6F727A]">
-                                    What is the Character doing when the problem happens?
-                                    <br/>
-                                    Maybe they are playing with grandkids on the playground and pushing them on the swings triggers it. How do they address it? What is the pain like? Caption or add images to convey its severity.
+                                        What is the Character doing when the problem happens?
+                                        <br />
+                                        Maybe they are playing with grandkids on the playground and pushing them on the swings triggers it. How do they address it? What is the pain like? Caption or add images to convey its severity.
                                     </p>
                                     <p className="block mb-3 text-[#6F727A]">
-                                    In another panel, show how the pain affects what they are in the middle of what they are doing. Do they keep working their 9-5 job despite the pain and pop an Advil? Do they have to stop playing with the grandkids and go home? Do they end up bedridden for a few days? How do they fix the issue right now? Are there other characters in your story that should be added to your comic, either because they help you out or because this pain affects other people in the mix?
+                                        In another panel, show how the pain affects what they are in the middle of what they are doing. Do they keep working their 9-5 job despite the pain and pop an Advil? Do they have to stop playing with the grandkids and go home? Do they end up bedridden for a few days? How do they fix the issue right now? Are there other characters in your story that should be added to your comic, either because they help you out or because this pain affects other people in the mix?
                                     </p>
                                     <p className="block mb-3 text-[#6F727A]">
-                                    Feel free to play around and change the Setting of your story, even if it&#39;s the same Problem. Or swap out a different Character experiencing the same problem.
+                                        Feel free to play around and change the Setting of your story, even if it&#39;s the same Problem. Or swap out a different Character experiencing the same problem.
                                     </p>
                                 </div>
                             </div>
@@ -218,41 +218,41 @@ const ProblemComicGenerator = ({
                         isEditable &&
                         <DragDropContext onDragEnd={onDragEnd}>
                             <Droppable droppableId="panels">
-                            {(provided) => (
-                                <div ref={provided.innerRef} {...provided.droppableProps} className="px-3 lg:h-full lg:overflow-y-scroll overflow-y-scroll overflow-x-auto lg:border-r-4 lg:border-r-[#424242] lg:block flex">
-                                    {
-                                        panels.map((panelItem: ComicPanel, index: number) => {
-                                            return (
-                                                <Draggable
-                                                key={`panel-${index}`}
-                                                draggableId={index.toString()}
-                                                index={index}
-                                                >
-                                                {(provided) => (
-                                                    <a 
-                                                        {...provided.draggableProps}
-                                                        {...provided.dragHandleProps}
-                                                        ref={provided.innerRef}
-                                                        onClick={() => handlePanelClick(index)}
-                                                        className={`relative h-[100px] xl:h-[130px] lg:w-auto min-w-[175px] w-[175px] flex items-center m-2 text-gray-900 border border-2 ${selectedPanel == index ? 'border-[#E5632B] selected-panel' : 'border-[#424242]'} hover:border-[#E5632B] lg:mt-20 font-ObelixPro stroke-text panel-item`}>
-                                                        {
-                                                            panelItem.thumbnail != '' ?
-                                                            <img src={`${panelItem.thumbnail}`} className={`w-full h-full`}/> : 
-                                                            <></>
-                                                        }
-                                                        <span className="absolute -right-2 -bottom-4 text-[28px] text-secondary-gray-1">{index + 1}</span>
-                                                    </a>
-                                                )}
-                                                </Draggable>
-                                            )
-                                        })
-                                    }
-                                    {provided.placeholder}
-                                    <a onClick={handleAddPanel} className="cursor-pointer flex items-center justify-center m-2 text-gray-900 lg:mt-5 h-[100px] xl:h-[130px]">
-                                        <AddCircleIcon fontSize="large" />
-                                    </a>
-                                </div>
-                            )}
+                                {(provided) => (
+                                    <div ref={provided.innerRef} {...provided.droppableProps} className="px-3 lg:h-full lg:overflow-y-scroll overflow-y-scroll overflow-x-auto lg:border-r-4 lg:border-r-[#424242] lg:block flex">
+                                        {
+                                            panels.map((panelItem: ComicPanel, index: number) => {
+                                                return (
+                                                    <Draggable
+                                                        key={`panel-${index}`}
+                                                        draggableId={index.toString()}
+                                                        index={index}
+                                                    >
+                                                        {(provided) => (
+                                                            <a
+                                                                {...provided.draggableProps}
+                                                                {...provided.dragHandleProps}
+                                                                ref={provided.innerRef}
+                                                                onClick={() => handlePanelClick(index)}
+                                                                className={`relative h-[100px] xl:h-[130px] lg:w-auto min-w-[175px] w-[175px] flex items-center m-2 text-gray-900 border border-2 ${selectedPanel == index ? 'border-[#E5632B] selected-panel' : 'border-[#424242]'} hover:border-[#E5632B] lg:mt-20 font-ObelixPro stroke-text panel-item`}>
+                                                                {
+                                                                    panelItem.thumbnail != '' ?
+                                                                        <img src={`${panelItem.thumbnail}`} className={`w-full h-full`} /> :
+                                                                        <></>
+                                                                }
+                                                                <span className="absolute -right-2 -bottom-4 text-[28px] text-secondary-gray-1">{index + 1}</span>
+                                                            </a>
+                                                        )}
+                                                    </Draggable>
+                                                )
+                                            })
+                                        }
+                                        {provided.placeholder}
+                                        <a onClick={handleAddPanel} className="cursor-pointer flex items-center justify-center m-2 text-gray-900 lg:mt-5 h-[100px] xl:h-[130px]">
+                                            <AddCircleIcon fontSize="large" />
+                                        </a>
+                                    </div>
+                                )}
                             </Droppable>
                         </DragDropContext>
                     }
@@ -265,8 +265,8 @@ const ProblemComicGenerator = ({
                                         <a onClick={() => handlePanelClick(index)} key={`panel-${index}`} className={`relative h-[100px] xl:h-[130px] lg:w-auto min-w-[175px] w-[175px] flex items-center m-2 text-gray-900 border border-2 ${selectedPanel == index ? 'border-[#E5632B] selected-panel' : 'border-[#424242]'} hover:border-[#E5632B] lg:mt-20 font-ObelixPro stroke-text panel-item`}>
                                             {
                                                 panelItem.thumbnail != '' ?
-                                                <img src={`${panelItem.thumbnail}`} className={`w-full h-full`}/> : 
-                                                <></>
+                                                    <img src={`${panelItem.thumbnail}`} className={`w-full h-full`} /> :
+                                                    <></>
                                             }
                                             <span className="absolute -right-2 -bottom-4 text-[28px] text-secondary-gray-1">{index + 1}</span>
                                         </a>
@@ -280,9 +280,9 @@ const ProblemComicGenerator = ({
                 <div className="lg:col-span-10 col-span-1 p-8 overflow-y-scroll h-inherit">
                     <div className='flex items-end'>
                         {
-                            isEditingName ? 
-                            <input type='text' className='px-1 w-auto rounded-md font-ObelixPro text-[28px] text-secondary-gray-1 stroke-text border border-2 border-[#616060]' name='comic-title' value={title} onChange={(e) => handleTitleChange(e)}/> :
-                            <span className='truncate font-ObelixPro text-[28px] text-secondary-gray-1 stroke-text px-1'>{title}</span>
+                            isEditingName ?
+                                <input type='text' className='px-1 w-auto rounded-md font-ObelixPro text-[28px] text-secondary-gray-1 stroke-text border border-2 border-[#616060]' name='comic-title' value={title} onChange={(e) => handleTitleChange(e)} /> :
+                                <span className='truncate font-ObelixPro text-[28px] text-secondary-gray-1 stroke-text px-1'>{title}</span>
                         }
                         {
                             isEditable && (
@@ -301,13 +301,16 @@ const ProblemComicGenerator = ({
                             )
                         }
                     </div>
+                    <div>
+                        <h2 className='text-red-500 text-[24px] font-semibold'>&quot;a day in the life of&quot; storyboard.</h2>
+                    </div>
                     <div className='p-5 max-w-[1040px] m-auto'>
                         {
-                            panels.length > 0 && 
-                            <ComicStripEditor 
-                                showTipsModal={setShowModal} 
-                                updatePanel={updatePanel} 
-                                panelData={panels} 
+                            panels.length > 0 &&
+                            <ComicStripEditor
+                                showTipsModal={setShowModal}
+                                updatePanel={updatePanel}
+                                panelData={panels}
                                 selectedPanel={selectedPanel}
                                 isEditable={isEditable}
                                 type={'Problem'}

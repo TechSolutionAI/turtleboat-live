@@ -317,6 +317,7 @@ const Index = () => {
             body: JSON.stringify({
                 vid: selectedVentureId?.toString(),
                 mid: moduleId,
+                uid: user._id?.toString(),
                 summarize: summarize
             }),
         });
