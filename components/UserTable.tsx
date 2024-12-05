@@ -114,11 +114,13 @@ const UserTable = ({
   columns,
   data,
   handleRoleSwitched,
+  handleDailyDigestSwitched,
   handleDeleted,
 }: {
   columns: any[];
   data: any[];
   handleRoleSwitched: Function;
+  handleDailyDigestSwitched: Function;
   handleDeleted: Function;
 }) => {
   // Use the state and functions returned from useTable to build your UI
@@ -168,6 +170,13 @@ const UserTable = ({
     handleRoleSwitched({ id: rowData.values.action, data: { role: role } });
   };
 
+  const handleDailyDigestSwitch = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    rowData: any
+  ) => {
+    handleDailyDigestSwitched({ id: rowData.values.action, data: { dailyDigestEnabled: event.target.checked } });
+  };
+
   const handleDelete = (rowData: any) => {
     handleDeleted({ id: rowData.values.action });
   };
@@ -209,9 +218,8 @@ const UserTable = ({
                           )}
                         >
                           <div
-                            className={`${
-                              column.isCenter ? `block text-center` : `flex`
-                            } items-center justify-between min-h-[20px]`}
+                            className={`${column.isCenter ? `block text-center` : `flex`
+                              } items-center justify-between min-h-[20px]`}
                           >
                             {column.render("Header")}
                             <span>
@@ -251,16 +259,14 @@ const UserTable = ({
                             <td
                               key={row.values.action + "-" + cell.column.id}
                               {...cell.getCellProps()}
-                              className={`px-3 py-2 ${
-                                cell.column.isCenter ? `text-center` : ``
-                              }`}
+                              className={`px-3 py-2 ${cell.column.isCenter ? `text-center` : ``
+                                }`}
                             >
                               {cell.column.id == "status" ? (
                                 <StatusItem
                                   active={cell.value}
-                                  label={`${
-                                    cell.value ? `Completed` : `Incompleted`
-                                  }  `}
+                                  label={`${cell.value ? `Completed` : `Incompleted`
+                                    }  `}
                                 />
                               ) : cell.column.id == "admin" ? (
                                 <input
@@ -271,6 +277,16 @@ const UserTable = ({
                                   checked={row.original.admin}
                                   className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-blue"
                                   onChange={(e) => handleRoleSwitch(e, row)}
+                                />
+                              ) : cell.column.id == "dailyDigestEnabled" ? (
+                                <input
+                                  type="checkbox"
+                                  id={row.original.action}
+                                  name={row.original.action}
+                                  value={row.original.dailyDigestEnabled}
+                                  checked={row.original.dailyDigestEnabled}
+                                  className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-blue"
+                                  onChange={(e) => handleDailyDigestSwitch(e, row)}
                                 />
                               ) : cell.column.id == "action" ? (
                                 <DeleteIcon

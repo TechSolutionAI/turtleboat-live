@@ -41,23 +41,25 @@ export default async function handler(
                 const userId = new ObjectId(unreadNotifications[i]._id.toString());
                 const userInfo = await db.collection("users")
                     .findOne({ _id: userId });
-                await sendgrid.send({
-                    to: userInfo.email,
-                    from: {
-                        email: "yCITIES1@gmail.com",
-                        name: "Turtle Boat Daily Digest"
-                    },
-                    subject: 'Here is a summary of notifications from your CORE Community.',
-                    cc: process.env.CC_EMAIL,
-                    templateId: "d-6298f9b1ccc54fe08e5305c652d221a2",
-                    dynamicTemplateData: {
+                if (userInfo.dailyDigestEnabled) {
+                    await sendgrid.send({
+                        to: userInfo.email,
+                        from: {
+                            email: "yCITIES1@gmail.com",
+                            name: "Turtle Boat Daily Digest"
+                        },
                         subject: 'Here is a summary of notifications from your CORE Community.',
-                        link: `${process.env.HOME_URL}/dashboard/messages`,
-                        count: unreadNotifications[i].count,
-                        name: userInfo.name
-                    },
-                    isMultiple: false,
-                });
+                        cc: process.env.CC_EMAIL,
+                        templateId: "d-6298f9b1ccc54fe08e5305c652d221a2",
+                        dynamicTemplateData: {
+                            subject: 'Here is a summary of notifications from your CORE Community.',
+                            link: `${process.env.HOME_URL}/dashboard/messages`,
+                            count: unreadNotifications[i].count,
+                            name: userInfo.name
+                        },
+                        isMultiple: false,
+                    });
+                }
             } catch (err: any) {
                 console.log(err);
             }

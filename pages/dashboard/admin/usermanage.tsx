@@ -4,8 +4,10 @@ import UserTable from "@/components/UserTable";
 import Swal from "sweetalert2";
 import { GetServerSideProps } from "next";
 import { User } from "@/types/user.type";
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
+import { Session, getServerSession } from "next-auth";
 import Spinner from "@/components/Spinner";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 const UserManage = () => {
   const [users, setUsers] = useState<any[]>([]);
@@ -31,8 +33,8 @@ const UserManage = () => {
           name: user.isNewUser
             ? user.name
             : user?.basicProfile?.firstName +
-              " " +
-              user?.basicProfile?.lastName,
+            " " +
+            user?.basicProfile?.lastName,
           linkedinUrl: user.isNewUser
             ? ""
             : user?.basicProfile?.linkedinProfile,
@@ -49,6 +51,7 @@ const UserManage = () => {
             ? []
             : user?.advancedProfile?.familiarIndustry,
           totalTokens: user.totalEarnedTokens,
+          dailyDigestEnabled: user.dailyDigestEnabled
         };
         return userItem;
       });
@@ -109,6 +112,12 @@ const UserManage = () => {
       {
         Header: "Admin",
         accessor: "admin",
+        isCenter: true,
+        disableSortBy: true,
+      },
+      {
+        Header: "Daily Digest",
+        accessor: "dailyDigestEnabled",
         isCenter: true,
         disableSortBy: true,
       },
@@ -197,6 +206,35 @@ const UserManage = () => {
     });
   };
 
+  const handleDailyDigestSwitched = (data: any) => {
+    const dailyDigestEnabled = data.data.dailyDigestEnabled;
+    Swal.fire({
+      title: "Update User Daily Digest Setting",
+      text: `Are you sure you want to toggle Daily Digest Setting?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, update daily digest!",
+      cancelButtonText: "Cancel",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const result = await updateUser(data);
+        if (result.success) {
+          Swal.fire(
+            "User Daily Digest Updated",
+            `User has been updated to ${dailyDigestEnabled ? "On" : "Off"}`,
+            "success"
+          );
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: result.err,
+          });
+        }
+      }
+    });
+  };
+
   const handleFilterUsers = (value: string) => {
     const tempUsers = users;
     const filteredList = tempUsers.filter(
@@ -254,15 +292,15 @@ const UserManage = () => {
           columns={columns}
           data={filteredUsers}
           handleRoleSwitched={handleRoleSwitched}
+          handleDailyDigestSwitched={handleDailyDigestSwitched}
           handleDeleted={handleDeleted}
         />
       )}
     </DashboardLayout>
   );
 };
-
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
-  const session = await getSession(context);
+  const session: Session | null = await getServerSession(context.req, context.res, authOptions); // Use getServerSession
 
   if (!session) {
     return {
@@ -275,7 +313,7 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
 
   const user: User = session.user ?? {};
 
-  if (user.role != "admin") {
+  if (user.role !== "admin") {
     return {
       redirect: {
         permanent: false,

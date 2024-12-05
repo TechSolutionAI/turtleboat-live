@@ -19,7 +19,7 @@ export default function handler(
       break
     case 'POST':
       // Handle POST request
-      udateAssessment(req, res);
+      updateAssessment(req, res);
       break
     case 'PUT':
       // Handle PUT request
@@ -30,7 +30,7 @@ export default function handler(
   }
 }
 
-async function udateAssessment(req: NextApiRequest, res: NextApiResponse) {
+async function updateAssessment(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { uid, vid, assessments, articulates } = req.body;
     const ventureId = new ObjectId(vid.toString());

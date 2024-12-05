@@ -48,6 +48,25 @@ export const authOptions: any = {
       },
     }),
   ],
+  callbacks: {
+    async session({ session, token }: any) {
+      if (token) {
+        const client = await clientPromise;
+        const db = client.db(process.env.MONGODB_NAME);
+        const result = await db
+          .collection("users")
+          .find({ email: token.email })
+          .toArray();
+        if (!result.length) {
+          return Promise.reject(
+            new Error("Couldn't find your account on DB!")
+          );
+        }
+        session.user.role = result[0].role;
+      }
+      return session;
+    },
+  },
 };
 
 export default async function handler(
@@ -165,8 +184,8 @@ export default async function handler(
             username = verifiedUsers[0].isNewUser
               ? user.name
               : verifiedUsers[0]?.basicProfile?.firstName +
-                " " +
-                verifiedUsers[0]?.basicProfile?.lastName;
+              " " +
+              verifiedUsers[0]?.basicProfile?.lastName;
           }
           await db.collection("users").updateOne(
             {
