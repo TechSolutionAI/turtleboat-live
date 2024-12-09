@@ -143,7 +143,9 @@ const RiskAssessmentDoc = ({ venture }: RiskAssessmentDocProps) => {
                 setMemberType("mentor");
             }
         }
-        getCollaborators();
+        if (venture) {
+            getCollaborators();
+        }
     }, []);
 
     return (

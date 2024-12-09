@@ -104,6 +104,7 @@ async function udateEvaluation(req: NextApiRequest, res: NextApiResponse) {
       {
         $push: {
           "course.modules.$.evaluations": evaluationData,
+          "course.modules.$.lastUpdated": new Date(),
         },
       }
     );

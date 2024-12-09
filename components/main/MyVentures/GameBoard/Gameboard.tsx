@@ -9,7 +9,9 @@ import Swal from "sweetalert2";
 import SmsOutlinedIcon from "@mui/icons-material/SmsOutlined";
 import TrendingUp from "@mui/icons-material/TrendingUp";
 import Download from "@mui/icons-material/Download";
+import ArrowRightAlt from "@mui/icons-material/ArrowRightAlt";
 import html2canvas from 'html2canvas';
+import { Tab } from "@headlessui/react";
 import jsPDF from 'jspdf';
 import { Venture } from "@/types/venture.type";
 import { ModuleItem, VentureAssessment } from "@/types/module.type";
@@ -41,6 +43,11 @@ import UserAvatar from "@/components/UserAvatar";
 import WonderSquarePuzzle from "@/components/main/WonderSquarePuzzle";
 import EvaluatorAssessmentModal from "./EvaluatorAssessmentModal";
 import RiskAssessmentDoc from "./RiskAssessmentDoc";
+import { getLastUpdatedTimeString } from "@/utils/utils";
+
+function classNames(...classes: any) {
+  return classes.filter(Boolean).join(' ')
+}
 
 const ToolBoxes = [
   {
@@ -137,6 +144,7 @@ const Gameboard = () => {
   const [assessment, setAssessment] = useState<number[]>([]);
   const [assessmentCnt, setAssessmentCnt] = useState(0);
   const [articulate, setArticulate] = useState<number[]>([]);
+  const [serverTime, setServerTime] = useState<string>("");
 
   const getVenture = async () => {
     setIsLoading(true);
@@ -150,7 +158,8 @@ const Gameboard = () => {
       const { err } = await response.json();
       console.log(err);
     } else {
-      const { venture } = await response.json();
+      const { venture, serverTime } = await response.json();
+      setServerTime(serverTime);
       if (
         venture != null &&
         venture.audio != undefined &&
@@ -196,15 +205,19 @@ const Gameboard = () => {
                 setStartingPoint(checkedStartingPoint[0]);
                 break;
               case "Problem":
+                console.log("problems", filteredModules);
                 setProblems(filteredModules);
                 break;
               case "Character":
+                console.log("characters", filteredModules);
                 setCharacters(filteredModules);
                 break;
               case "Solution":
+                console.log("solutions", filteredModules);
                 setSolutions(filteredModules);
                 break;
               case "Setting":
+                console.log("settings", filteredModules);
                 setSettings(filteredModules);
                 break;
             }
@@ -409,7 +422,7 @@ const Gameboard = () => {
     }
   };
 
-  const handleUpdates = async() => {
+  const handleUpdates = async () => {
     getVenture();
   }
 
@@ -461,46 +474,114 @@ const Gameboard = () => {
       </div>
       <hr className="my-3" />
       <div className="relative grid grid-cols-1 xl:grid-cols-2 gap-x-8 gap-y-8">
-        <div className="w-fit shadow-md rounded-lg px-5 py-0 pb-4 md:w-full justify-center pt-4">
-          <h2 className="font-Inter font-bold text-[20px] text-[#232325] py-2">
-            Thinkspace
-          </h2>
-          <p className="font-Inter text-[12px] mt-0 py-2">
-            The founder&#39;s Thinkspace is illustrated as a puzzle.  The number of puzzle pieces “flipped” over (how many puzzle pieces have thoughtful -- yet unproven -- hypotheses documented)  illustrate how much breadth has been uncovered.  Depth is measured by the amount of talking/prototyping/testing/validating documented in each puzzle piece, assessed within each puzzle piece, and is reflected by the risk meters on this dashboard.
-          </p>
-          <div className="relative flex justify-center">
-            <div className="bordering-circle absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[70%] h-[75%] rounded-[50%] border-2 border-[#9d9d9d66] box-border blur-[2px]"></div>
-            <WonderSquarePuzzle
-              type="user"
-              settings={settings}
-              characters={characters}
-              solutions={solutions}
-              problems={problems}
-              startingPoint={startingPoint}
-              ventureId={venture?._id}
-              memberType={memberType}
-              storyTrain={venture?.storyTrain}
-              updateStoryTrain={updateStoryTrain}
-            />
-          </div>
-          {/* <div id="Gameboard" className="relative w-[600px] h-[600px] m-auto">
-            <a
-              onClick={handleModuleClicked}
-              className="z-50 cursor-pointer center-circle absolute top-[50%] left-[50%] w-[130px] h-[130px] bg-[#f5f5f5] border-4 border-[#ffffff] box-border rounded-[88px] -translate-x-1/2 -translate-y-1/2 flex justify-center items-center text-center text-[20px] font-bold text-[#595959] leading-7"
-              style={{
-                boxShadow:
-                  "0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 4px 10px rgba(0, 0, 0, 0.35)",
-              }}
-              data-tooltip-id={"module-tool-tip"}
-              data-tooltip-content={startingPoint?.module.title}
-              data-tooltip-place="top"
-            >
-              My<br></br>Starting<br></br>Point
-            </a>
-            <div className="bordering-circle absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] rounded-[50%] border-2 border-[#9d9d9d66] box-border blur-[2px]"></div>
-            {pillars}
-            {groups}
-          </div> */}
+        <div>
+          <Tab.Group>
+            <Tab.List className={`bg-white dark:bg-gray-800 p-2 text-lg`}>
+              <Tab
+                className={({ selected }) =>
+                  classNames(
+                    'rounded-tl-lg rounded-tr-lg px-4 py-2 border',
+                    selected
+                      ? 'border-2 border-black'
+                      : 'border-gray-400'
+                  )
+                }
+              >
+                Puzzle pieces
+              </Tab>
+              <Tab
+                className={({ selected }) =>
+                  classNames(
+                    'rounded-tl-lg rounded-tr-lg px-4 py-2 border',
+                    selected
+                      ? 'border-2 border-black'
+                      : 'border-gray-400'
+                  )
+                }
+              >
+                Activity
+              </Tab>
+            </Tab.List>
+            <Tab.Panels>
+              <Tab.Panel>
+                <div className="w-fit shadow-md rounded-lg px-5 py-0 pb-4 md:w-full justify-center pt-4">
+                  <h2 className="font-Inter font-bold text-[20px] text-[#232325] py-2">
+                    Thinkspace
+                  </h2>
+                  <p className="font-Inter text-[12px] mt-0 py-2">
+                    The founder&#39;s Thinkspace is illustrated as a puzzle.  The number of puzzle pieces “flipped” over (how many puzzle pieces have thoughtful -- yet unproven -- hypotheses documented)  illustrate how much breadth has been uncovered.  Depth is measured by the amount of talking/prototyping/testing/validating documented in each puzzle piece, assessed within each puzzle piece, and is reflected by the risk meters on this dashboard.
+                  </p>
+                  <div className="relative flex justify-center">
+                    <div className="bordering-circle absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[70%] h-[75%] rounded-[50%] border-2 border-[#9d9d9d66] box-border blur-[2px]"></div>
+                    <WonderSquarePuzzle
+                      type="user"
+                      settings={settings}
+                      characters={characters}
+                      solutions={solutions}
+                      problems={problems}
+                      startingPoint={startingPoint}
+                      ventureId={venture?._id}
+                      memberType={memberType}
+                      storyTrain={venture?.storyTrain}
+                      updateStoryTrain={updateStoryTrain}
+                    />
+                  </div>
+                  {/* 
+                  <div id="Gameboard" className="relative w-[600px] h-[600px] m-auto">
+                    <a
+                      onClick={handleModuleClicked}
+                      className="z-50 cursor-pointer center-circle absolute top-[50%] left-[50%] w-[130px] h-[130px] bg-[#f5f5f5] border-4 border-[#ffffff] box-border rounded-[88px] -translate-x-1/2 -translate-y-1/2 flex justify-center items-center text-center text-[20px] font-bold text-[#595959] leading-7"
+                      style={{
+                        boxShadow:
+                          "0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 4px 10px rgba(0, 0, 0, 0.35)",
+                      }}
+                      data-tooltip-id={"module-tool-tip"}
+                      data-tooltip-content={startingPoint?.module.title}
+                      data-tooltip-place="top"
+                    >
+                      My<br></br>Starting<br></br>Point
+                    </a>
+                    <div className="bordering-circle absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] rounded-[50%] border-2 border-[#9d9d9d66] box-border blur-[2px]"></div>
+                    {pillars}
+                    {groups}
+                  </div> 
+                  */}
+                </div>
+              </Tab.Panel>
+              <Tab.Panel>
+                <div className="w-fit shadow-md rounded-lg px-5 py-0 pb-4 md:w-full justify-center pt-4">
+                  <h2 className="font-Inter font-bold text-[20px] text-[#232325] py-2">
+                    Module Activity
+                  </h2>
+                  <hr className="my-2 border-[1.5px]" />
+                  <div className="min-h-[708px] overflow-y-auto font-Inter">
+                    {
+                      [...problems, ...settings, ...characters, ...solutions].map((item: any) => {
+                        return (
+                          <div
+                            key={item._id}
+                            className="flex flex-row justify-between items-center gap-x-2 border-b border-gray-200 dark:border-gray-800 py-2"
+                          >
+                            <div className="flex flex-col">
+                              <div className="font-semibold text-black dark:text-white">{item.module.title}</div>
+                              <div className="text-sm text-gray-500 dark:text-white-500 py-2">Modified {item.lastUpdated != null ? getLastUpdatedTimeString(item.lastUpdated, serverTime) : getLastUpdatedTimeString(venture?.updatedAt, serverTime)}</div>
+                            </div>
+                            <button
+                              className="text-black dark:text-white"
+                              onClick={() => {
+                                router.push(`/dashboard/myventures/module/${ventureId}-${item.module._id}`);
+                              }}>
+                              <ArrowRightAlt sx={{ width: 40, height: 40 }} />
+                            </button>
+                          </div>
+                        )
+                      })
+                    }
+                  </div>
+                </div>
+              </Tab.Panel>
+            </Tab.Panels>
+          </Tab.Group>
         </div>
         <div className="relative grid grid-cols-1 gap-x-8 gap-y-4">
           <div className="relative rounded-xl shadow-md py-4 px-8">
@@ -657,49 +738,50 @@ const Gameboard = () => {
         </p>
       </div>
       <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-y-[30px] gap-x-8">
-        {ToolBoxes.map((item: any) => {
-          return item.link != "" ? (
-            item.id != 5 ? (
-              <a
-                key={`${item.name}`}
-                href={`${memberType == "mentee"
-                  ? item.link + ventureId
-                  : item.link + ventureId
-                  }`}
-                className="cursor-pointer shadow-md rounded-lg flex flex-col items-center justify-center px-4 py-8"
-              >
-                <div className="font-Inter font-bold text-black text-lg text-center">
-                  {item.name}
-                </div>
-                <Image src={item.icon} alt={item.name} />
-              </a>
+        {
+          ToolBoxes.map((item: any) => {
+            return item.link != "" ? (
+              item.id != 5 ? (
+                <a
+                  key={`${item.name}`}
+                  href={`${memberType == "mentee"
+                    ? item.link + ventureId
+                    : item.link + ventureId
+                    }`}
+                  className="cursor-pointer shadow-md rounded-lg flex flex-col items-center justify-center px-4 py-8"
+                >
+                  <div className="font-Inter font-bold text-black text-lg text-center">
+                    {item.name}
+                  </div>
+                  <Image src={item.icon} alt={item.name} />
+                </a>
+              ) : (
+                <a
+                  key={`${item.name}`}
+                  href={item.link}
+                  className="cursor-pointer shadow-md rounded-lg flex flex-col items-center justify-center px-4 py-8"
+                >
+                  <div className="font-Inter font-bold text-black text-lg text-center">
+                    {item.name}
+                  </div>
+                  <Image src={item.icon} alt={item.name} />
+                </a>
+              )
             ) : (
-              <a
+              <div
                 key={`${item.name}`}
-                href={item.link}
+                onClick={() => {
+                  Swal.fire("Coming Soon...", "", "info");
+                }}
                 className="cursor-pointer shadow-md rounded-lg flex flex-col items-center justify-center px-4 py-8"
               >
                 <div className="font-Inter font-bold text-black text-lg text-center">
                   {item.name}
                 </div>
                 <Image src={item.icon} alt={item.name} />
-              </a>
-            )
-          ) : (
-            <div
-              key={`${item.name}`}
-              onClick={() => {
-                Swal.fire("Coming Soon...", "", "info");
-              }}
-              className="cursor-pointer shadow-md rounded-lg flex flex-col items-center justify-center px-4 py-8"
-            >
-              <div className="font-Inter font-bold text-black text-lg text-center">
-                {item.name}
               </div>
-              <Image src={item.icon} alt={item.name} />
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-y-[30px] gap-x-8">
         <div className="relative mt-5">

@@ -99,7 +99,7 @@ async function getVenture(req: NextApiRequest, res: NextApiResponse) {
     const db = client.db(process.env.MONGODB_NAME);
     const ventureId = new ObjectId(id?.toString());
     const result = await db.collection("ventures").findOne({ _id: ventureId });
-    res.status(200).json({ venture: result });
+    res.status(200).json({ venture: result, serverTime: new Date() });
   } catch (err) {
     res.status(500).json({ err: SERVER_ERR_MSG });
   }
@@ -155,6 +155,7 @@ async function getVentureModule(req: NextApiRequest, res: NextApiResponse) {
           {
             $set: {
               "course.modules.$.isFlip": true,
+              "course.modules.$.lastUpdated": new Date(),
             },
           }
         );

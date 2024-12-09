@@ -150,6 +150,7 @@ async function saveComment(req: NextApiRequest, res: NextApiResponse) {
         },
         $set: {
           "course.modules.$.isFlip": true,
+          "course.modules.$.lastUpdated": new Date(),
         },
       }
     );
@@ -383,6 +384,7 @@ async function updateCheckStatus(req: NextApiRequest, res: NextApiResponse) {
         {
           $set: {
             "course.modules.$.isCheckedOff": checked == "1" ? true : false,
+            "course.modules.$.lastUpdated": new Date(),
           },
         }
       );

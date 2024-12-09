@@ -97,3 +97,34 @@ export function dateDiff(date1: string, date2: string) {
 function padZero(num: number) {
   return num.toString().padStart(2, "0");
 }
+
+export function getLastUpdatedTimeString(updatedAt: string, serverTime: string): string {
+  if (updatedAt == null) {
+    return "";
+  }
+  const updatedDate: Date = new Date(updatedAt);
+  const serverDate: Date = new Date(serverTime);
+  const timeDiff: number = serverDate.getTime() - updatedDate.getTime(); // Difference in milliseconds
+
+  const oneDay: number = 24 * 60 * 60 * 1000; // Milliseconds in a day
+  const oneYear: number = 365 * oneDay; // Milliseconds in a year
+
+  // Check if the difference is less than a day
+  if (timeDiff < oneDay) {
+      const hours: number = updatedDate.getHours();
+      const minutes: number = updatedDate.getMinutes();
+      const ampm: string = hours >= 12 ? 'PM' : 'AM';
+      const formattedTime: string = `${hours % 12 || 12}:${String(minutes).padStart(2, '0')} ${ampm}`;
+      return `Yesterday ${formattedTime}`;
+  }
+
+  // Check if the difference is less than a year
+  if (timeDiff < oneYear) {
+      const options: Intl.DateTimeFormatOptions = { weekday: 'long', month: 'long', day: 'numeric' };
+      return updatedDate.toLocaleDateString('en-US', options);
+  }
+
+  // For dates older than a year
+  const optionsWithYear: Intl.DateTimeFormatOptions = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+  return updatedDate.toLocaleDateString('en-US', optionsWithYear);
+}
