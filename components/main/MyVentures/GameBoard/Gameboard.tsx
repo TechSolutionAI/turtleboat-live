@@ -554,7 +554,7 @@ const Gameboard = () => {
                     Module Activity
                   </h2>
                   <hr className="my-2 border-[1.5px]" />
-                  <div className="min-h-[708px] overflow-y-auto font-Inter">
+                  <div className="h-[708px] overflow-y-auto font-Inter">
                     {
                       [...problems, ...settings, ...characters, ...solutions].map((item: any) => {
                         return (
