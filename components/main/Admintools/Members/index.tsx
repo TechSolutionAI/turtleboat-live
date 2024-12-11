@@ -222,7 +222,7 @@ const UserVentureTable = ({
   const router = useRouter();
 
   const handleRowClick = (rowData: any) => {
-    router.push(`/dashboard/ventures/${rowData.original.ventureId}`);
+    // router.push(`/dashboard/ventures/${rowData.original.ventureId}`);
   };
 
   // Render the UI for your table

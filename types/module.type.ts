@@ -16,7 +16,8 @@ export type ModuleItem = {
   module: Module,
   comments?: Comment[],
   checkList?: boolean[],
-  evaluations?: MentorEvaluation[]
+  evaluations?: MentorEvaluation[],
+  lastUpdated?: string
 }
 
 export type Comment = {

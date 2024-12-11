@@ -43,7 +43,7 @@ import UserAvatar from "@/components/UserAvatar";
 import WonderSquarePuzzle from "@/components/main/WonderSquarePuzzle";
 import EvaluatorAssessmentModal from "./EvaluatorAssessmentModal";
 import RiskAssessmentDoc from "./RiskAssessmentDoc";
-import { getLastUpdatedTimeString } from "@/utils/utils";
+import { getLastUpdatedTimeString, sortModulesByDateAndType } from "@/utils/utils";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
@@ -205,19 +205,15 @@ const Gameboard = () => {
                 setStartingPoint(checkedStartingPoint[0]);
                 break;
               case "Problem":
-                console.log("problems", filteredModules);
                 setProblems(filteredModules);
                 break;
               case "Character":
-                console.log("characters", filteredModules);
                 setCharacters(filteredModules);
                 break;
               case "Solution":
-                console.log("solutions", filteredModules);
                 setSolutions(filteredModules);
                 break;
               case "Setting":
-                console.log("settings", filteredModules);
                 setSettings(filteredModules);
                 break;
             }
@@ -551,12 +547,12 @@ const Gameboard = () => {
               <Tab.Panel>
                 <div className="w-fit shadow-md rounded-lg px-5 py-0 pb-4 md:w-full justify-center pt-4">
                   <h2 className="font-Inter font-bold text-[20px] text-[#232325] py-2">
-                    Module Activity
+                    Latest Activity
                   </h2>
                   <hr className="my-2 border-[1.5px]" />
                   <div className="h-[708px] overflow-y-auto font-Inter">
                     {
-                      [...problems, ...settings, ...characters, ...solutions].map((item: any) => {
+                      sortModulesByDateAndType([...problems, ...settings, ...characters, ...solutions], venture?.updatedAt).map((item: any) => {
                         return (
                           <div
                             key={item._id}

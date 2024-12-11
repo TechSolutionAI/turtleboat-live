@@ -103,7 +103,10 @@ async function udateEvaluation(req: NextApiRequest, res: NextApiResponse) {
       },
       {
         $push: {
-          "course.modules.$.evaluations": evaluationData,
+          "course.modules.$.evaluations": evaluationData
+        },
+        $set: {
+          "course.modules.$.isFlip": true,
           "course.modules.$.lastUpdated": new Date(),
         },
       }
