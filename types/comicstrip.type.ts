@@ -9,5 +9,6 @@ export type ComicStrip = {
 export type ComicPanel = {
   nodes: any[],
   thumbnail: string,
-  thumbPubId: string
+  thumbPubId: string,
+  comments?: any[]
 }

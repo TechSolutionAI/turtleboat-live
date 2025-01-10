@@ -39,6 +39,8 @@ const ComicStripGenerator = () => {
   const [saveDropdownOpen, setSaveDropdownOpen] = useState<boolean>(false);
   const [selectedVentureIndex, setSelectedVentureIndex] = useState<number>(-1);
   const [selectedTab, setSelectedTab] = useState(0);
+  const [memberType, setMemberType] = useState<string>("");
+  const [serverTime, setServerTime] = useState<string>("");
   const [problemComicStrip, setProblemComicStrip] = useState<
     ComicStrip | null | undefined
   >();
@@ -65,10 +67,14 @@ const ComicStripGenerator = () => {
         const { err } = await response.json();
         console.log(err);
       } else {
-        const { venture } = await response.json();
+        const { venture, serverTime } = await response.json();
+        setServerTime(serverTime);
         if (venture.mentee != null && venture.mentee != undefined) {
           if (venture.mentee.email == user.email) {
             setIsEditable(true);
+            setMemberType("mentee");
+          } else {
+            setMemberType("mentor");
           }
         }
         if (
@@ -192,11 +198,46 @@ const ComicStripGenerator = () => {
           allowOutsideClick: false,
           text: `Comic Strip was save successfully!`,
         })
-          .then(() => {})
+          .then(() => { })
           .catch((err) => console.log(err));
       }
     } else {
       // Alert Part for Non-members
+    }
+  };
+
+  const saveComment = async (panelIndex: number, commentContent: string, files: FileList | null, type: 'Problem' | 'Solution') => {
+    console.log("saveComment", panelIndex, commentContent, files);
+    if (commentContent != "" || files != null) {
+      const formData = new FormData();
+      formData.append("content", commentContent);
+      if (typeof ventureId === "string" && ventureId !== "") {
+        formData.append("vid", ventureId.toString());
+      }
+      if (typeof user._id === "string" && user._id !== "") {
+        formData.append("uid", user._id.toString());
+      }
+      formData.append("pid", panelIndex.toString());
+      if (files != null) {
+        for (let i = 0; i < files.length; i++) {
+          formData.append(`file${i}`, files[i]);
+        }
+      }
+
+      const apiUrl = type == 'Problem' ? '/api/comments/comicstrip/problem' : '/api/comments/comicstrip/solution';
+
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const { err } = await response.json();
+        return { success: false, err: err };
+      } else {
+        const { result } = await response.json();
+        return { success: true, comment: result };
+      }
     }
   };
 
@@ -215,11 +256,10 @@ const ComicStripGenerator = () => {
                 <li className="mr-2" key={`tab-${index}`}>
                   <a
                     href="#"
-                    className={`inline-flex p-4 border-b-2 text-[16px] font-Inter font-semibold ${
-                      selectedTab == index
-                        ? "text-tertiary-red border-tertiary-red"
-                        : "border-transparent hover:text-gray-600 hover:border-gray-300"
-                    }`}
+                    className={`inline-flex p-4 border-b-2 text-[16px] font-Inter font-semibold ${selectedTab == index
+                      ? "text-tertiary-red border-tertiary-red"
+                      : "border-transparent hover:text-gray-600 hover:border-gray-300"
+                      }`}
                     onClick={() => handleClick(index)}
                   >
                     <div className="flex items-center truncate">
@@ -328,22 +368,31 @@ const ComicStripGenerator = () => {
         <ProblemComicGenerator
           key={"problem_comic"}
           data={problemComicStrip}
+          serverTime={serverTime}
+          memberType={memberType}
           updateData={updateData}
           isEditable={isEditable}
+          saveComment={saveComment}
         />
       ) : selectedTab == 1 ? (
         <SolutionComicGenerator
           key={"solution_comic"}
           data={solutionComicStrip}
+          serverTime={serverTime}
+          memberType={memberType}
           updateData={updateData}
           isEditable={isEditable}
+          saveComment={saveComment}
         />
       ) : (
         <SolutionComicGenerator
           key={"solution_comic"}
           data={solutionComicStrip}
+          serverTime={serverTime}
+          memberType={memberType}
           updateData={updateData}
           isEditable={isEditable}
+          saveComment={saveComment}
         />
       )}
     </div>

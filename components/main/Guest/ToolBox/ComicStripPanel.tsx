@@ -7,21 +7,25 @@ const initialPanels: ComicPanel[] = [
         thumbnail: '',
         thumbPubId: '',
         nodes: [],
+        comments: [],
     },
     {
         thumbnail: '',
         thumbPubId: '',
         nodes: [],
+        comments: [],
     },
     {
         thumbnail: '',
         thumbPubId: '',
         nodes: [],
+        comments: [],
     },
     {
         thumbnail: '',
         thumbPubId: '',
         nodes: [],
+        comments: [],
     },
 ]
 

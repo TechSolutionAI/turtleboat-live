@@ -11,31 +11,41 @@ const initialPanels: ComicPanel[] = [
         thumbnail: '',
         thumbPubId: '',
         nodes: [],
+        comments: []
     },
     {
         thumbnail: '',
         thumbPubId: '',
         nodes: [],
+        comments: []
     },
     {
         thumbnail: '',
         thumbPubId: '',
         nodes: [],
+        comments: []
     },
     {
         thumbnail: '',
         thumbPubId: '',
         nodes: [],
+        comments: []
     },
 ]
 
 const SolutionComicGenerator = ({
     data,
     updateData,
+    serverTime,
+    memberType,
+    saveComment,
     isEditable
 }: {
     data: ComicStrip | null | undefined,
     updateData: Function,
+    serverTime: string,
+    memberType: string,
+    saveComment: any,
     isEditable: boolean
 }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -78,6 +88,7 @@ const SolutionComicGenerator = ({
             thumbnail: '',
             thumbPubId: '',
             nodes: [],
+            comments: []
         }]));
 
         updateData({
@@ -86,6 +97,7 @@ const SolutionComicGenerator = ({
                 thumbnail: '',
                 thumbPubId: '',
                 nodes: [],
+                comments: []
             }]
         });
     }
@@ -296,6 +308,9 @@ const SolutionComicGenerator = ({
                             <ComicStripEditor
                                 showTipsModal={setShowModal}
                                 updatePanel={updatePanel}
+                                serverTime={serverTime}
+                                memberType={memberType}
+                                saveComment={saveComment}
                                 panelData={panels}
                                 selectedPanel={selectedPanel}
                                 isEditable={isEditable}

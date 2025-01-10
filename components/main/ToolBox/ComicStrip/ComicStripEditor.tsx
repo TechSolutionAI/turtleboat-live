@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import Konva from "konva";
 import {
   Stage,
@@ -17,7 +18,13 @@ import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutli
 import ImageIcon from "@mui/icons-material/Image";
 import { ComicPanel } from "@/types/comicstrip.type";
 import Spinner from "@/components/Spinner";
+import CommentItem from "@/components/main/Module/CommentItem";
+import Upload from "@/components/main/Module/Upload";
+// import Editor from "@/components/main/Module/Editor";
+const Editor = dynamic(() => import("@/components/main/Module/Editor"), { ssr: false });
+import { Comment } from "@/types/module.type";
 import CropOriginalIcon from "@mui/icons-material/CropOriginal";
+import Swal from "sweetalert2";
 import $ from "jquery";
 
 interface LineType {
@@ -35,6 +42,9 @@ let y2: number;
 const ComicStripEditor = ({
   showTipsModal,
   updatePanel,
+  saveComment,
+  serverTime,
+  memberType,
   panelData,
   selectedPanel,
   isEditable,
@@ -42,6 +52,9 @@ const ComicStripEditor = ({
 }: {
   showTipsModal?: any;
   updatePanel?: any;
+  saveComment: any;
+  memberType: string;
+  serverTime: string;
   panelData?: ComicPanel[];
   selectedPanel: number;
   isEditable: boolean;
@@ -54,6 +67,11 @@ const ComicStripEditor = ({
   const transformerRef = useRef<Konva.Transformer>(null);
   const selectionRef = useRef<Konva.Rect>(null);
   const groupRef = useRef<Konva.Group>(null);
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [commentContent, setCommentContent] = useState<string>("");
+  const [files, setFormFiles] = useState<FileList | null>(null);
+  const [isCommentSaved, setIsCommentSaved] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
 
   const [transformProps, setTransformProps] = useState({
     rotationSnaps: [0, 45, 90, 135, 180, -45, -90, -135],
@@ -255,6 +273,8 @@ const ComicStripEditor = ({
   };
 
   useEffect(() => {
+    setFormFiles(null);
+    setCommentContent("");
     const bgImage = new window.Image();
     bgImage.src = "/static/images/comicbackground.svg";
     bgImage.onload = () => {
@@ -294,6 +314,7 @@ const ComicStripEditor = ({
       ) {
         setIsLoading(true);
         workingArea.removeChildren();
+        setComments(panelData[selectedPanel]?.comments ?? []);
         panelData[selectedPanel].nodes.map(async (nodeItem: any) => {
           var node = nodeItem;
           if (node != undefined) {
@@ -326,6 +347,8 @@ const ComicStripEditor = ({
 
   useEffect(() => {
     drawElements();
+    setCommentContent("");
+    setFormFiles(null);
   }, [selectedPanel]);
 
   async function generateNode(nodeData: any) {
@@ -996,6 +1019,25 @@ const ComicStripEditor = ({
     }
   };
 
+  const handleSaveComment = async () => {
+    setIsCreating(true);
+    const result = await saveComment(selectedPanel, commentContent, files, type);
+    if (result.success) {
+      setIsCreating(false);
+      setCommentContent("");
+      setFormFiles(null);
+      setComments((prevComments) => [...prevComments, result.comment]);
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: result.err,
+      }).then(() => {
+        setIsCreating(false);
+      }).catch((err) => console.log(err));
+    }
+  };
+
   return (
     <div>
       <div
@@ -1067,11 +1109,10 @@ const ComicStripEditor = ({
               onChange={handleImageFileSelect}
             />
             <button
-              className={`${
-                tool == "image"
-                  ? "bg-[#E5632B] text-white border-[#E5632B]"
-                  : "bg-white text-black border-secondary-gray-4"
-              } border border-1 text-black px-2 py-2 rounded shadow outline-none focus:outline-none ease-linear transition-all duration-150 hover:bg-[#E5632B] hover:text-white hover:border-[#E5632B]`}
+              className={`${tool == "image"
+                ? "bg-[#E5632B] text-white border-[#E5632B]"
+                : "bg-white text-black border-secondary-gray-4"
+                } border border-1 text-black px-2 py-2 rounded shadow outline-none focus:outline-none ease-linear transition-all duration-150 hover:bg-[#E5632B] hover:text-white hover:border-[#E5632B]`}
               onClick={addImageElement}
               data-tooltip-id={"panel-tool-tip"}
               data-tooltip-content="Image"
@@ -1080,11 +1121,10 @@ const ComicStripEditor = ({
               <ImageIcon fontSize="large" />
             </button>
             <button
-              className={`${
-                tool == "text"
-                  ? "bg-[#E5632B] text-white border-[#E5632B]"
-                  : "bg-white text-black border-secondary-gray-4"
-              } border border-1 border-[#E5632B] text-black px-2 py-2 rounded shadow outline-none focus:outline-none ease-linear transition-all duration-150 hover:bg-[#E5632B] hover:text-white hover:border-[#E5632B]`}
+              className={`${tool == "text"
+                ? "bg-[#E5632B] text-white border-[#E5632B]"
+                : "bg-white text-black border-secondary-gray-4"
+                } border border-1 border-[#E5632B] text-black px-2 py-2 rounded shadow outline-none focus:outline-none ease-linear transition-all duration-150 hover:bg-[#E5632B] hover:text-white hover:border-[#E5632B]`}
               onClick={addTextElement}
               data-tooltip-id={"panel-tool-tip"}
               data-tooltip-content="Text"
@@ -1093,11 +1133,10 @@ const ComicStripEditor = ({
               <TitleIcon fontSize="large" />
             </button>
             <button
-              className={`${
-                tool == "arrow"
-                  ? "bg-[#E5632B] text-white border-[#E5632B]"
-                  : "bg-white text-black border-secondary-gray-4"
-              } border border-1 border-[#E5632B] text-black px-2 py-2 rounded shadow outline-none focus:outline-none ease-linear transition-all duration-150 hover:bg-[#E5632B] hover:text-white hover:border-[#E5632B]`}
+              className={`${tool == "arrow"
+                ? "bg-[#E5632B] text-white border-[#E5632B]"
+                : "bg-white text-black border-secondary-gray-4"
+                } border border-1 border-[#E5632B] text-black px-2 py-2 rounded shadow outline-none focus:outline-none ease-linear transition-all duration-150 hover:bg-[#E5632B] hover:text-white hover:border-[#E5632B]`}
               onClick={addArrowElement}
               data-tooltip-id={"panel-tool-tip"}
               data-tooltip-content="Arrow"
@@ -1143,6 +1182,51 @@ const ComicStripEditor = ({
           </a>
         </div>
       )}
+      <div className="mt-[40px] rounded-xl bg-[#F7F7F9] px-[40px] py-[34px] flex flex-col justify-center font-Inter">
+        <h1 className="font-Inter font-bold text-xl sm:mt-[35px] mt-[10px]">
+          Mentor/Mentee Discussion
+        </h1>
+        {
+          comments != null &&
+          comments.length > 0 &&
+          comments.map((comment: Comment, index: number) => {
+            return (
+              <div key={`comment-${index}`}>
+                <CommentItem comment={comment} serverTime={serverTime} />
+              </div>
+            );
+          })
+        }
+        {
+          memberType == "mentee" ? (
+            <Upload setFormFiles={setFormFiles} isInit={isCommentSaved} />
+          ) : (
+            <></>
+          )
+        }
+        <Editor
+          value={commentContent}
+          onChange={(data) => {
+            setCommentContent(data);
+          }}
+        />
+        <div className="flex items-center justify-end font-Inter font-bold pt-5">
+          {/* <button
+            className="text-[#232325] background-transparent px-6 py-2 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+            type="button"
+            onClick={handleCancelClicked}
+          >
+            Cancel
+          </button> */}
+          <button
+            className="bg-primary-blue text-white active:bg-primary-blue px-6 py-3 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+            type="button"
+            onClick={handleSaveComment}
+          >
+            {isCreating ? <Spinner text="Posting..." /> : "Post"}
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

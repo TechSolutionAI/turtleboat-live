@@ -32,7 +32,8 @@ const CommentItem = ({
                     <EditorView value={comment.content} />
                 </div>
             </div>
-            {comment.files &&
+            {
+                comment.files &&
                 comment.files.length > 0 &&
                 comment.files.map((fileItem: any, index: number) => {
                     return (
@@ -51,7 +52,8 @@ const CommentItem = ({
                             </a>
                         </div>
                     );
-                })}
+                })
+            }
             <div className="flex justify-end text-xs text-gray">
                 {/* {comment.user?.name} replied&nbsp;{dateDiff(serverTime, comment.createdAt)} */}
                 Replied&nbsp;{dateDiff(serverTime, comment.createdAt)}

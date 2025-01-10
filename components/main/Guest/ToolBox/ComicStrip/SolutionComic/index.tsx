@@ -11,21 +11,25 @@ const initialPanels: ComicPanel[] = [
         thumbnail: '',
         thumbPubId: '',
         nodes: [],
+        comments: [],   
     },
     {
         thumbnail: '',
         thumbPubId: '',
         nodes: [],
+        comments: [],
     },
     {
         thumbnail: '',
         thumbPubId: '',
         nodes: [],
+        comments: [],
     },
     {
         thumbnail: '',
         thumbPubId: '',
         nodes: [],
+        comments: [],
     },
 ]
 
@@ -73,6 +77,7 @@ const SolutionComicGenerator = ({
             thumbnail: '',
             thumbPubId: '',
             nodes: [],
+            comments: [],
         }]));
         
         updateData({
@@ -81,6 +86,7 @@ const SolutionComicGenerator = ({
                 thumbnail: '',
                 thumbPubId: '',
                 nodes: [],
+                comments: [],
             }]
         });
     }

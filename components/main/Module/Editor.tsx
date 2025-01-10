@@ -9,7 +9,7 @@ interface EditorProps {
 
 const Editor = ({ value, onChange }: EditorProps) => {
     const editorRef = useRef();
-    const [editorData, setEditorData] = useState(value);
+    const [editorData, setEditorData] = useState<string>(value);
 
     useEffect(() => {
         setEditorData(value)
@@ -34,23 +34,23 @@ const Editor = ({ value, onChange }: EditorProps) => {
     };
 
     const handleEditorReady = (editor: any) => {
-        editor.setData(editorData?editorData:"");
+        editor.setData(editorData ? editorData : "");
         editorRef.current = editor;
     };
 
     return (
         <div className='sm:mt-[25px] mt-[10px]'>
             <div className='sm:mt-[25px] mt-[10px]'>
-                    <>
-                        <CKEditor
-                            editor={ClassicEditor}
-                            config={editorConfiguration}
-                            onChange={handleEditorChange}
-                            onReady={handleEditorReady}
-                            data={editorData}
-                        />
-                        <input type="hidden" id="content" name="content" value={editorData} />
-                    </>
+                <>
+                    <CKEditor
+                        editor={ClassicEditor}
+                        config={editorConfiguration}
+                        onChange={handleEditorChange}
+                        onReady={handleEditorReady}
+                        data={editorData}
+                    />
+                    <input type="hidden" id="content" name="content" value={editorData} />
+                </>
 
             </div>
         </div>

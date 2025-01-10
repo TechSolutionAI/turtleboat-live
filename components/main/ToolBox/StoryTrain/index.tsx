@@ -79,7 +79,6 @@ const Index = () => {
   const [ventureList, setVentureList] = useState<any[]>([]);
   const [saveDropdownOpen, setSaveDropdownOpen] = useState<boolean>(false);
   const [selectedVentureIndex, setSelectedVentureIndex] = useState<number>(-1);
-  const [serverTime, setServerTime] = useState<string>("");
   const [comments, setComments] = useState<Comment[]>([]);
   const [commentContent, setCommentContent] = useState<string>("");
   const [memberType, setMemberType] = useState<string>("");

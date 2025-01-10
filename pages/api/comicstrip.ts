@@ -41,7 +41,7 @@ export default function handler(
         default:
             res.setHeader('Allow', ['GET', 'POST', 'PUT'])
             res.status(405).end(`Method ${method} Not Allowed`)
-  }
+    }
 }
 
 async function updateComicStrip(req: NextApiRequest, res: NextApiResponse) {
@@ -51,18 +51,22 @@ async function updateComicStrip(req: NextApiRequest, res: NextApiResponse) {
         const client = await clientPromise;
         const db = client.db(process.env.MONGODB_NAME);
 
+        const ventureData = await db.collection("ventures").findOne({
+            _id: ventureId,
+        });
+
         let panels: ComicPanel[] = [];
         let stripThumbnail = '';
 
         let firstThumbnailIndex = -1;
-        for(var i = 0 ; i < data.panels.length; i++) {
+        for (var i = 0; i < data.panels.length; i++) {
             let panelItem = data.panels[i];
             if (panelItem.nodes.length > 0) {
                 let thumbnail = panelItem.thumbnail;
                 let thumbPubId = panelItem.thumbPubId;
                 if (panelItem.thumbnail.includes('data:image') && !panelItem.thumbnail.includes('http')) {
                     const timestamp = Date.now();
-                    const uploadResult = await cloudinary.uploader.upload(panelItem.thumbnail, { 
+                    const uploadResult = await cloudinary.uploader.upload(panelItem.thumbnail, {
                         public_id: panelItem.thumbPubId == '' ? `ycity_files/comicstrip_image_${ventureId}_${comicType}_${i}_${timestamp}` : panelItem.thumbPubId,
                         overwrite: true,
                         timestamp: new Date().getTime(),
@@ -73,16 +77,16 @@ async function updateComicStrip(req: NextApiRequest, res: NextApiResponse) {
                     thumbnail = uploadResult.secure_url;
                     thumbPubId = uploadResult.public_id;
                 }
-    
+
                 if (firstThumbnailIndex == -1) {
                     firstThumbnailIndex = i;
                 }
 
-                for(var j = 0 ; j < panelItem.nodes.length; j++) {
+                for (var j = 0; j < panelItem.nodes.length; j++) {
                     let parsedItem = JSON.parse(panelItem.nodes[j]);
                     if (parsedItem.className == 'Image') {
                         const timestamp = Date.now();
-                        const nodeImgUploadResult = await cloudinary.uploader.upload(parsedItem.src, { 
+                        const nodeImgUploadResult = await cloudinary.uploader.upload(parsedItem.src, {
                             public_id: `ycity_files/comicstrip_image_${ventureId}_${comicType}_${i}_${j}_${timestamp}`,
                             overwrite: true,
                             timestamp: new Date().getTime(),
@@ -98,14 +102,16 @@ async function updateComicStrip(req: NextApiRequest, res: NextApiResponse) {
                 panels.push({
                     thumbnail: thumbnail,
                     thumbPubId: thumbPubId,
-                    nodes: panelItem.nodes
+                    nodes: panelItem.nodes,
+                    comments: panelItem?.comments ?? []
                 });
 
             } else {
                 panels.push({
                     thumbnail: '',
                     thumbPubId: '',
-                    nodes: panelItem.nodes
+                    nodes: panelItem.nodes,
+                    comments: panelItem?.comments ?? []
                 });
             }
 
@@ -125,7 +131,7 @@ async function updateComicStrip(req: NextApiRequest, res: NextApiResponse) {
         //             folder: "comicstrips",
         //             invalidate: true,
         //         });
-    
+
         //         if (firstThumbnailIndex == -1) {
         //             firstThumbnailIndex = i;
         //         }
@@ -145,14 +151,14 @@ async function updateComicStrip(req: NextApiRequest, res: NextApiResponse) {
         //     }
         // }
         /* Upload One file per Panel */
-        
-        let result; 
+
+        let result;
 
         if (comicType == 0) {
             result = await db
                 .collection("ventures")
                 .updateOne({
-                _id: ventureId
+                    _id: ventureId
                 }, {
                     $set: {
                         problemComicStrip: {
@@ -169,7 +175,7 @@ async function updateComicStrip(req: NextApiRequest, res: NextApiResponse) {
             result = await db
                 .collection("ventures")
                 .updateOne({
-                _id: ventureId
+                    _id: ventureId
                 }, {
                     $set: {
                         solutionComicStrip: {

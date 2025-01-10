@@ -6,10 +6,17 @@ import Image from "next/image";
 import Select from "react-select";
 import Swal from "sweetalert2";
 import OutsideClickHandler from "react-outside-click-handler";
+
 import { Venture } from "@/types/venture.type";
+import { Comment } from "@/types/module.type";
 import Spinner from "@/components/Spinner";
 import TokenItem from "@/components/layouts/TokenItem";
 import Pillar from "@/components/main/MyVentures/GameBoard/Pillar";
+import CommentItem from "@/components/main/Module/CommentItem";
+import Upload from "@/components/main/Module/Upload";
+// import Editor from "@/components/main/Module/Editor";
+const Editor = dynamic(() => import("@/components/main/Module/Editor"), { ssr: false });
+import dynamic from "next/dynamic";
 import CharacterItem from "./CharacterItem";
 import HelpIcon from "@mui/icons-material/Help";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
@@ -291,6 +298,13 @@ const CharacterBrainstorm = () => {
   const [selectedVentureIndex, setSelectedVentureIndex] = useState<number>(-1);
   const [isEditable, setIsEditable] = useState<boolean>(false);
   const [showHelp, setShowHelp] = useState<boolean>(false);
+  const [serverTime, setServerTime] = useState<string>("");
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [commentContent, setCommentContent] = useState<string>("");
+  const [memberType, setMemberType] = useState<string>("");
+  const [files, setFormFiles] = useState<FileList | null>(null);
+  const [isCommentSaved, setIsCommentSaved] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
 
   const getVenture = async () => {
     if (ventureId != "") {
@@ -304,10 +318,14 @@ const CharacterBrainstorm = () => {
         const { err } = await response.json();
         console.log(err);
       } else {
-        const { venture } = await response.json();
+        const { venture, serverTime } = await response.json();
+        setServerTime(serverTime);
         if (venture.mentee != null && venture.mentee != undefined) {
           if (venture.mentee.email == user.email) {
             setIsEditable(true);
+            setMemberType("mentee");
+          } else {
+            setMemberType("mentor");
           }
         }
         if (
@@ -316,6 +334,7 @@ const CharacterBrainstorm = () => {
         ) {
           setCharacters(venture.stakeholderScenario.characters);
           setProblemContent(venture.stakeholderScenario.problem);
+          setComments(venture.stakeholderScenario.comments ?? []);
           venture.stakeholderScenario.characters.map(
             (character: Character, index: number) => {
               if (character.isUser && character?.name) {
@@ -389,6 +408,46 @@ const CharacterBrainstorm = () => {
       setHeadacheProblem(temp.headacheProblem);
       setHeadacheFrequency(temp.headacheFrequency);
       setSelectedCharacterId(index);
+    }
+  };
+
+  const saveComment = async () => {
+    if (commentContent != "" || files != null) {
+      const formData = new FormData();
+      formData.append("content", commentContent);
+      if (typeof ventureId === "string" && ventureId !== "") {
+        formData.append("vid", ventureId.toString());
+      }
+      if (typeof user._id === "string" && user._id !== "") {
+        formData.append("uid", user._id.toString());
+      }
+      if (files != null) {
+        for (let i = 0; i < files.length; i++) {
+          formData.append(`file${i}`, files[i]);
+        }
+      }
+
+      setIsCreating(true);
+      const response = await fetch("/api/comments/characterbrainstorm", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        setIsCreating(false);
+        const { err } = await response.json();
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: err,
+        }).then(() => {
+          setIsCreating(false);
+        }).catch((err) => console.log(err));
+      } else {
+        const { result } = await response.json();
+        setIsCreating(false);
+        // addComment(result);
+      }
     }
   };
 
@@ -625,7 +684,7 @@ const CharacterBrainstorm = () => {
             allowOutsideClick: false,
             text: `Stakeholder Scenario was save successfully!`,
           })
-            .then(() => {})
+            .then(() => { })
             .catch((err) => console.log(err));
         }
       }
@@ -1052,11 +1111,10 @@ const CharacterBrainstorm = () => {
                           return (
                             <div
                               key={`feeling_${index}`}
-                              className={`flex flex-col items-center cursor-pointer ${
-                                selectedCharacter.feeling == item.value
-                                  ? "bg-primary-blue text-white"
-                                  : ""
-                              }`}
+                              className={`flex flex-col items-center cursor-pointer ${selectedCharacter.feeling == item.value
+                                ? "bg-primary-blue text-white"
+                                : ""
+                                }`}
                               onClick={() => handleFeelingSelected(item.value)}
                             >
                               <Image
@@ -1114,20 +1172,22 @@ const CharacterBrainstorm = () => {
                       <label className="font-Inter font-bold text-sm">
                         How severe or frequent is the headache?
                       </label>
-                      {isEditable ? (
-                        <textarea
-                          rows={4}
-                          value={headacheFrequency}
-                          onChange={(e) =>
-                            handleHeadacheFrequencyChange(e.target.value)
-                          }
-                          className={`block p-2.5 mt-4 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 
+                      {
+                        isEditable ? (
+                          <textarea
+                            rows={4}
+                            value={headacheFrequency}
+                            onChange={(e) =>
+                              handleHeadacheFrequencyChange(e.target.value)
+                            }
+                            className={`block p-2.5 mt-4 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 
                                             focus:outline-none focus:border-primary-blue focus:ring-primary-blue `}
-                          placeholder="This might require you to think more granularly about your Character, as something like Teenager will be too broad."
-                        ></textarea>
-                      ) : (
-                        <p>{headacheFrequency}</p>
-                      )}
+                            placeholder="This might require you to think more granularly about your Character, as something like Teenager will be too broad."
+                          ></textarea>
+                        ) : (
+                          <p>{headacheFrequency}</p>
+                        )
+                      }
                     </div>
                     <div className="py-3 px-1">
                       <label className="font-Inter font-bold text-sm mb-5">
@@ -1171,6 +1231,44 @@ const CharacterBrainstorm = () => {
                   </div>
                 )
               )}
+            </div>
+          </div>
+          <div className="mt-[40px] rounded-xl bg-[#F7F7F9] px-[40px] py-[34px] flex flex-col justify-center font-Inter mb-5">
+            <h1 className="font-Inter font-bold text-xl sm:mt-[35px] mt-[10px]">
+              Mentor/Mentee Discussion
+            </h1>
+            {
+              comments != null &&
+              comments.length > 0 &&
+              comments.map((comment: Comment, index: number) => {
+                return (
+                  <div key={`comment-${index}`}>
+                    <CommentItem comment={comment} serverTime={serverTime} />
+                  </div>
+                );
+              })
+            }
+            {
+              memberType == "mentee" ? (
+                <Upload setFormFiles={setFormFiles} isInit={isCommentSaved} />
+              ) : (
+                <></>
+              )
+            }
+            <Editor
+              value={commentContent}
+              onChange={(data: string) => {
+                setCommentContent(data);
+              }}
+            />
+            <div className="flex items-center justify-end font-Inter font-bold pt-5">
+              <button
+                className="bg-primary-blue text-white active:bg-primary-blue px-6 py-3 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                type="button"
+                onClick={saveComment}
+              >
+                {isCreating ? <Spinner text="Posting..." /> : "Post"}
+              </button>
             </div>
           </div>
         </>

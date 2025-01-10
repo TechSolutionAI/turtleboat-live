@@ -51,7 +51,7 @@ const Upload = ({
     }, [isInit]);
 
     return (
-        <div className='sm:mt-[35px] mt-[10px]'>
+        <div className='sm:mt-[35px] mt-[10px] relative'>
             <label className='font-Inter font-semibold text-[14px] text-[#6B7280]'>Module Attachments</label>
             <span className="text-[12px] text-red-500 ml-[100px]">{message}</span>
 
