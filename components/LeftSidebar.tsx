@@ -7,18 +7,17 @@ import { signOut } from "next-auth/react";
 import { User } from "next-auth";
 import OutsideClickHandler from "react-outside-click-handler";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
-import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import MarkunreadOutlinedIcon from "@mui/icons-material/MarkunreadOutlined";
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 import EmojiObjectsOutlinedIcon from "@mui/icons-material/EmojiObjectsOutlined";
 import RocketLaunchOutlinedIcon from "@mui/icons-material/RocketLaunchOutlined";
-import RedeemOutlinedIcon from "@mui/icons-material/RedeemOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import SidebarItem from "./SidebarItem";
 import InviteModal from "./InviteModal";
 import { useNotification } from "@/lib/useNotification";
 import redeem_icon from "/public/static/images/gift.png";
 import redeem_active_icon from "/public/static/images/gift_active.png";
+import UserAvatar1 from "./UserAvatar1";
 
 const LeftSidebar = ({ noSelNav }: { noSelNav?: boolean }) => {
   const router = useRouter();
@@ -169,12 +168,11 @@ const LeftSidebar = ({ noSelNav }: { noSelNav?: boolean }) => {
                 onClick={onUserIconClicked}
                 className="flex items-center justify-center w-full h-16 mb-6"
               >
-                <Image
-                  alt="user"
-                  src={user?.image ?? "/user.png"}
-                  width={40}
-                  height={40}
-                  className="rounded-full cursor-pointer"
+
+                <UserAvatar1
+                  user={user}
+                  size={40}
+                  classes="rounded-full cursor-pointer"
                 />
                 {user.isNewUser && (
                   <div className="absolute inline-flex items-center justify-center w-4 h-4 text-xs font-bold text-white bg-tertiary-red border-2 border-white rounded-full top-2 -right-1"></div>

@@ -19,6 +19,7 @@ import {
   usePagination,
 } from "react-table";
 import StatusItem from "@/components/StatusItem";
+import UserAvatar1 from "@/components/UserAvatar1";
 
 const MemberDetail = () => {
   const router = useRouter();
@@ -137,12 +138,10 @@ const MemberDetail = () => {
                 <div className="flex justify-center px-8 py-4 lg:border-r-[2px]">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-2">
                     <div className="flex justify-center">
-                      <Image
-                        alt="user"
-                        src={userInfo.image ?? "/user.png"}
-                        width={100}
-                        height={100}
-                        className="rounded-full cursor-pointer justify-center"
+                      <UserAvatar1 
+                        user={userInfo}
+                        size={100}
+                        classes="rounded-full cursor-pointer justify-center"
                       />
                     </div>
                     <div className="flex flex-col justify-center">

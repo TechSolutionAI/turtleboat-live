@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { components, } from 'react-select';
-import Image from "next/image";
 import Spinner from './Spinner';
+import UserAvatar1 from './UserAvatar1';
 
 interface Option {
     value: string;
@@ -15,12 +15,10 @@ const OptionComponent = (props: any) => {
     return (
         <components.Option {...props}>
             <div className='flex items-center'>
-                <Image
-                    alt="user"
-                    src={props.data.image ?? "/user.png"}
-                    width={25}
-                    height={25}
-                    className="rounded-full cursor-pointer flex"
+                <UserAvatar1 
+                    user={props.data}
+                    size={25}
+                    classes="rounded-full cursor-pointer flex"
                 />
                 <span className='px-2'>
                     {props.children}
@@ -33,12 +31,10 @@ const OptionComponent = (props: any) => {
 const SelectedOptionComponent = ({ data, removeProps }: any) => (
     <components.MultiValueLabel {...removeProps}>
         <div className='flex items-center p-1'>
-            <Image
-                alt="user"
-                src={data.image ?? "/user.png"}
-                width={25}
-                height={25}
-                className="rounded-full cursor-pointer flex"
+            <UserAvatar1 
+                user={data}
+                size={25}
+                classes="rounded-full cursor-pointer flex"
             />
             <span className='px-2 text-sm'>
                 {data.label}
@@ -50,12 +46,10 @@ const SelectedOptionComponent = ({ data, removeProps }: any) => (
 const SelectedSingleOptionComponent = (props: any) => (
     <components.SingleValue {...props}>
         <div className='flex items-center p-1'>
-            <Image
-                alt="user"
-                src={props.data.image ?? "/user.png"}
-                width={25}
-                height={25}
-                className="rounded-full cursor-pointer flex"
+            <UserAvatar1 
+                user={props.data}
+                size={25}
+                classes="rounded-full cursor-pointer flex"
             />
             <span className='px-2 text-sm'>
                 {props.data.label}

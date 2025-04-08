@@ -11,6 +11,7 @@ import CircleOfResourceModal from "@/components/CircleOfResourceModal";
 import { CircleOfResource } from "@/types/circleofresource.type";
 import { useSession } from "next-auth/react";
 import Swal from "sweetalert2";
+import UserAvatar1 from "@/components/UserAvatar1";
 
 const UserDetail = () => {
   const router = useRouter();
@@ -237,12 +238,10 @@ const UserDetail = () => {
           {userInfo != null && (
             <div className="mt-[60px] py-[34px] flex flex-col font-Inter">
               <div className="mx-auto">
-                <Image
-                  alt="user"
-                  src={userInfo.image ?? "/user.png"}
-                  width={100}
-                  height={100}
-                  className="rounded-full cursor-pointer mx-auto"
+                <UserAvatar1 
+                  user={userInfo}
+                  size={100}
+                  classes="rounded-full cursor-pointer mx-auto"
                 />
                 <h2 className="mt-4 text-[25px] font-bold text-center">
                   {name}

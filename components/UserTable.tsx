@@ -1,5 +1,4 @@
 import { useState, useMemo } from "react";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import shortid from "shortid";
 
@@ -22,6 +21,7 @@ import {
   usePagination,
 } from "react-table";
 import StatusItem from "./StatusItem";
+import UserAvatar1 from "./UserAvatar1";
 
 // Define a default UI for filtering
 const GlobalFilter = ({
@@ -298,12 +298,10 @@ const UserTable = ({
                                   onClick={() => handleProfileClick(row)}
                                   className="cursor-pointer flex items-center justify-center w-full h-16"
                                 >
-                                  <Image
-                                    alt="user"
-                                    src={cell.value ?? "/user.png"}
-                                    width={40}
-                                    height={40}
-                                    className="rounded-full cursor-pointer"
+                                  <UserAvatar1
+                                    user={row.original}
+                                    size={40}
+                                    classes="rounded-full cursor-pointer" 
                                   />
                                 </a>
                               ) : cell.column.id == "name" ? (

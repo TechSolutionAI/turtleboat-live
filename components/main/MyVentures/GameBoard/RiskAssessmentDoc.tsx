@@ -200,88 +200,15 @@ const RiskAssessmentDoc = ({ venture }: RiskAssessmentDocProps) => {
                     </> :
                     <p className="font-Inter">N/A</p>
             }
-            {
-                venture?.storyTrain ? 
-                <h1 className="font-Inter mt-[840px] text-2xl font-semibold">Individual Mentor Assessments</h1> : 
-                <h1 className="font-Inter mt-10 text-2xl font-semibold">Individual Mentor Assessments</h1>
-            }
+            <h1 className="font-Inter mt-10 text-2xl font-semibold">Individual Mentor Assessments</h1>
             {venture?.assessments && venture?.assessments.map((item, index) => {
-                if (memberType == "mentee")
                     return (
                         <div key={index}>
                             <div className="flex flex-row items-center my-3">
-                                {/* <img className="rounded-full" width={24} height={24} src={getMentorInfo(item._id).img} alt={"ddd"} /> */}
                                 <h1 className="font-Inter ml-3 text-xl font-light">{getMentorInfo(item._id).name}:</h1>
                             </div>
                             <AnalysisAssessment chartData={getChartData(item._id)} />
-                            {/* <div className="flex flex-col w-[712px] mx-12 mt-4">
-                                <div className="ml-[120px] mb-2 flex justify-between mr-[16px]">
-                                    <span className="italic font-Inter text-[9px]">Highly risky</span>
-                                    <span className="italic font-Inter text-[9px]">Lower probable risk</span>
-                                </div>
-                                <IndividualRiskAssess index={0} assessment={item.value} handlePoint={() => { }} />
-                                <IndividualRiskAssess index={1} assessment={item.value} handlePoint={() => { }} />
-                                <IndividualRiskAssess index={2} assessment={item.value} handlePoint={() => { }} />
-                                <IndividualRiskAssess index={3} assessment={item.value} handlePoint={() => { }} />
-                                <div className="flex flex-row justify-center my-[2px]">
-                                    <div className="w-[60px] lg:w-[100px] h-[74px] rounded-md">
-                                    </div>
-                                    <div className="w-[100px] ml-2 mr-1 text-center my-[auto]">
-                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">Little to no proof/ traction</p>
-                                    </div>
-                                    <div className="w-[100px] ml-2 mr-1 text-center my-[auto]">
-                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">Some proof, not enough</p>
-                                    </div>
-                                    <div className="w-[100px] ml-2 mr-1 text-center my-[auto]">
-                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">On the right track</p>
-                                    </div>
-                                    <div className="w-[100px] ml-2 mr-1 text-center my-[auto]">
-                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">Promise evidence</p>
-                                    </div>
-                                    <div className="w-[100px] ml-2 mr-1 text-center my-[auto]">
-                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">Solid evidence, given stage of venture</p>
-                                    </div>
-                                </div>
-                            </div> */}
-                        </div>
-                    )
-                else if (user?._id == item._id)
-                    return (
-                        <div key={index}>
-                            <div className="flex flex-row items-center my-3">
-                                {/* <img className="rounded-full" width={24} height={24} src={getMentorInfo(item._id).img} alt={"ddd"} /> */}
-                                <h1 className="font-Inter ml-3 text-xl font-light">{getMentorInfo(item._id).name}:</h1>
-                            </div>
-                            <AnalysisAssessment chartData={getChartData(item._id)} />
-                            {/* <div className="flex flex-col w-[712px] mx-12 mt-4">
-                                <div className="ml-[120px] mb-2 flex justify-between mr-[16px]">
-                                    <span className="italic font-Inter text-[9px]">Highly risky</span>
-                                    <span className="italic font-Inter text-[9px]">Lower probable risk</span>
-                                </div>
-                                <IndividualRiskAssess index={0} assessment={item.value} handlePoint={() => { }} />
-                                <IndividualRiskAssess index={1} assessment={item.value} handlePoint={() => { }} />
-                                <IndividualRiskAssess index={2} assessment={item.value} handlePoint={() => { }} />
-                                <IndividualRiskAssess index={3} assessment={item.value} handlePoint={() => { }} />
-                                <div className="flex flex-row justify-center my-[2px]">
-                                    <div className="w-[60px] lg:w-[100px] h-[74px] rounded-md">
-                                    </div>
-                                    <div className="w-[100px] ml-2 mr-1 text-center my-[auto]">
-                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">Little to no proof/ traction</p>
-                                    </div>
-                                    <div className="w-[100px] ml-2 mr-1 text-center my-[auto]">
-                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">Some proof, not enough</p>
-                                    </div>
-                                    <div className="w-[100px] ml-2 mr-1 text-center my-[auto]">
-                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">On the right track</p>
-                                    </div>
-                                    <div className="w-[100px] ml-2 mr-1 text-center my-[auto]">
-                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">Promise evidence</p>
-                                    </div>
-                                    <div className="w-[100px] ml-2 mr-1 text-center my-[auto]">
-                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">Solid evidence, given stage of venture</p>
-                                    </div>
-                                </div>
-                            </div> */}
+                          
                         </div>
                     )
             })}
