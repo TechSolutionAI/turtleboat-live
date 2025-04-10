@@ -1,9 +1,10 @@
-import { useSession } from "next-auth/react";
 import AnalysisAssessment from "./AnalysisAssessment"
 import { User } from "next-auth";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { Document, Page, Text, View, Image, StyleSheet, PDFViewer } from "@react-pdf/renderer";
 import { Venture } from "@/types/venture.type";
-
+import html2canvas from "html2canvas";
+import Spinner from "@/components/Spinner";
 
 interface RiskAssessmentDocProps {
     venture: Venture | undefined;
@@ -18,12 +19,14 @@ interface BubbleData {
 }
 
 const RiskAssessmentDoc = ({ venture }: RiskAssessmentDocProps) => {
-    const { data: session } = useSession();
-    const user = session?.user as User;
 
-    const [memberType, setMemberType] = useState<string>("mentor");
     const [coMentees, setCoMentees] = useState<User[]>([]);
     const [coMentors, setCoMentors] = useState<User[]>([]);
+    const refs = useRef<(HTMLDivElement | null)[]>([]);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [images, setImages] = useState<string[]>([]);
+    const [isRendered, setIsRendered] = useState(false);
+    const [isFullRendered, setIsFullRendered] = useState(false);
 
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
@@ -135,84 +138,174 @@ const RiskAssessmentDoc = ({ venture }: RiskAssessmentDocProps) => {
         }
     }
 
-    useEffect(() => {
-        if (venture && venture.mentee != null && venture.mentee != undefined) {
-            if (venture.mentee.email == user.email) {
-                setMemberType("mentee");
-            } else {
-                setMemberType("mentor");
-            }
+    const captureImages = async () => {
+      const capturedImages: string[] = [];
+      for (let i = 0; i < refs.current.length; i++) {
+        const element = refs.current[i];
+        if (element) {
+          try {
+            const canvas = await html2canvas(element);
+            const imgData = canvas.toDataURL('image/png');
+            capturedImages.push(imgData);
+          } catch (error) {
+            console.error(`Failed to capture element ${i}:`, error);
+          }
         }
+      }
+      setIsFullRendered(true);
+      setImages(capturedImages);
+    };
+
+    useEffect(() => {
         if (venture) {
             getCollaborators();
         }
+    }, [venture]);
+
+    useEffect(() => {
+        if (isRendered) {
+            captureImages();
+        }
+    }, [isRendered]);
+
+    useEffect(() => {
+        setIsRendered(true);
     }, []);
 
+    
+    const styles = StyleSheet.create({
+      body: {
+        paddingTop: 45,
+        paddingBottom: 65,
+        paddingHorizontal: 35,
+      },
+      title: {
+        fontSize: 24,
+        textAlign: 'center',
+        fontWeight: 'bold',
+      },
+      author: {
+        fontSize: 12,
+        textAlign: 'center',
+        marginVertical: 10,
+      },
+      subtitle: {
+        fontSize: 18,
+        marginHorizontal: 12,
+        marginTop: 20,
+        fontWeight: 'bold',
+      },
+      text: {
+        marginHorizontal: 12,
+        marginTop: 4,
+        fontSize: 14,
+        textAlign: 'justify',
+      },
+      textBold: {
+        marginHorizontal: 12,
+        marginTop: 4,
+        fontSize: 14,
+        textAlign: 'justify',
+        fontWeight: 'bold',
+      },
+      image: {
+        marginHorizontal: 12,
+        marginVertical: 15,
+      },
+      header: {
+        fontSize: 12,
+        marginBottom: 20,
+        textAlign: 'center',
+        color: 'grey',
+      },
+      pageNumber: {
+        position: 'absolute',
+        fontSize: 12,
+        bottom: 30,
+        left: 0,
+        right: 0,
+        textAlign: 'center',
+        color: 'grey',
+      },
+    });
+
     return (
-        <div className="mx-auto w-[795px]">
-            <div className="flex flex-col w-full font-Inter">
-                <h1 className="text-2xl font-Inter text-center font-bold mt-10">{venture?.title}</h1>
-                <h1 className="font-Inter text-center text-xl">Reported from: {formatDate(new Date().toDateString())}</h1>
-            </div>
-            <h1 className="font-Inter mt-6 font-semibold text-xl">Venture Team:
-                {coMentees.map((item: User, index: number) => {
+      <div className="relative">
+        {
+          isFullRendered ?       <PDFViewer style={{ width: '100%', height: '80vh' }}>
+          <Document>
+            <Page style={styles.body}>
+              <Text style={styles.title}>{venture?.title}</Text>
+              <Text style={styles.author}>Reported from: {formatDate(new Date().toDateString())}</Text>
+              <Text style={styles.subtitle}>
+                Venture Team:
+              </Text>
+              {coMentees.map((item: User, index: number) => {
+                return (
+                    <Text key={index} style={styles.text}>
+                         {item.name}
+                    </Text>
+                )
+              })}
+              <Text style={styles.subtitle}>
+                Mentors:
+              </Text>
+              {coMentors.map((item: any, index: number) => {
+                return (
+                    <Text key={index} style={styles.text}>
+                         {item.name}{alreadyAssessed(item?._id) && <Text>*</Text>}
+                    </Text>
+                )
+              })}
+              <Text style={styles.text}>* Indicates completion of risk assessment</Text>
+              <Text style={styles.subtitle}>Elevator Pitch</Text>
+                {
+                    venture?.storyTrain ?
+                        <>
+                            {
+                                venture.storyTrain.map((item: any, index: number) => {
+                                    return (
+                                        <>
+                                            <Text style={styles.textBold}>{item.label}</Text>
+                                            <Text style={styles.text}>{item.value == "" ? "N/A" : item.value}</Text>
+                                        </>
+                                    )
+                                })
+                            }
+                        </> :
+                        <Text style={styles.text}>N/A</Text>
+                }
+              <Text style={styles.subtitle}>Individual Mentor Assessments</Text>
+              {images.map((imgSrc, index) => (
+                <View key={index}>
+                  <Image src={imgSrc} style={styles.image} />
+                </View>
+              ))}
+              <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => (
+                `${pageNumber} / ${totalPages}`
+              )} fixed />
+            </Page>
+          </Document>
+        </PDFViewer> :
+        <Spinner />
+        }
+
+    <div ref={containerRef} className="absolute z-[-1] top-[-5000px]">
+    {venture?.assessments && venture?.assessments.map((item, index) => {
                     return (
-                        <div key={index} className="font-normal">
-                            <span className="font-md"> {item.name},</span>
-                        </div>
-                    )
-                })}
-                {coMentors.map((item: User, index: number) => {
-                    return (
-                        <div key={index} className="font-normal">
-                            <span className="font-md"> {item.name}</span>
-                            {index != coMentors.length - 1 && <span>,</span>}
-                        </div>
-                    )
-                })}
-            </h1>
-            <h1 className="font-Inter mt-6 font-semibold text-xl">Mentors:
-                {venture?.mentors.map((item: any, index: number) => {
-                    return (
-                        <div key={index} className="font-normal">
-                            <span>{item.name}</span>
-                            {alreadyAssessed(item?._id) && <span>*</span>}
-                            {index != venture?.mentors.length - 1 && <span>, </span>}
-                        </div>
-                    )
-                })}
-            </h1>
-            <p className="font-Inter">* Indicates completion of risk assessment</p>
-            <h1 className="font-Inter mt-6 text-xl font-semibold">Elevator Pitch</h1>
-            {
-                venture?.storyTrain ?
-                    <>
-                        {
-                            venture.storyTrain.map((item: any, index: number) => {
-                                return (
-                                    <>
-                                        <p className="font-Inter text-md font-bold">{item.label}</p>
-                                        <p className="font-Inter">{item.value == "" ? "N/A" : item.value}</p>
-                                    </>
-                                )
-                            })
-                        }
-                    </> :
-                    <p className="font-Inter">N/A</p>
-            }
-            <h1 className="font-Inter mt-10 text-2xl font-semibold">Individual Mentor Assessments</h1>
-            {venture?.assessments && venture?.assessments.map((item, index) => {
-                    return (
-                        <div key={index}>
-                            <div className="flex flex-row items-center my-3">
-                                <h1 className="font-Inter ml-3 text-xl font-light">{getMentorInfo(item._id).name}:</h1>
+                        <div key={index} 
+                        ref={(el) => (refs.current[index] = el)}
+                        >
+                            <div className="">
+                                <h1 className="mb-3 text-xl font-bold">{getMentorInfo(item._id).name}:</h1>
                             </div>
                             <AnalysisAssessment chartData={getChartData(item._id)} />
                           
                         </div>
                     )
             })}
-        </div>
+    </div>
+    </div>
     )
 }
 
