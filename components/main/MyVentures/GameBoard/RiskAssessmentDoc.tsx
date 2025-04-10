@@ -250,7 +250,7 @@ const RiskAssessmentDoc = ({ venture }: RiskAssessmentDocProps) => {
               <Text style={styles.subtitle}>
                 Mentors:
               </Text>
-              {coMentors.map((item: any, index: number) => {
+              {venture?.mentors.map((item: any, index: number) => {
                 return (
                     <Text key={index} style={styles.text}>
                          {item.name}{alreadyAssessed(item?._id) && <Text>*</Text>}
