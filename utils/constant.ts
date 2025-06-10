@@ -44,7 +44,7 @@ export const emotionList = [
     }
 ];
 
-export const collaTablist = ["Project Planning", "Meeting Minutes", "T-Reports"];
+export const collaTablist = ["Notepad", "Mentors ChitChat", "T-Reports"];
 
 export const trains = [
     {

@@ -152,19 +152,19 @@ const EvaluatorAssessmentModal = ({ showModal, closeModal, vid, user, assessment
                                     <div className="w-[60px] lg:w-[100px] h-[40px] lg:h-[74px] rounded-md">
                                     </div>
                                     <div className="w-[60px] lg:w-[100px] ml-1 lg:ml-2 mr-1 text-center my-[auto]">
-                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">Little to no proof/ traction</p>
+                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">None or not able to understand</p>
                                     </div>
                                     <div className="w-[60px] lg:w-[100px] ml-1 lg:ml-2 mr-1 text-center my-[auto]">
-                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">Some proof, not enough</p>
+                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">Need more detail</p>
                                     </div>
                                     <div className="w-[60px] lg:w-[100px] ml-1 lg:ml-2 mr-1 text-center my-[auto]">
                                         <p className="font-Inter text-[10px] font-semibold text-gray-600">On the right track</p>
                                     </div>
                                     <div className="w-[60px] lg:w-[100px] ml-1 lg:ml-2 mr-1 text-center my-[auto]">
-                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">Promise evidence</p>
+                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">Well-thought out</p>
                                     </div>
                                     <div className="w-[60px] lg:w-[100px] ml-1 lg:ml-2 mr-1 text-center my-[auto]">
-                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">Solid evidence, given stage of venture</p>
+                                        <p className="font-Inter text-[10px] font-semibold text-gray-600">Very comfortable</p>
                                     </div>
                                 </div>
                             </div>

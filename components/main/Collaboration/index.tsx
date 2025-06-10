@@ -197,7 +197,7 @@ const Index = () => {
             </ul>
           </div>
           <div className="mt-[40px] rounded-xl bg-[#F7F7F9] lg:mx-[5%] xl:mx-[10%] 2xl:mx-[15%] px-[40px] py-[34px] flex flex-col justify-center font-Inter">
-            <h1 className="font-Inter font-bold text-xl">Team Collaboration</h1>
+            <h1 className="font-Inter font-bold text-xl">{collaTablist[selectedTab]}</h1>
             {
                 comments != null &&
                 comments.length > 0 &&

@@ -466,7 +466,7 @@ const LemonadeDetail = () => {
                   <p>{lemonade?.pillar}</p>
                 </div>
                 <div className="">
-                  <h3 className="font-bold text-[16px] py-2">Content</h3>
+                  <h3 className="font-bold text-[16px] py-2">Context</h3>
                   <p>{lemonade?.description}</p>
                 </div>
                 <div className="flex items-center gap-x-2">

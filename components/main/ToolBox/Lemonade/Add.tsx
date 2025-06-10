@@ -17,9 +17,9 @@ interface Option {
 }
 
 const purposesOptions = [
-  { label: `to figure out “why this, why me, why now” story`, value: 0 },
+  { label: `Brainstorm in a Sandbox`, value: 0 },
   {
-    label: `to convey my “why this, why me, why now” story in conversation mode to practice networking`,
+    label: `Messy Conversations`,
     value: 1,
   },
 ];
@@ -55,8 +55,7 @@ const Add = ({}: {}) => {
       email: user.email ?? "",
       label: user.isNewUser
         ? user.name ?? ""
-        : user?.basicProfile?.firstName + " " + user?.basicProfile?.lastName ??
-          "",
+        : user?.basicProfile?.firstName + " " + user?.basicProfile?.lastName,
       image: user.image ?? "",
       value: user._id ?? "",
     },
@@ -241,9 +240,9 @@ const Add = ({}: {}) => {
           </div>
           <div className="relative mt-6 flex-auto">
             <label className="font-Inter font-semibold tracking-[0.1em] text-[#232325]">
-              ANCHOR PILLAR{" "}
+              Bottleneck Pillar{" "}
               <span className="font-normal tracking-normal">
-                {`(select if you have a particular pillar you don't want to change)`}
+                {`(select your buggest issue)`}
               </span>
             </label>
             <Select
@@ -308,20 +307,22 @@ const Add = ({}: {}) => {
             )}
           </div>
           <div className="mt-6 flex-auto">
-            If you&#39;re using Coffee Chat to brainstorm ideas and value propositions,
-            provide short context as to why you&#39;re fixed on the pillar you chose
-            as the anchor. Do you have a problem that you&#39;re looking for ways to
-            address the most efficiently with your skills and Circle of
-            Resources? Do you have a “solution” looking for the right problem to
-            solve (aka some piece of tech or design, looking for the best
-            Problem and/or Character to need it)? Or is your problem too big and
-            you&#39;re looking for ways to break it down into pain points felt by
-            different Characters? Record a 30 second version of your thoughts to
-            support. If you&#39;re using this as a networking simulation, you don&#39;t
-            have to write anything here because your 30 second sound bite will
-            be what you say after you introduce yourself to a small group of
-            folks (some may already know you, others might not know anything
-            about you).
+            <p>
+            Coffee Chat is a way to interact with multiple folks who are not necessarily your assigned mentor(s), allowing up to 5 participants total. Each participant is limited to 20 responses, and the conversation is tightly scaffolded. There are 2 ways to use this tool:
+            </p>
+
+            <p className="mt-4 ml-4">
+            1. <span className="ml-4"></span> Sandbox: this is a lightweight, virtual brainstorming tool to build on ideas, challenge assumptions, and explore pivots. It&#39;s not about solving everything—it&#39;s about sparking insight, shifting perspectives, and springboarding ideas in a time-bound, purposeful way.
+
+            </p>
+            <p className="mt-2 ml-4">
+            2. <span className="ml-4"></span>Messy conversations: In real-world networking, no one hands you a mic and says “begin your deck.” Instead, you get 30 seconds to introduce what you&#39;re building—usually to someone distracted, skeptical, or curious in unpredictable ways. Practice how to respond, open to the unexpected, while staying grounded.
+            </p>
+          
+            <p className="mt-8">
+            Choose your option in the dropdown to let your invitees know how to best participate. Don&#39;t forget to record your soundbite!
+            </p>
+
           </div>
           <div className="relative mt-6 flex-auto">
             <label className="font-Inter font-semibold tracking-[0.1em] text-[#232325]">
