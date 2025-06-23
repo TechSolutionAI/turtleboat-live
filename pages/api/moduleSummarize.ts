@@ -1,10 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ObjectId } from "mongodb";
-import clientPromise from "@/utils/mongodb";
+
 import { Session, getServerSession } from "next-auth";
 import { authOptions } from "./auth/[...nextauth]";
 import Pusher from "pusher";
 import { User } from "@/types/user.type";
+import getDb from "@/utils/getdb";
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -48,8 +49,7 @@ async function updateSummarize(req: NextApiRequest, res: NextApiResponse) {
     const session: Session | null = await getServerSession(req, res, authOptions);
     const user = session?.user as User;
 
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_NAME);
+    const db = await getDb();
 
     const result = await db.collection("ventures").updateOne(
       {

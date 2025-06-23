@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import sendgrid from "@sendgrid/mail";
-import clientPromise from "@/utils/mongodb";
 import { v4 as uuid } from "uuid";
 import { Session, getServerSession } from "next-auth";
 import { authOptions } from "./auth/[...nextauth]";
+import getDb from "@/utils/getdb";
 
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY ?? "");
 
@@ -46,8 +46,7 @@ export default async function handler(
   });
   // Prepare data to input into database
   let invites: Array<any> = [];
-  const client = await clientPromise;
-  const db = client.db(process.env.MONGODB_NAME);
+  const db = await getDb();
   const userInfo = await db
     .collection("users")
     .findOne({ email: session?.user?.email });
@@ -64,8 +63,7 @@ export default async function handler(
   });
   // Access database and input invites data
   try {
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_NAME);
+    const db = await getDb();
     const result = await db
       .collection("invites")
       .insertMany(invites);

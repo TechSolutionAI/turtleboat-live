@@ -4,7 +4,11 @@ import { Transition } from '@headlessui/react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Spinner from "@/components/Spinner";
 import { ComicPanel, ComicStrip } from '@/types/comicstrip.type';
-import ComicStripEditor from '../ComicStripEditor';
+import dynamic from "next/dynamic";
+
+const ComicStripEditor = dynamic(() => import("../ComicStripEditor"), {
+  ssr: false,
+});
 
 const initialPanels: ComicPanel[] = [
     {

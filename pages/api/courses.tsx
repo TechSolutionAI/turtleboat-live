@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ObjectId } from "mongodb";
-import clientPromise from "@/utils/mongodb";
+import getDb from "@/utils/getdb";
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -32,8 +32,7 @@ export default function handler(
 async function createCourse(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { data } = req.body;
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_NAME);
+    const db = await getDb();
     const result = await db
       .collection("courses")
       .insertOne(data);
@@ -52,8 +51,7 @@ async function createCourse(req: NextApiRequest, res: NextApiResponse) {
 
 async function getCourses(res: NextApiResponse) {
   try {
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_NAME);
+    const db = await getDb();
 
     const result = await db
       .collection("courses")
@@ -69,8 +67,7 @@ async function updateCourse(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { id, data } = req.body;
     const courseId = new ObjectId(id.toString());
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_NAME);
+    const db = await getDb();
     const result = await db
       .collection("courses")
       .updateOne({ _id: courseId }, { $set: data });

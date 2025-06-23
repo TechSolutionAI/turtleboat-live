@@ -22,7 +22,7 @@ interface TokenAction {
 
 const TokenItem = () => {
     const router = useRouter();
-    const { data: session, update: updateSession} = useSession();
+    const { data: session} = useSession();
     const user = session?.user as User;
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -97,25 +97,7 @@ const TokenItem = () => {
             const channel = pusher.subscribe(`user-token-${user._id}`);
     
             channel.bind("token-history", (data: TokenAction) => {
-                // add token +
-                const temp = tokenData;
-                setTokenData({
-                    tokenAmount: temp.tokenAmount + data.tokenAmount,
-                    totalTokens: temp.totalTokens + data.tokenAmount,
-                    quarterTokens: temp.quarterTokens + data.tokenAmount
-                })
-                if (data.type == 0) {
-                    updateSession({ user: { tokens: temp.tokenAmount - data.tokenAmount } });
-                } else {
-                    updateSession({ user: { tokens: temp.tokenAmount + data.tokenAmount, totalEarnedTokens: temp.tokenAmount + data.tokenAmount } });
-                }
-                setHasNewToken(true);
-                setQuarterTokens(temp.quarterTokens + data.type == 1 ? data.tokenAmount : 0);
-                setNewTokenInfo({
-                    type: data.type,
-                    name: data.name,
-                    amount: data.tokenAmount
-                })
+                getInfo();
             });
     
             return () => {

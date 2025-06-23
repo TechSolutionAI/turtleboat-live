@@ -1,6 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ObjectId } from "mongodb";
-import clientPromise from "@/utils/mongodb";
+import { getServerSession, Session } from "next-auth";
+import { authOptions } from "./auth/[...nextauth]";
+import { User } from "@/types/user.type";
+import { pusher } from "@/utils/pusher-server";
+import getDb from "@/utils/getdb";
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -28,11 +32,16 @@ export default function handler(
 }
 
 async function updateStakeholderScenario(req: NextApiRequest, res: NextApiResponse) {
+
+    const session: Session | null = await getServerSession(req, res, authOptions);
+    const user = session?.user as User;
+    const userId = user._id;
+
+        
     try {
         const { vid, data } = req.body;
         const ventureId = new ObjectId(vid.toString());
-        const client = await clientPromise;
-        const db = client.db(process.env.MONGODB_NAME);
+        const db = await getDb();
         
         const result = await db
             .collection("ventures")
@@ -44,6 +53,42 @@ async function updateStakeholderScenario(req: NextApiRequest, res: NextApiRespon
                     updatedAt: new Date()
                 }
             });
+
+        // Get Token Action for "Brainstorm": no is 18
+        const tokenAction = await db
+        .collection("token_actions")
+        .findOne({ no: 18 });
+
+        await db.collection("token_history").insertOne({
+            userId: userId,
+            createdAt: new Date(),
+            amount: tokenAction.tokenAmount,
+            isView: false,
+            updatedAt: new Date(),
+            actionNo: 18,
+            type: "action",
+        });
+
+        pusher.trigger(`user-token-${userId}`, "token-history", {
+            type: 1,
+            name: tokenAction.name,
+            tokenAmount: tokenAction.tokenAmount,
+        });
+        // Update User Tokens
+        const userInfo = await db.collection("users").findOne({ _id: userId });
+
+        await db.collection("users").updateOne(
+            {
+                _id: userId,
+            },
+            {
+                $set: {
+                    tokens: userInfo.tokens + tokenAction.tokenAmount,
+                    totalEarnedTokens:
+                        userInfo.totalEarnedTokens + tokenAction.tokenAmount,
+                },
+            }
+        );
 
         if (!result.matchedCount) {
             res.status(500).json({ err: SERVER_ERR_MSG });

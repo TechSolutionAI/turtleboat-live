@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import { UserBasicProfile, UserAdvancedProfile } from "@/types/user.type";
+import { Venture } from "./types/venture.type";
 
 declare module "next-auth" {
   interface User {
@@ -17,5 +18,9 @@ declare module "next-auth" {
     createdAt: string;
     lastLogin?: string | undefined;
     followers?: any;
+    ventures?: Venture[] | undefined;
+    isPaid?: boolean | null | undefined;
+    paidNote?: string | null | undefined;
+    isAccessCore?: boolean | null | undefined;
   }
 }

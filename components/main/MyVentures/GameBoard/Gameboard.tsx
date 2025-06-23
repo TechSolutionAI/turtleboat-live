@@ -566,7 +566,7 @@ const Gameboard = () => {
                 Proof of Opportunity
               </h2>
               <p className="text-[12px] mt-0 py-2">
-                Connected to the &quot;enough proof&quot; switch inside each puzzle piece, founders can self-assess their progress and get a 30,000 foot view of the current state of the journey.  If there are assigned mentor(s), their risk assessment can be downloaded below.  Compare/contrast your self-assessment, includes how well you have transformed an &quot;I believe&quot; into an &quot;I now know this is true&quot; through iterations of talking/building prototypes/testing.
+                Connected to the &quot;enough proof&quot; switch embedded in each puzzle piece, these progress dials track both the breadth and depth of your journey. Each time a piece reaches external validation, the needle advances. As you test, learn, and level up, you earn Token—moving from uninformed, uncertain, and unproven to evidence-backed confidence. These dials demonstrate that you’re not just chasing an idea, but uncovering a real opportunity—one that solves a meaningful problem in a way that can sustain and scale. If you have mentors providing their lens of risk, you can download their risk assessment
               </p>
             </div>
             <div className="flex-col justify-between grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-4">

@@ -273,7 +273,7 @@ const CharacterBrainstorm = () => {
   }
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSaving, setIsSaving] = useState<boolean>(false);
-  const [venture, setVenture] = useState<Venture>();
+  const [venture, setVenture] = useState<Venture | null>(null);
 
   const [characters, setCharacters] = useState<Character[]>(initialCharacters);
   const [selectedCharacter, setSelectedCharacter] = useState<Character>();
@@ -332,10 +332,11 @@ const CharacterBrainstorm = () => {
           venture.stakeholderScenario != undefined &&
           venture.stakeholderScenario != null
         ) {
-          setCharacters(venture.stakeholderScenario.characters);
+          setCharacters(venture.stakeholderScenario.characters ?? initialCharacters);
           setProblemContent(venture.stakeholderScenario.problem);
+          setProblemContentLength(venture.stakeholderScenario.problem.length);
           setComments(venture.stakeholderScenario.comments ?? []);
-          venture.stakeholderScenario.characters.map(
+          characters.map(
             (character: Character, index: number) => {
               if (character.isUser && character?.name) {
                 setSelectedUser(character.name);
@@ -412,6 +413,26 @@ const CharacterBrainstorm = () => {
   };
 
   const saveComment = async () => {
+    if (ventureId === null || ventureId === ""){
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "You must save the brainstorm to a venture before adding comments.",
+      })
+
+      return;
+    }
+
+    if (commentContent === "" && files === null) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Comment content is empty. Please add comments or attach files.",
+      })
+
+      return;
+    }
+
     if (commentContent != "" || files != null) {
       const formData = new FormData();
       formData.append("content", commentContent);
@@ -445,6 +466,8 @@ const CharacterBrainstorm = () => {
         }).catch((err) => console.log(err));
       } else {
         const { result } = await response.json();
+        setComments((prevComments) => [...prevComments, result]);
+        setCommentContent("");
         setIsCreating(false);
         // addComment(result);
       }
@@ -648,6 +671,11 @@ const CharacterBrainstorm = () => {
     if (session != undefined) {
       if (problemContent != "") {
         setIsSaving(true);
+        setSelectedVentureIndex(index);
+        if (ventureId == "" && index >= 0)  {
+          ventureId = ventureList[index].value;
+        }
+
         var data = {
           characters: characters,
           problem: problemContent,
@@ -658,7 +686,7 @@ const CharacterBrainstorm = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            vid: ventureId != "" ? ventureId : ventureList[index].value,
+            vid: ventureId,
             data: data,
           }),
         });
@@ -684,7 +712,11 @@ const CharacterBrainstorm = () => {
             allowOutsideClick: false,
             text: `Stakeholder Scenario was save successfully!`,
           })
-            .then(() => { })
+            .then(() => {
+              if (venture === null) {
+                router.push(`/dashboard/toolbox/characterbrainstorm/${ventureId}`);
+              }
+             })
             .catch((err) => console.log(err));
         }
       }
@@ -819,7 +851,6 @@ const CharacterBrainstorm = () => {
                             className="flex items-center justify-between px-[20px] py-[10px] cursor-default border-b-2 border-secondary-gray"
                             onClick={() => {
                               setSaveDropdownOpen(!saveDropdownOpen);
-                              setSelectedVentureIndex(index);
                               saveStakeholderScenario(index);
                             }}
                           >

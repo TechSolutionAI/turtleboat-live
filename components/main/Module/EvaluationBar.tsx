@@ -61,13 +61,13 @@ const EvaluationBar = ({ evaluations, user, cMentor, memberType, setTempEvaluati
                 </div>
                 <div className="relative">
                     {value == 0 ? "" : <img className={`absolute h-[34px] z-10`} src={uiParams[value - 1].src} alt="" style={{ left: `${uiParams[value - 1].left}` }} />}
-                    <div className="relative flex border border-gray-300 border-[2px] rounded-full overflow-hidden">
-                        <button className="w-[35px] h-[26px] h-12 bg-eval-red hover:bg-eval-sel-red focus:outline-none m-[2px] rounded-l-full" onClick={(memberType=="mentor" && user._id == cMentor._id)?() => handleValue(1):undefined}></button>
-                        <button className="w-[35px] h-[26px] h-12 bg-eval-red-2 hover:bg-eval-sel-red-2 focus:outline-none m-[2px]" onClick={(memberType=="mentor" && user._id == cMentor._id)?() => handleValue(2):undefined}></button>
-                        <button className="relative w-[35px] h-[26px] h-12 bg-eval-orange hover:bg-eval-sel-orange focus:outline-none m-[2px]" onClick={(memberType=="mentor" && user._id == cMentor._id)?() => handleValue(3):undefined}></button>
-                        <button className="w-[35px] h-[26px] h-12 bg-eval-yellow hover:bg-eval-sel-yellow focus:outline-none m-[2px]" onClick={(memberType=="mentor" && user._id == cMentor._id)?() => handleValue(4):undefined}></button>
-                        <button className="w-[35px] h-[26px] h-12 bg-eval-green hover:bg-eval-sel-green focus:outline-none m-[2px]" onClick={(memberType=="mentor" && user._id == cMentor._id)?() => handleValue(5):undefined}></button>
-                        <button className="w-[35px] h-[26px] h-12 bg-eval-green-2 hover:bg-eval-sel-green-2 focus:outline-none m-[2px] rounded-r-full" onClick={(memberType=="mentor" && user._id == cMentor._id)?() => handleValue(6):undefined}></button>
+                    <div className="relative flex border-gray-300 border-[2px] rounded-full overflow-hidden">
+                        <button className="w-[35px] h-[26px] bg-eval-red hover:bg-eval-sel-red focus:outline-none m-[2px] rounded-l-full" onClick={(memberType=="mentor" && user._id == cMentor._id)?() => handleValue(1):undefined}></button>
+                        <button className="w-[35px] h-[26px] bg-eval-red-2 hover:bg-eval-sel-red-2 focus:outline-none m-[2px]" onClick={(memberType=="mentor" && user._id == cMentor._id)?() => handleValue(2):undefined}></button>
+                        <button className="relative w-[35px] h-[26px] bg-eval-orange hover:bg-eval-sel-orange focus:outline-none m-[2px]" onClick={(memberType=="mentor" && user._id == cMentor._id)?() => handleValue(3):undefined}></button>
+                        <button className="w-[35px] h-[26px] bg-eval-yellow hover:bg-eval-sel-yellow focus:outline-none m-[2px]" onClick={(memberType=="mentor" && user._id == cMentor._id)?() => handleValue(4):undefined}></button>
+                        <button className="w-[35px] h-[26px] bg-eval-green hover:bg-eval-sel-green focus:outline-none m-[2px]" onClick={(memberType=="mentor" && user._id == cMentor._id)?() => handleValue(5):undefined}></button>
+                        <button className="w-[35px] h-[26px] bg-eval-green-2 hover:bg-eval-sel-green-2 focus:outline-none m-[2px] rounded-r-full" onClick={(memberType=="mentor" && user._id == cMentor._id)?() => handleValue(6):undefined}></button>
                     </div>
                 </div>
                 <div className="flex justify-center mt-2">

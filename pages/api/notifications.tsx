@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import clientPromise from "@/utils/mongodb";
 import { ObjectId } from "mongodb";
+import getDb from "@/utils/getdb";
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -43,8 +43,7 @@ async function getNewNotification(req: NextApiRequest, res: NextApiResponse) {
   };
   res.writeHead(200, headers);
 
-  const client = await clientPromise;
-  const db = client.db(process.env.MONGODB_NAME);
+  const db = await getDb();
   const notificationStream = db.collection("notifications").watch();
 
   notificationStream.on("change", async (change: any) => {
@@ -73,8 +72,7 @@ async function deleteNotification(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { nid } = req.body;
     const notificationId = new ObjectId(nid.toString());
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_NAME);
+    const db = await getDb();
     const result = await db
       .collection("notifications")
       .deleteOne({ _id: notificationId });
@@ -91,8 +89,7 @@ async function deleteNotification(req: NextApiRequest, res: NextApiResponse) {
 async function getUserNotifications(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { userId, type } = req.body;
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_NAME);
+    const db = await getDb();
     if (type == "roadside" || type == "lemonade") {
       let result = await db
         .collection("notifications")
@@ -142,8 +139,7 @@ async function setNotificationRead(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { nid } = req.body;
     const notificationId = new ObjectId(nid.toString());
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_NAME);
+    const db = await getDb();
     const result = await db.collection("notifications").updateOne(
       { _id: notificationId },
       {
@@ -167,8 +163,7 @@ async function setNotificationFlag(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { nid, isFlag } = req.body;
     const notificationId = new ObjectId(nid.toString());
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_NAME);
+    const db = await getDb();
     const result = await db.collection("notifications").updateOne(
       { _id: notificationId },
       {

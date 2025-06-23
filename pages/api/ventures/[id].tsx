@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import clientPromise from "@/utils/mongodb";
+
 import { ObjectId } from "mongodb";
+import getDb from "@/utils/getdb";
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -39,8 +40,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 async function deleteVenture(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { id } = req.query;
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_NAME);
+    const db = await getDb();
+    
     const ventureId = new ObjectId(id?.toString());
     const ventureInfo = await db
       .collection("ventures")
@@ -95,8 +96,8 @@ async function deleteVenture(req: NextApiRequest, res: NextApiResponse) {
 async function getVenture(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { id } = req.query;
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_NAME);
+    const db = await getDb();
+    
     const ventureId = new ObjectId(id?.toString());
     const result = await db.collection("ventures").findOne({ _id: ventureId });
     res.status(200).json({ venture: result, serverTime: new Date() });
@@ -109,8 +110,8 @@ async function getVentureModule(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { id } = req.query;
     const { mid } = req.body;
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_NAME);
+    const db = await getDb();
+    
     const ventureId = new ObjectId(id?.toString());
     const moduleId = new ObjectId(mid?.toString());
     const result = await db
@@ -170,8 +171,8 @@ async function getVentureModule(req: NextApiRequest, res: NextApiResponse) {
 async function archiveVenture(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { id } = req.query;
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_NAME);
+    const db = await getDb();
+    
     const ventureId = new ObjectId(id?.toString());
     const result = await db.collection("ventures").updateOne(
       {

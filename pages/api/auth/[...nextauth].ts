@@ -3,8 +3,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 import NextAuth, { User } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import LinkedinProvider from "next-auth/providers/linkedin";
-import clientPromise from "@/utils/mongodb";
+
 import { v2 as cloudinary } from "cloudinary";
+import getDb from "@/utils/getdb";
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -51,8 +52,8 @@ export const authOptions: any = {
   callbacks: {
     async session({ session, token }: any) {
       if (token) {
-        const client = await clientPromise;
-        const db = client.db(process.env.MONGODB_NAME);
+        const db = await getDb();
+        
         const result = await db
           .collection("users")
           .find({ email: token.email })
@@ -62,7 +63,31 @@ export const authOptions: any = {
             new Error("Couldn't find your account on DB!")
           );
         }
-        session.user.role = result[0].role;
+        
+        const user = result[0] as User; 
+        session.user.role = user.role;
+        session.user.id = user.id;
+        session.user._id = user._id;
+        session.user.image = user.image;
+        session.user.isNewUser = user.isNewUser;
+        session.user.basicProfile = user.basicProfile;
+        session.user.ventures = user.ventures;
+        session.user.advancedProfile = user.advancedProfile;
+        session.user.tokens = user.tokens;
+        session.user.totalEarnedTokens = user.totalEarnedTokens;
+        session.user.createdAt = user.createdAt;
+        session.user.lastLogin = user.lastLogin;
+        session.user.followers = user.followers;
+        session.user.isPaid = user.isPaid;
+        session.user.paidNote = user.paidNote;
+        session.user.isAccessCore = user.isAccessCore;
+
+        // update lastLogin field for every activity
+        await db.collection("users").updateOne(
+          { email: user.email },
+          { $set: { lastLogin: new Date()} }
+        );
+        
       }
       return session;
     },
@@ -123,8 +148,8 @@ export default async function handler(
       async session({ session }: any) {
         if (session) {
           try {
-            const client = await clientPromise;
-            const db = client.db(process.env.MONGODB_NAME);
+            const db = await getDb();
+            
             const result = await db
               .collection("users")
               .find({ email: session.user.email })
@@ -134,19 +159,31 @@ export default async function handler(
                 new Error("Couldn't find your account on DB!")
               );
             }
-            session.user.role = result[0].role;
-            session.user.id = result[0].id;
-            session.user._id = result[0]._id;
-            session.user.image = result[0].image;
-            session.user.isNewUser = result[0].isNewUser;
-            session.user.basicProfile = result[0].basicProfile;
-            session.user.ventures = result[0].ventures;
-            session.user.advancedProfile = result[0].advancedProfile;
-            session.user.tokens = result[0].tokens;
-            session.user.totalEarnedTokens = result[0].totalEarnedTokens;
-            session.user.createdAt = result[0].createdAt;
-            session.user.lastLogin = result[0].lastLogin;
-            session.user.followers = result[0].followers;
+            const user = result[0] as User; 
+            session.user.role = user.role;
+            session.user.id = user.id;
+            session.user._id = user._id;
+            session.user.image = user.image;
+            session.user.isNewUser = user.isNewUser;
+            session.user.basicProfile = user.basicProfile;
+            session.user.ventures = user.ventures;
+            session.user.advancedProfile = user.advancedProfile;
+            session.user.tokens = user.tokens;
+            session.user.totalEarnedTokens = user.totalEarnedTokens;
+            session.user.createdAt = user.createdAt;
+            session.user.lastLogin = user.lastLogin;
+            session.user.followers = user.followers;
+            session.user.isPaid = user.isPaid;
+            session.user.paidNote = user.paidNote;
+            session.user.isAccessCore = user.isAccessCore;
+
+            
+            // update lastLogin field for every activity
+            await db.collection("users").updateOne(
+              { email: user.email },
+              { $set: { lastLogin: new Date()} }
+            );
+            
           } catch (err: any) {
             return Promise.reject(err);
           }
@@ -156,8 +193,8 @@ export default async function handler(
       },
       async signIn({ user }: any) {
         try {
-          const client = await clientPromise;
-          const db = client.db(process.env.MONGODB_NAME);
+          const db = await getDb();
+          
 
           const verifiedUsers = await db
             .collection("users")

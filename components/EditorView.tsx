@@ -3,21 +3,25 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 interface EditorProps {
-    value: string
+    value: string | null | undefined
 }
 
 const EditorView = ({ value }: EditorProps) => {
     const editorRef = useRef();
-    const [editorData, setEditorData] = useState(value);
+    const [editorData, setEditorData] = useState(value ?? "");
 
     useEffect(() => {
-        setEditorData(value)
+        setEditorData(value ?? "")
     }, [])
 
     const editorConfiguration = {
         readOnly: true,
         mediaEmbed: {
             previewsInData: true
+        },
+        toolbar: [],
+        link: {
+            addTargetToExternalLinks: true,
         }
     };
 
@@ -32,12 +36,7 @@ const EditorView = ({ value }: EditorProps) => {
                 <>
                     <CKEditor
                         editor={ClassicEditor}
-                        config={{
-                            toolbar: [],
-                            link: {
-                                addTargetToExternalLinks: true,
-                            }
-                        }}
+                        config={editorConfiguration}
                         onReady={handleEditorReady}
                         disabled={true}
                         data={""}

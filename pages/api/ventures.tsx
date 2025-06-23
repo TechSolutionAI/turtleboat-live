@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ObjectId } from "mongodb";
-import clientPromise from "@/utils/mongodb";
+import getDb from "@/utils/getdb";
+
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -32,8 +33,8 @@ export default function handler(
 async function createVenture(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { data } = req.body;
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_NAME);
+    const db = await getDb();
+    
     const courseId = new ObjectId(data.course.toString());
     const course = await db
       .collection("courses")
@@ -168,8 +169,8 @@ async function createVenture(req: NextApiRequest, res: NextApiResponse) {
 
 async function getVentures(res: NextApiResponse) {
   try {
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_NAME);
+    const db = await getDb();
+    
     const result = await db
       .collection("ventures")
       .find({ isArchive: false })
@@ -208,8 +209,8 @@ async function updateVenture(req: NextApiRequest, res: NextApiResponse) {
     const courseId = new ObjectId(data.course.toString());
     const oldCourseId = new ObjectId(prevCourseId.toString());
     const ventureId = new ObjectId(id.toString());
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_NAME);
+    const db = await getDb();
+    
 
     if (data.course != prevCourseId) {
       const newCourseData = await db

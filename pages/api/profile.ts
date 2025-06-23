@@ -1,8 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Session, getServerSession } from "next-auth";
 import { authOptions } from "./auth/[...nextauth]";
-import clientPromise from "@/utils/mongodb";
+
 import { ObjectId } from "mongodb";
+import getDb from "@/utils/getdb";
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -38,8 +39,7 @@ async function getProfile(
   const session: Session | null = await getServerSession(req, res, authOptions);
   // Access database and update user data
   try {
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_NAME);
+    const db = await getDb();
     let result = await db
       .collection("users")
       .updateOne({ email: session?.user?.email }, { $set: req.body });
@@ -61,8 +61,7 @@ async function updateAdvancedProfile(
   const session: Session | null = await getServerSession(req, res, authOptions);
   // Access database and update user data
   try {
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_NAME);
+    const db = await getDb();
     const { uid, basicProfile, advancedProfile, isNewUser, tagsForRemove, tagsForAdd} = req.body
     const userId = new ObjectId(uid.toString());
 

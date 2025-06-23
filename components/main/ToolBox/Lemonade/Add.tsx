@@ -308,7 +308,7 @@ const Add = ({}: {}) => {
           </div>
           <div className="mt-6 flex-auto">
             <p>
-            Coffee Chat is a way to interact with multiple folks who are not necessarily your assigned mentor(s), allowing up to 5 participants total. Each participant is limited to 20 responses, and the conversation is tightly scaffolded. There are 2 ways to use this tool:
+            Coffee Chat is a way to interact with multiple folks who are not necessarily your assigned mentor(s), allowing up to 5 participants total. Each participant is limited to 20 responses, and the conversation is lightly scaffolded. There are 2 ways to use this tool:
             </p>
 
             <p className="mt-4 ml-4">
@@ -316,7 +316,7 @@ const Add = ({}: {}) => {
 
             </p>
             <p className="mt-2 ml-4">
-            2. <span className="ml-4"></span>Messy conversations: In real-world networking, no one hands you a mic and says “begin your deck.” Instead, you get 30 seconds to introduce what you&#39;re building—usually to someone distracted, skeptical, or curious in unpredictable ways. Practice how to respond, open to the unexpected, while staying grounded.
+            2. <span className="ml-4"></span>Messy conversations: In real-world networking, no one hands you a mic and says “begin your deck.” Instead, you get 30 seconds to introduce what you&#39;re building—usually to folks distracted, skeptical, or curious in unpredictable ways. Practice how to respond, open to the unexpected, while staying grounded.
             </p>
           
             <p className="mt-8">

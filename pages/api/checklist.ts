@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import clientPromise from "@/utils/mongodb";
 import { ObjectId } from "mongodb";
+import { pusher } from "@/utils/pusher-server";
+import getDb from "@/utils/getdb";
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -13,6 +14,7 @@ export default function handler(
     switch (method) {
         case 'POST':
             // Handle POST request
+            updateToken(req, res);
             break
         case 'PUT':
             // Handle PUT request
@@ -30,8 +32,7 @@ async function updateCheckStatus(req: NextApiRequest, res: NextApiResponse) {
         const moduleId = new ObjectId(mid.toString());
         const ventureId = new ObjectId(vid.toString());
 
-        const client = await clientPromise;
-        const db = client.db(process.env.MONGODB_NAME);
+        const db = await getDb();
         const result = await db.collection("ventures")
             .updateOne(
                 {
@@ -47,6 +48,64 @@ async function updateCheckStatus(req: NextApiRequest, res: NextApiResponse) {
                     }
                 }
             );
+        if (!result.matchedCount) {
+            res.status(500).json({ success: false, err: SERVER_ERR_MSG });
+        } else {
+            res.status(200).json({ success: true });
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ err: SERVER_ERR_MSG });
+    }
+}
+
+async function updateToken(req: NextApiRequest, res: NextApiResponse) {
+    try {
+        const { uid, mid, vid, index, checked } = req.body;
+        const userId = new ObjectId(uid);
+        const moduleId = new ObjectId(mid.toString());
+        const ventureId = new ObjectId(vid.toString());
+
+        const db = await getDb();
+   
+        const tokenAnctionNo = 20 + index;
+
+        const tokenAction = await db
+        .collection("token_actions")
+        .findOne({ no: tokenAnctionNo });
+
+        const tokenAmount = checked ? tokenAction.tokenAmount : -tokenAction.tokenAmount
+
+        await db.collection("token_history").insertOne({
+            userId: userId,
+            createdAt: new Date(),
+            amount: tokenAmount,
+            isView: false,
+            updatedAt: new Date(),
+            actionNo: tokenAnctionNo,
+            type: "action",
+        });
+
+        pusher.trigger(`user-token-${uid}`, "token-history", {
+            type: 1,
+            name: tokenAction.name,
+            tokenAmount: tokenAmount,
+        });
+        // Update User Tokens
+        const userInfo = await db.collection("users").findOne({ _id: userId });
+
+        const result = await db.collection("users").updateOne(
+            {
+                _id: userId,
+            },
+            {
+                $set: {
+                    tokens: userInfo.tokens + tokenAmount,
+                    totalEarnedTokens:
+                        userInfo.totalEarnedTokens + tokenAmount,
+                },
+            }
+        );
         if (!result.matchedCount) {
             res.status(500).json({ success: false, err: SERVER_ERR_MSG });
         } else {

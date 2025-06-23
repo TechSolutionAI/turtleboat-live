@@ -1,23 +1,15 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ObjectId } from "mongodb";
-import clientPromise from "@/utils/mongodb";
 import sendgrid from "@sendgrid/mail";
 import { v4 as uuid } from "uuid";
-import Pusher from 'pusher';
 import { Session, getServerSession } from "next-auth";
 import { authOptions } from "./auth/[...nextauth]";
+import { pusher } from "@/utils/pusher-server";
+import getDb from "@/utils/getdb";
 
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY ?? "");
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
-
-const pusher = new Pusher({
-    appId: process.env.PUSHER_APP_ID ?? '',
-    key: process.env.NEXT_PUBLIC_PUSHER_APP_KEY ?? '',
-    secret: process.env.PUSHER_APP_SECRET ?? '',
-    cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER ?? '',
-    useTLS: true,
-});
 
 export default function handler(
     req: NextApiRequest,
@@ -47,8 +39,7 @@ export default function handler(
 async function createLemonade(req: NextApiRequest, res: NextApiResponse) {
     try {
         const { data } = req.body;
-        const client = await clientPromise;
-        const db = client.db(process.env.MONGODB_NAME);
+        const db = await getDb();
         const lemonadeId = new ObjectId();
 
         let invites: Array<any> = [];
@@ -194,8 +185,7 @@ async function createLemonade(req: NextApiRequest, res: NextApiResponse) {
 async function getLemonades(req: NextApiRequest, res: NextApiResponse) {
     try {
         const session: Session | null = await getServerSession(req, res, authOptions);
-        const client = await clientPromise;
-        const db = client.db(process.env.MONGODB_NAME);
+        const db = await getDb();
         const ownLemonades = await db
             .collection("lemonades")
             .find({
@@ -235,8 +225,7 @@ async function updateLemonade(req: NextApiRequest, res: NextApiResponse) {
     try {
         const { id } = req.body;
         const lemonadeId = new ObjectId(id.toString());
-        const client = await clientPromise;
-        const db = client.db(process.env.MONGODB_NAME);
+        const db = await getDb();
 
         const result = await db
             .collection("lemonades")

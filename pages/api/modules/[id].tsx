@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import clientPromise from "@/utils/mongodb";
+
 import { ObjectId } from "mongodb";
+import getDb from "@/utils/getdb";
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -32,8 +33,8 @@ export default function handler(
 async function deleteModule(req: NextApiRequest, res: NextApiResponse) {
     try {
         const { id } = req.query;
-        const client = await clientPromise;
-        const db = client.db(process.env.MONGODB_NAME);
+        const db = await getDb();
+        
         const moduleId = new ObjectId(id?.toString());
         const result = await db
             .collection("modules")
@@ -51,8 +52,8 @@ async function deleteModule(req: NextApiRequest, res: NextApiResponse) {
 async function getModule(req: NextApiRequest, res: NextApiResponse) {
     try {
         const { id } = req.query;
-        const client = await clientPromise;
-        const db = client.db(process.env.MONGODB_NAME);
+        const db = await getDb();
+        
         const moduleId = new ObjectId(id?.toString());
         const result = await db
             .collection("modules")
@@ -66,8 +67,8 @@ async function getModule(req: NextApiRequest, res: NextApiResponse) {
 async function duplicateModule(req: NextApiRequest, res: NextApiResponse) {
     try {
         const { id } = req.query;
-        const client = await clientPromise;
-        const db = client.db(process.env.MONGODB_NAME);
+        const db = await getDb();
+        
         const moduleId = new ObjectId(id?.toString());
         const originalModule = await db
             .collection("modules")

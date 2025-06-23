@@ -1,11 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import clientPromise from "@/utils/mongodb";
+
 import formidable from "formidable";
 import { v2 as cloudinary } from "cloudinary";
 import { Session, getServerSession } from "next-auth";
 import { authOptions } from "./auth/[...nextauth]";
 import sendgrid from "@sendgrid/mail";
-import Pusher from "pusher";
+import { pusher } from "@/utils/pusher-server";
+import getDb from "@/utils/getdb";
 
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY ?? "");
 
@@ -21,14 +22,6 @@ cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME ?? "",
   api_key: process.env.CLOUDINARY_API_KEY ?? "",
   api_secret: process.env.CLOUDINARY_API_SECRET ?? "",
-});
-
-const pusher = new Pusher({
-  appId: process.env.PUSHER_APP_ID ?? "",
-  key: process.env.NEXT_PUBLIC_PUSHER_APP_KEY ?? "",
-  secret: process.env.PUSHER_APP_SECRET ?? "",
-  cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER ?? "",
-  useTLS: true,
 });
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -54,8 +47,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 async function saveNanoTalkVideo(req: NextApiRequest, res: NextApiResponse) {
   const session: Session | null = await getServerSession(req, res, authOptions);
   const form = new formidable.IncomingForm();
-  const client = await clientPromise;
-  const db = client.db(process.env.MONGODB_NAME);
+  const db = await getDb();
 
   try {
     form.parse(req, async (err, fields, files) => {

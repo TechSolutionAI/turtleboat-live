@@ -3,16 +3,16 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 interface EditorProps {
-    value: string,
+    value: string | null | undefined;
     onChange: (data: string) => void;
 }
 
 const Editor = ({ value, onChange }: EditorProps) => {
     const editorRef = useRef();
-    const [editorData, setEditorData] = useState<string>(value);
+    const [editorData, setEditorData] = useState<string>(value ?? "");
 
     useEffect(() => {
-        setEditorData(value)
+        setEditorData(value ?? "")
     }, [value])
 
     const editorConfiguration = {

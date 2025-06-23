@@ -173,3 +173,16 @@ export function sortModulesByDateAndType(modules: ModuleItem[], updatedAt: strin
     return (itemOrder[a.module.item] || 0) - (itemOrder[b.module.item] || 0);
   });
 }
+
+  // Converts an ISO date string to local date format (e.g., "YYYY-MM-DD HH:mm")
+  export const toLocalDateString = (isoString: string) => {
+    if (!isoString) return "";
+    const date = new Date(isoString);
+    return date.toLocaleString(undefined, {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };

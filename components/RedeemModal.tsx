@@ -52,7 +52,7 @@ const RedeemModal = ({ data, newToken }: { data: any; newToken: any }) => {
           </div>
           {newToken != null && newToken.name != "" && (
             <div className="font-Inter text-[12px] text-white bg-[#27AE60] px-2 py-1 inline-block rounded-md">
-              ! {newToken.name} {`${newToken.type == 0 ? "-" : "+"}`}
+              ! {newToken.name} {`${newToken.type == 0 ? "-" : newToken.amount >= 0 ? "+" : ""}`}
               {newToken.amount}
             </div>
           )}

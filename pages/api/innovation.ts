@@ -1,18 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Session, getServerSession } from "next-auth";
 import { authOptions } from "./auth/[...nextauth]";
-import clientPromise from "@/utils/mongodb";
-import Pusher from 'pusher';
+import { pusher } from "@/utils/pusher-server";
+import getDb from "@/utils/getdb";
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
-
-const pusher = new Pusher({
-    appId: process.env.PUSHER_APP_ID ?? '',
-    key: process.env.NEXT_PUBLIC_PUSHER_APP_KEY ?? '',
-    secret: process.env.PUSHER_APP_SECRET ?? '',
-    cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER ?? '',
-    useTLS: true,
-});
 
 export default function handler(
     req: NextApiRequest,
@@ -41,8 +33,7 @@ async function sendInnovationRequest(req: NextApiRequest, res: NextApiResponse) 
     try {
         const session: Session | null = await getServerSession(req, res, authOptions);
         const { uid, note } = req.body;
-        const client = await clientPromise;
-        const db = client.db(process.env.MONGODB_NAME);
+        const db = await getDb();
         const admins = await db
             .collection("users")
             .find({ role: "admin" })

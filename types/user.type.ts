@@ -12,6 +12,11 @@ export type User = {
   tokens?: number | 0;
   totalEarnedTokens?: number | 0;
   createdAt?: string;
+  lastLogin?: string | undefined;
+  followers?: any;
+  isPaid?: boolean | null | undefined;
+  paidNote?: string | null | undefined;
+  isAccessCore?: boolean | null | undefined;
 };
 
 export type UserBasicProfile = {

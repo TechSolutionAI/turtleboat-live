@@ -1,10 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import clientPromise from "@/utils/mongodb";
+
 import { ObjectId } from "mongodb";
 import { Session, getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
-import Pusher from 'pusher';
 import sendgrid from "@sendgrid/mail";
+import { pusher } from "@/utils/pusher-server";
+import getDb from "@/utils/getdb";
 
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY ?? "");
 
@@ -15,14 +16,6 @@ export const config = {
       responseLimit: '20mb',
     },
 }
-
-const pusher = new Pusher({
-    appId: process.env.PUSHER_APP_ID ?? '',
-    key: process.env.NEXT_PUBLIC_PUSHER_APP_KEY ?? '',
-    secret: process.env.PUSHER_APP_SECRET ?? '',
-    cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER ?? '',
-    useTLS: true,
-});
 
 export default function handler(
     req: NextApiRequest,
@@ -52,8 +45,8 @@ async function approveClaimRequest(req: NextApiRequest, res: NextApiResponse) {
     try {
         const { id } = req.query;
         const { cid, uid, uemail } = req.body;
-        const client = await clientPromise;
-        const db = client.db(process.env.MONGODB_NAME);
+        const db = await getDb();
+        
         const rewardId = new ObjectId(id?.toString());
         const userId = new ObjectId(uid.toString());
         const claimId = new ObjectId(cid.toString());

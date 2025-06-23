@@ -120,13 +120,13 @@ const TokenEdit = () => {
                     <h1 className='font-Inter font-bold ml-[15px]'>Manage Token Settings</h1>
                 </div>
             </div>
-            <div className="w-full flex justify-center">
+            <div className="lg:w-2/3 w-full flex justify-center mx-auto">
             {
                 isLoading ? 
                 <div className='pt-[100px] grid grid-cols-1 gap-x-[100px]'>
                     <Spinner text="Loading..."/> 
                 </div> :
-                <div className="w-3/3 lg:w-2/3 xl:w-1/2 rounded-xl px-5 py-4 font-Inter">
+                <div className="w-full rounded-xl px-5 py-4 font-Inter">
                     <div className="py-[20px]">
                         <h2 className="font-semibold tracking-[0.1em] text-primary-black">
                             Title <span className="text-secondary-red">*</span>

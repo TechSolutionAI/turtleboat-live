@@ -1,13 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import clientPromise from "@/utils/mongodb";
 import { Session, getServerSession } from "next-auth";
 import { authOptions } from "./auth/[...nextauth]";
 import formidable from "formidable";
 import { ObjectId } from "mongodb";
-import Pusher from 'pusher';
-import { v4 as uuid } from "uuid";
 import { v2 as cloudinary } from 'cloudinary';
 import sendgrid from "@sendgrid/mail";
+import getDb from "@/utils/getdb";
 
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY ?? "");
 
@@ -30,14 +28,6 @@ cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME ?? '',
     api_key: process.env.CLOUDINARY_API_KEY ?? '',
     api_secret: process.env.CLOUDINARY_API_SECRET ?? ''
-});
-
-const pusher = new Pusher({
-    appId: process.env.PUSHER_APP_ID ?? '',
-    key: process.env.NEXT_PUBLIC_PUSHER_APP_KEY ?? '',
-    secret: process.env.PUSHER_APP_SECRET ?? '',
-    cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER ?? '',
-    useTLS: true,
 });
 
 export default function handler(
@@ -65,8 +55,7 @@ export default function handler(
 
 async function getClaimRequests(res: NextApiResponse) {
     try {
-        const client = await clientPromise;
-        const db = client.db(process.env.MONGODB_NAME);
+        const db = await getDb();
   
         const result = await db
             .collection("claim_requests")
@@ -98,8 +87,7 @@ async function sendClaimRequest(req: NextApiRequest, res: NextApiResponse) {
         } = fields;
 
         const availableDates = JSON.parse(dates.toString());
-        const client = await clientPromise;
-        const db = client.db(process.env.MONGODB_NAME);
+        const db = await getDb();
         const rewardInfo = await db.collection("rewards").findOne({
             no: parseInt(rewardNo.toString())
         })

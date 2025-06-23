@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import clientPromise from "@/utils/mongodb";
+
 import { ObjectId } from "mongodb";
+import getDb from "@/utils/getdb";
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -29,8 +30,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 async function deleteCourse(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { id } = req.query;
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_NAME);
+    const db = await getDb();
+    
     const courseId = new ObjectId(id?.toString());
     const result = await db.collection("courses").deleteOne({ _id: courseId });
     if (!result.acknowledged) {
@@ -46,8 +47,8 @@ async function deleteCourse(req: NextApiRequest, res: NextApiResponse) {
 async function getCourse(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { id } = req.query;
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_NAME);
+    const db = await getDb();
+    
     const courseId = new ObjectId(id?.toString());
     const result = await db.collection("courses").findOne({ _id: courseId });
     res.status(200).json({ course: result });
@@ -59,8 +60,8 @@ async function getCourse(req: NextApiRequest, res: NextApiResponse) {
 async function duplicateCourse(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { id } = req.query;
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_NAME);
+    const db = await getDb();
+    
     const courseId = new ObjectId(id?.toString());
     const originalCourse = await db
       .collection("courses")

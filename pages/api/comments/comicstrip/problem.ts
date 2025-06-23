@@ -1,13 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import clientPromise from "@/utils/mongodb";
+
 import formidable from "formidable";
 import { ObjectId } from "mongodb";
 import { v2 as cloudinary } from "cloudinary";
 import { Session, getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]";
-import Pusher from "pusher";
 import sendgrid from "@sendgrid/mail";
 import { User } from "@/types/user.type";
+import { pusher } from "@/utils/pusher-server";
+import getDb from "@/utils/getdb";
 
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY ?? "");
 
@@ -31,14 +32,6 @@ cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME ?? "",
     api_key: process.env.CLOUDINARY_API_KEY ?? "",
     api_secret: process.env.CLOUDINARY_API_SECRET ?? "",
-});
-
-const pusher = new Pusher({
-    appId: process.env.PUSHER_APP_ID ?? "",
-    key: process.env.NEXT_PUBLIC_PUSHER_APP_KEY ?? "",
-    secret: process.env.PUSHER_APP_SECRET ?? "",
-    cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER ?? "",
-    useTLS: true,
 });
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -101,8 +94,8 @@ async function saveComment(req: NextApiRequest, res: NextApiResponse) {
             }
         }
 
-        const client = await clientPromise;
-        const db = client.db(process.env.MONGODB_NAME);
+        const db = await getDb();
+        
 
         const userInfo = await db
             .collection("users")
@@ -263,10 +256,10 @@ async function saveComment(req: NextApiRequest, res: NextApiResponse) {
                 .collection("notifications")
                 .insertMany(notifications);
 
-            // Get Token Action for "Post/Comment within a Wonder Square": no is 3
+            // Get Token Action for "Post/Comment within Comic Stripe": no is 3
             const tokenAction = await db
                 .collection("token_actions")
-                .findOne({ no: 3 });
+                .findOne({ no: 17 });
 
             const tokenHistory = await db.collection("token_history").insertOne({
                 userId: new ObjectId(uid.toString()),
@@ -274,7 +267,7 @@ async function saveComment(req: NextApiRequest, res: NextApiResponse) {
                 amount: tokenAction.tokenAmount,
                 isView: false,
                 updatedAt: new Date(),
-                actionNo: 3,
+                actionNo: 17,
                 type: "action",
             });
 

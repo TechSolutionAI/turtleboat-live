@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import OutsideClickHandler from "react-outside-click-handler";
-import ComicStripEditor from "./ComicStripEditor";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import ExtensionOutlinedIcon from "@mui/icons-material/ExtensionOutlined";
 import AutoAwesomeMosaicOutlinedIcon from "@mui/icons-material/AutoAwesomeMosaicOutlined";
@@ -18,6 +17,7 @@ import ProblemComicGenerator from "./ProblemComic";
 import SolutionComicGenerator from "./SolutionComic";
 import comic_logo from "/public/static/images/comic_generator_logo.png";
 import Spinner from "@/components/Spinner";
+import { Venture } from "@/types/venture.type";
 
 const ComicStripGenerator = () => {
   const { data: session } = useSession();
@@ -48,6 +48,7 @@ const ComicStripGenerator = () => {
     ComicStrip | null | undefined
   >();
   const [ventureList, setVentureList] = useState<any[]>([]);
+  const [venture, setVenture] = useState<Venture | null>(null);
 
   const tabIcons = [
     <HelpOutlineIcon key={0} />,
@@ -68,6 +69,7 @@ const ComicStripGenerator = () => {
         console.log(err);
       } else {
         const { venture, serverTime } = await response.json();
+        setVenture(venture);
         setServerTime(serverTime);
         if (venture.mentee != null && venture.mentee != undefined) {
           if (venture.mentee.email == user.email) {
@@ -159,18 +161,33 @@ const ComicStripGenerator = () => {
 
   const saveComicStrip = async (index: number) => {
     if (session != undefined) {
-      setIsSaving(true);
       var data = problemComicStrip;
       if (selectedTab == 1) {
         data = solutionComicStrip;
       }
+
+      if (data == null || data == undefined) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "The comic stripe is empty. You must have at least 1 comic stripe.",
+        });
+        return;
+      }
+
+      setSelectedVentureIndex(index);
+      if (ventureId == "" && index >= 0)  {
+        ventureId = ventureList[index].value;
+      }
+      
+      setIsSaving(true);
       const response = await fetch("/api/comicstrip", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          vid: ventureId != "" ? ventureId : ventureList[index].value,
+          vid: ventureId,
           data: data,
           comicType: selectedTab,
         }),
@@ -198,7 +215,11 @@ const ComicStripGenerator = () => {
           allowOutsideClick: false,
           text: `Comic Strip was save successfully!`,
         })
-          .then(() => { })
+          .then(() => {
+              if (venture === null) {
+                router.push(`/dashboard/toolbox/comicstrip/${ventureId}?tab=${selectedTab}`);
+              }
+           })
           .catch((err) => console.log(err));
       }
     } else {
@@ -207,7 +228,14 @@ const ComicStripGenerator = () => {
   };
 
   const saveComment = async (panelIndex: number, commentContent: string, files: FileList | null, type: 'Problem' | 'Solution') => {
-    console.log("saveComment", panelIndex, commentContent, files);
+    if (ventureId === null || ventureId === ""){
+      return { success: false, err: "You must save the comic strip to a venture before adding comments." };
+    }
+
+    if (commentContent === "" && files === null) {
+      return { success: false, err: "Comment content is empty. Please add comments or attach files." };
+    }
+
     if (commentContent != "" || files != null) {
       const formData = new FormData();
       formData.append("content", commentContent);
@@ -254,9 +282,8 @@ const ComicStripGenerator = () => {
             {tablist.map((item: string, index: number) => {
               return (
                 <li className="mr-2" key={`tab-${index}`}>
-                  <a
-                    href="#"
-                    className={`inline-flex p-4 border-b-2 text-[16px] font-Inter font-semibold ${selectedTab == index
+                  <div
+                    className={`cursor-pointer inline-flex p-4 border-b-2 text-[16px] font-Inter font-semibold ${selectedTab == index
                       ? "text-tertiary-red border-tertiary-red"
                       : "border-transparent hover:text-gray-600 hover:border-gray-300"
                       }`}
@@ -266,7 +293,7 @@ const ComicStripGenerator = () => {
                       <span className="hidden sm:flex">{tabIcons[index]}</span>
                       <span className="sm:ml-[10px]">{item}</span>
                     </div>
-                  </a>
+                  </div>
                 </li>
               );
             })}
@@ -315,7 +342,6 @@ const ComicStripGenerator = () => {
                           className="flex items-center justify-between px-[20px] py-[10px] cursor-default border-b-2 border-secondary-gray"
                           onClick={() => {
                             setSaveDropdownOpen(!saveDropdownOpen);
-                            setSelectedVentureIndex(index);
                             saveComicStrip(index);
                           }}
                         >

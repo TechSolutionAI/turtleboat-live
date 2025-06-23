@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import clientPromise from "@/utils/mongodb";
 import formidable from "formidable";
 import { ObjectId } from "mongodb";
 import { v2 as cloudinary } from 'cloudinary';
+import getDb from "@/utils/getdb";
 // import multer from 'multer';
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
@@ -53,8 +53,7 @@ export default function handler(
 
 async function getModules(res: NextApiResponse) {
   try {
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_NAME);
+    const db = await getDb();
     const result = await db
       .collection("modules")
       .find()
@@ -75,8 +74,7 @@ async function updateModule(req: NextApiRequest, res: NextApiResponse) {
       }
 
       const { id, title, content, item } = fields;
-      const client = await clientPromise;
-      const db = client.db(process.env.MONGODB_NAME);
+      const db = await getDb();
       const moduleId = new ObjectId(id.toString());
       const currentModule = await db
         .collection("modules")
@@ -191,8 +189,7 @@ async function createModule(req: NextApiRequest, res: NextApiResponse) {
       }
     }
 
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_NAME);
+    const db = await getDb();
     const result = await db
       .collection("modules")
       .insertOne({ title: title, content: content, item: item, files: fileFields });

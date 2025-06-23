@@ -1,10 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import clientPromise from "@/utils/mongodb";
+
 import { ObjectId } from "mongodb";
-import Pusher from 'pusher';
 import { v2 as cloudinary } from 'cloudinary';
 import sendgrid from "@sendgrid/mail";
 import { v4 as uuid } from "uuid";
+import { pusher } from "@/utils/pusher-server";
+import getDb from "@/utils/getdb";
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -20,14 +21,6 @@ cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME ?? '',
     api_key: process.env.CLOUDINARY_API_KEY ?? '',
     api_secret: process.env.CLOUDINARY_API_SECRET ?? ''
-});
-
-const pusher = new Pusher({
-    appId: process.env.PUSHER_APP_ID ?? '',
-    key: process.env.NEXT_PUBLIC_PUSHER_APP_KEY ?? '',
-    secret: process.env.PUSHER_APP_SECRET ?? '',
-    cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER ?? '',
-    useTLS: true,
 });
 
 export default function handler(
@@ -62,8 +55,8 @@ export default function handler(
 async function getLemonade(req: NextApiRequest, res: NextApiResponse) {
     try {
         const { id } = req.query;
-        const client = await clientPromise;
-        const db = client.db(process.env.MONGODB_NAME);
+        const db = await getDb();
+        
         const lemonadeId = new ObjectId(id?.toString());
         const result = await db
             .collection("lemonades")
@@ -77,8 +70,8 @@ async function getLemonade(req: NextApiRequest, res: NextApiResponse) {
 async function deleteLemonade(req: NextApiRequest, res: NextApiResponse) {
     try {
         const { id } = req.query;
-        const client = await clientPromise;
-        const db = client.db(process.env.MONGODB_NAME);
+        const db = await getDb();
+        
         const lemonadeId = new ObjectId(id?.toString());
         const result = await db
             .collection("lemonades")
@@ -100,8 +93,8 @@ async function inviteMembers(req: NextApiRequest, res: NextApiResponse) {
     try {
         const { id } = req.query;
         const { participants, from, fromEmail, image, fromId } = req.body;
-        const client = await clientPromise;
-        const db = client.db(process.env.MONGODB_NAME);
+        const db = await getDb();
+        
         const lemonadeId = new ObjectId(id?.toString());
 
         let invites: Array<any> = [];
@@ -174,8 +167,8 @@ async function postMessage(req: NextApiRequest, res: NextApiResponse) {
     try {
         const { id } = req.query;
         const { purpose, focus, content, user } = req.body;
-        const client = await clientPromise;
-        const db = client.db(process.env.MONGODB_NAME);
+        const db = await getDb();
+        
         const lemonadeId = new ObjectId(id?.toString());
         const orgLemonade = await db
             .collection("lemonades")

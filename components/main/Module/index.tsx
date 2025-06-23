@@ -19,6 +19,7 @@ import Upload from "./Upload";
 import CommentItem from "./CommentItem";
 import EvaluationBar from "./EvaluationBar";
 import { checkListLabels } from "@/database/modules";
+import { Venture } from "@/types/venture.type";
 const EditorView = dynamic(() => import("@/components/EditorView"), {
     ssr: false,
 });
@@ -59,6 +60,7 @@ const Index = () => {
     const [evaluations, setEvaluations] = useState<MentorEvaluation[]>([]);
     const [myEvaluation, setMyevaluation] = useState<MentorEvaluation | null>(null);
     const [tempEvaluation, setTempEvaluation] = useState<MentorEvaluation | null>(null);
+    const [menteeId, setMenteeId] = useState<string | null>(null);
 
     const getModule = async () => {
         setIsLoading(true);
@@ -121,6 +123,7 @@ const Index = () => {
                 if (venture[0].mentee != null && venture[0].mentee != undefined) {
                     setMenteeName(venture[0].mentee.name);
                     setMenteeImg(venture[0].mentee.image);
+                    setMenteeId(venture[0].mentee._id);
                     if (venture[0].mentee.email == user.email) {
                         setMemberType("mentee");
                     } else {
@@ -249,13 +252,36 @@ const Index = () => {
         }
     };
 
-    const handleCheckListChange = (
+    const handleCheckListChange = async (
         event: React.ChangeEvent<HTMLInputElement>,
         index: number
     ) => {
         let temp = [...checkListValues];
         temp[index] = temp[index] ? false : true;
         setCheckListValues(temp);
+
+        console.log("selected index - ", index, event.target.checked);
+
+        const response = await fetch("/api/checklist", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                uid: menteeId,
+                vid: selectedVentureId,
+                mid: moduleId,
+                index: index,
+                checked: event.target.checked
+            }),
+        });
+
+        if (!response.ok) {
+            const { err } = await response.json();
+            console.log(err);
+        } else {
+            const { result } = await response.json();
+        }
     };
 
     function formatDate(dateString: string) {
@@ -411,10 +437,9 @@ const Index = () => {
                                                 saveCheckList();
                                             }}
                                         >
-                                            <div className="absolute right-[0px] top-[40px] left-0 mt-[10px] z-10 border-2 border-secondary-gray w-[225px] rounded-lg bg-white z-50">
+                                            <div className="absolute right-[0px] top-[40px] left-[-180px] mt-[10px] border-2 border-secondary-gray w-[400px] rounded-lg bg-white z-50">
                                                 <div className="font-Inter font-bold text-black text-[13px] px-[15px] pt-[8px]">
-                                                    Below is a checklist to help you gain traction.  The more you check off, the more traction you have, and the more you&#39;re de-risking the opportunity.  You  and/or your mentors can (un)check off tasks below.  Once the all the boxes are checked, switch to “Enough Proof” and move the needle in your Risk/Opportunity Meters of your dashboard:
-                                                </div>
+                                                Much like how angel investor groups operate—balancing group consensus with individual judgment—the thermometers reflect each mentor’s personal assessment of risk mitigation, shaped by their unique risk tolerance, investment philosophy, and perspective. Meanwhile, the checklist below represents a collective or “group speak” view of progress. Each box checked earns you tokens. Once you are able to check off “reached external validation”, mentors may upgrade your status to “Enough Proof,” awarding you a 100 extra bonus + advancing the Risk Meter on your dashboard.                                                </div>
                                                 <ul className="font-Inter font-semibold text-[12px] px-[15px] py-[5px]">
                                                     {checkListLabels.map((label: string, index: number) => {
                                                         return (
@@ -436,7 +461,7 @@ const Index = () => {
                                                                             handleCheckListChange(e, index)
                                                                         }
                                                                     />
-                                                                    <span className="ml-3 -mt-[5px] text-[13px] font-medium font-Inter text-black w-[165px]">
+                                                                    <span className="ml-3 -mt-[5px] text-[13px] font-medium font-Inter text-black">
                                                                         {label}
                                                                     </span>
                                                                 </label>

@@ -45,7 +45,7 @@
 // import formidable from 'formidable';
 // import { Session, getServerSession } from "next-auth";
 // import { authOptions } from "./auth/[...nextauth]";
-// import clientPromise from "@/utils/mongodb";
+// 
 // import fs from 'fs';
 // import { GridFSBucket } from "mongodb";
 // import multer from 'multer';
@@ -66,8 +66,8 @@
 //   const { file } = req.body;
 //   console.log("ddddddddddddddddddddd")
 //   try {
-//     const client = await clientPromise;
-//     const db = client.db(process.env.MONGODB_NAME);
+//     const db = await getDb();
+//     
 //     console.log('aaaaaaaa', file)
 //     // console.log('aaaaaaaa', req.file)
 //     const gfs = new GridFSBucket(db, {
@@ -107,7 +107,7 @@
 // import formidable from 'formidable';
 // import fs from 'fs';
 // import mongoose from 'mongoose';
-// import clientPromise from "@/utils/mongodb";
+// 
 
 // Define a MongoDB schema for your file objects
 // const fileSchema = new mongoose.Schema({
@@ -134,8 +134,8 @@
 //   //   const fileData = await fs.promises.readFile(file.path);
 
 //   //   try {
-//   //     const client = await clientPromise;
-//   //     const db = client.db(process.env.MONGODB_NAME);
+//   //     const db = await getDb();
+//   //     
 //   //     // Create a new MongoDB document for the uploaded file with the binary data
 //   //     const newFile = await db
 //   //     .collection("files")

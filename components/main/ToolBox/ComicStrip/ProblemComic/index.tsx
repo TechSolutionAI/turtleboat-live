@@ -4,7 +4,11 @@ import { Transition } from '@headlessui/react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Spinner from "@/components/Spinner";
 import { ComicPanel, ComicStrip } from '@/types/comicstrip.type';
-import ComicStripEditor from '../ComicStripEditor';
+import dynamic from "next/dynamic";
+
+const ComicStripEditor = dynamic(() => import("../ComicStripEditor"), {
+  ssr: false,
+});
 
 const initialPanels: ComicPanel[] = [
     {
@@ -246,7 +250,7 @@ const ProblemComicGenerator = ({
                                                                 {...provided.dragHandleProps}
                                                                 ref={provided.innerRef}
                                                                 onClick={() => handlePanelClick(index)}
-                                                                className={`relative h-[100px] xl:h-[130px] lg:w-auto min-w-[175px] w-[175px] flex items-center m-2 text-gray-900 border border-2 ${selectedPanel == index ? 'border-[#E5632B] selected-panel' : 'border-[#424242]'} hover:border-[#E5632B] lg:mt-20 font-ObelixPro stroke-text panel-item`}>
+                                                                className={`relative h-[100px] xl:h-[130px] lg:w-auto min-w-[175px] w-[175px] flex items-center m-2 text-gray-900 border-2 ${selectedPanel == index ? 'border-[#E5632B] selected-panel' : 'border-[#424242]'} hover:border-[#E5632B] lg:mt-20 font-ObelixPro stroke-text panel-item`}>
                                                                 {
                                                                     panelItem.thumbnail != '' ?
                                                                         <img src={`${panelItem.thumbnail}`} className={`w-full h-full`} /> :
@@ -274,7 +278,7 @@ const ProblemComicGenerator = ({
                             {
                                 panels.map((panelItem: ComicPanel, index: number) => {
                                     return (
-                                        <a onClick={() => handlePanelClick(index)} key={`panel-${index}`} className={`relative h-[100px] xl:h-[130px] lg:w-auto min-w-[175px] w-[175px] flex items-center m-2 text-gray-900 border border-2 ${selectedPanel == index ? 'border-[#E5632B] selected-panel' : 'border-[#424242]'} hover:border-[#E5632B] lg:mt-20 font-ObelixPro stroke-text panel-item`}>
+                                        <a onClick={() => handlePanelClick(index)} key={`panel-${index}`} className={`relative h-[100px] xl:h-[130px] lg:w-auto min-w-[175px] w-[175px] flex items-center m-2 text-gray-900 border-2 ${selectedPanel == index ? 'border-[#E5632B] selected-panel' : 'border-[#424242]'} hover:border-[#E5632B] lg:mt-20 font-ObelixPro stroke-text panel-item`}>
                                             {
                                                 panelItem.thumbnail != '' ?
                                                     <img src={`${panelItem.thumbnail}`} className={`w-full h-full`} /> :
@@ -293,7 +297,7 @@ const ProblemComicGenerator = ({
                     <div className='flex items-end'>
                         {
                             isEditingName ?
-                                <input type='text' className='px-1 w-auto rounded-md font-ObelixPro text-[28px] text-secondary-gray-1 stroke-text border border-2 border-[#616060]' name='comic-title' value={title} onChange={(e) => handleTitleChange(e)} /> :
+                                <input type='text' className='px-1 w-auto rounded-md font-ObelixPro text-[28px] text-secondary-gray-1 stroke-text border-2 border-[#616060]' name='comic-title' value={title} onChange={(e) => handleTitleChange(e)} /> :
                                 <span className='truncate font-ObelixPro text-[28px] text-secondary-gray-1 stroke-text px-1'>{title}</span>
                         }
                         {

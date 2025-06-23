@@ -1,9 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ObjectId } from "mongodb";
-import clientPromise from "@/utils/mongodb";
-import { Session, User, getServerSession } from "next-auth";
-import { authOptions } from "./auth/[...nextauth]";
-import Pusher from "pusher";
+import getDb from "@/utils/getdb";
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -36,8 +33,7 @@ async function updateAssessment(req: NextApiRequest, res: NextApiResponse) {
     const ventureId = new ObjectId(vid.toString());
     const userId = new ObjectId(uid.toString());
 
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_NAME);
+    const db = await getDb();
 
     const assessmentData = {
       _id: userId.toString(),

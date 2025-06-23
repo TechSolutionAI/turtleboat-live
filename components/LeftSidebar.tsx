@@ -18,6 +18,7 @@ import { useNotification } from "@/lib/useNotification";
 import redeem_icon from "/public/static/images/gift.png";
 import redeem_active_icon from "/public/static/images/gift_active.png";
 import UserAvatar1 from "./UserAvatar1";
+import Swal from "sweetalert2";
 
 const LeftSidebar = ({ noSelNav }: { noSelNav?: boolean }) => {
   const router = useRouter();
@@ -31,6 +32,16 @@ const LeftSidebar = ({ noSelNav }: { noSelNav?: boolean }) => {
   const user = session?.user as User;
 
   const urlBtnClicked = (idx: number) => {
+    if (idx === 0) { // if the first menu item is clicked
+      if (user.isAccessCore === undefined || user.isAccessCore === null || user.isAccessCore === false) {
+        Swal.fire({
+          title: "Locked...for now!",
+          text: "Level up to unlock access to the CORE Community",
+          icon: "error",
+        });
+        return;
+      }
+    }
     setActiveMenu(idx);
     if (session != undefined) {
       router.push(menuUrls[idx]);

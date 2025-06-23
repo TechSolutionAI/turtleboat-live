@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ObjectId } from "mongodb";
-import clientPromise from "@/utils/mongodb";
 import { v2 as cloudinary } from 'cloudinary';
+import getDb from "@/utils/getdb";
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -45,8 +45,7 @@ async function saveAudio(req: NextApiRequest, res: NextApiResponse) {
     const { vid, data } = req.body;
     const binarydata = Buffer.from(data, 'base64');
     const ventureId = new ObjectId(vid.toString());
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_NAME);
+    const db = await getDb();
     const audioUploadResult = await cloudinary.uploader.upload(`data:audio/ogg;base64,${data}`, { 
         public_id: `elevatorpitch_${ventureId}`,
         overwrite: true,

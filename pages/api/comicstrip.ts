@@ -1,9 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ObjectId } from "mongodb";
-import clientPromise from "@/utils/mongodb";
 import { ComicPanel } from "@/types/comicstrip.type";
 import { v2 as cloudinary } from 'cloudinary';
-import fs from 'fs';
+import { getServerSession, Session } from "next-auth";
+import { authOptions } from "./auth/[...nextauth]";
+import { User } from "@/types/user.type";
+import { pusher } from "@/utils/pusher-server";
+import getDb from "@/utils/getdb";
+
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -45,11 +49,14 @@ export default function handler(
 }
 
 async function updateComicStrip(req: NextApiRequest, res: NextApiResponse) {
+    const session: Session | null = await getServerSession(req, res, authOptions);
+    const user = session?.user as User;
+    const userId = user._id;
+
     try {
         const { vid, data, comicType } = req.body;
         const ventureId = new ObjectId(vid.toString());
-        const client = await clientPromise;
-        const db = client.db(process.env.MONGODB_NAME);
+        const db = await getDb();
 
         const ventureData = await db.collection("ventures").findOne({
             _id: ventureId,
@@ -153,8 +160,10 @@ async function updateComicStrip(req: NextApiRequest, res: NextApiResponse) {
         /* Upload One file per Panel */
 
         let result;
+        let existingComicStrip;
 
         if (comicType == 0) {
+            existingComicStrip = ventureData?.problemComicStrip;
             result = await db
                 .collection("ventures")
                 .updateOne({
@@ -172,6 +181,7 @@ async function updateComicStrip(req: NextApiRequest, res: NextApiResponse) {
                     }
                 });
         } else if (comicType == 1) {
+            existingComicStrip = ventureData?.solutionComicStrip;
             result = await db
                 .collection("ventures")
                 .updateOne({
@@ -188,6 +198,51 @@ async function updateComicStrip(req: NextApiRequest, res: NextApiResponse) {
                         updatedAt: new Date()
                     }
                 });
+        }
+
+        let panelCountDiff = 0;
+        let existingPanelsCount = existingComicStrip?.panels ? existingComicStrip.panels.length : 0;
+        let newPanelsCount = panels.length;
+        panelCountDiff = newPanelsCount - existingPanelsCount;
+
+        if (panelCountDiff > 0) {
+            // Get Token Action for "Add a slide to Comic Stripe": no is 18
+            const tokenAction = await db
+            .collection("token_actions")
+            .findOne({ no: 16 });
+
+            const tokenAmount = tokenAction ? tokenAction.tokenAmount * panelCountDiff : 0;
+
+            await db.collection("token_history").insertOne({
+                userId: userId,
+                createdAt: new Date(),
+                amount: tokenAmount,
+                isView: false,
+                updatedAt: new Date(),
+                actionNo: 16,
+                type: "action",
+            });
+
+            pusher.trigger(`user-token-${userId}`, "token-history", {
+                type: 1,
+                name: tokenAction.name,
+                tokenAmount: tokenAmount,
+            });
+            // Update User Tokens
+            const userInfo = await db.collection("users").findOne({ _id: userId });
+
+            await db.collection("users").updateOne(
+                {
+                    _id: userId,
+                },
+                {
+                    $set: {
+                        tokens: userInfo.tokens + tokenAmount,
+                        totalEarnedTokens:
+                            userInfo.totalEarnedTokens + tokenAmount,
+                    },
+                }
+            );
         }
 
         if (!result.matchedCount) {

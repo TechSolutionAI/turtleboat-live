@@ -1,5 +1,6 @@
+import getDb from "@/utils/getdb";
 import { NextApiRequest, NextApiResponse } from "next";
-import clientPromise from "@/utils/mongodb";
+
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -28,8 +29,8 @@ export default function handler(
 
 async function getTokenSettings(res: NextApiResponse) {
     try {
-        const client = await clientPromise;
-        const db = client.db(process.env.MONGODB_NAME);
+        const db = await getDb();
+        
 
         const tokenItems = await db
             .collection("token_actions")

@@ -4,7 +4,6 @@ import UserTable from "@/components/UserTable";
 import Swal from "sweetalert2";
 import { GetServerSideProps } from "next";
 import { User } from "@/types/user.type";
-import { getSession, useSession } from "next-auth/react";
 import { Session, getServerSession } from "next-auth";
 import Spinner from "@/components/Spinner";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
@@ -24,7 +23,6 @@ const UserManage = () => {
     if (!response.ok) {
       setIsLoading(false);
       const { err } = await response.json();
-      console.log(err);
     } else {
       const { users } = await response.json();
       userList = users.map((user: any, index: number) => {
@@ -51,7 +49,11 @@ const UserManage = () => {
             ? []
             : user?.advancedProfile?.familiarIndustry,
           totalTokens: user.totalEarnedTokens,
-          dailyDigestEnabled: user.dailyDigestEnabled
+          dailyDigestEnabled: user.dailyDigestEnabled,
+          isPaid: user.isPaid ?? false,
+          paidNote: user.paidNote ?? "",
+          lastLogin: user.lastLogin ?? "",
+          isAccessCore: user.isAccessCore ?? false,
         };
         return userItem;
       });
@@ -71,7 +73,7 @@ const UserManage = () => {
       {
         Header: "No",
         accessor: "no",
-        isCenter: false,
+        isCenter: true,
       },
       {
         Header: "Image",
@@ -105,7 +107,7 @@ const UserManage = () => {
         isCenter: false,
       },
       {
-        Header: "Tokens Earned to Date",
+        Header: "Tokens Earned",
         accessor: "totalTokens",
         isCenter: true,
       },
@@ -122,10 +124,34 @@ const UserManage = () => {
         disableSortBy: true,
       },
       {
+        Header: "Paid",
+        accessor: "isPaid",
+        isCenter: true,
+        disableSortBy: false,
+      },
+      {
+        Header: "Note",
+        accessor: "paidNote",
+        isCenter: true,
+        disableSortBy: true,
+      },
+      {
+        Header: "Access to CORE",
+        accessor: "isAccessCore",
+        isCenter: true,
+        disableSortBy: false,
+      },
+      {
         Header: "Profile Status",
         accessor: "status",
         isCenter: true,
-        disableSortBy: true,
+        disableSortBy: false,
+      },
+      {
+        Header: "Last Activity",
+        accessor: "lastLogin",
+        isCenter: true,
+        disableSortBy: false,
       },
       {
         Header: "Action",
@@ -151,7 +177,6 @@ const UserManage = () => {
 
     if (!response.ok) {
       const { err } = await response.json();
-      console.log(err);
       return { success: false, err: err };
     } else {
       getData();
@@ -169,7 +194,6 @@ const UserManage = () => {
 
     if (!response.ok) {
       const { err } = await response.json();
-      console.log(err);
       return { success: false, err: err };
     } else {
       getData();
@@ -235,6 +259,111 @@ const UserManage = () => {
     });
   };
 
+
+  const handlePaidSwitched = (data: any) => {
+    const isPaid = data.data.isPaid;
+    Swal.fire({
+      title: "Update User Paid State",
+      text: `Are you sure you want to make this user is ${isPaid ? "paid" : "unpaid"}?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, update paid state!",
+      cancelButtonText: "Cancel",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const result = await updateUser(data);
+        if (result.success) {
+          Swal.fire(
+            "User Paid State Updated",
+            `User has been updated to ${isPaid ? "paid" : "unpaid"}`,
+            "success"
+          );
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: result.err,
+          });
+        }
+      }
+    });
+  };
+
+  const handleCoreAccessSwitched = (data: any) => {
+    
+    const isAccessCore = data.data.isAccessCore;
+    Swal.fire({
+      title: "Update User CORE Access",
+      text: `Are you sure you want to make this user is ${isAccessCore ? "granted" : "revoked"} access to CORE?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, update CORE access!",
+      cancelButtonText: "Cancel",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const result = await updateUser(data);
+        if (result.success) {
+          Swal.fire(
+            "User CORE Access Updated",
+            `User has been updated to ${isAccessCore ? "granted" : "revoked"} access to CORE`,
+            "success"
+          );
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: result.err,
+          });
+        }
+      }
+    });
+  };
+
+  const handleNoteEdited = async (data: any) => {
+
+    const { value, isConfirmed } = await Swal.fire({
+      title: "Edit Note",
+      input: "textarea",
+      inputLabel: "",
+      inputValue: data.paidNote,
+      showCancelButton: true,
+      confirmButtonText: "Save",
+      cancelButtonText: "Cancel",
+      inputAttributes: {
+        "aria-label": "Type your note here"
+      }
+    });
+
+    if (isConfirmed && value !== undefined) {
+
+      const body = {
+        id: data.action,
+        data: {
+          paidNote: value
+        }
+      }
+
+      const result = await updateUser(body);
+        if (result.success) {
+          Swal.fire(
+            "User Note Updated",
+            `User has been updated.`,
+            "success"
+          );
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: result.err,
+          });
+        }
+    }
+ 
+  }
+
+
+
+
   const handleFilterUsers = (value: string) => {
     const tempUsers = users;
     const filteredList = tempUsers.filter(
@@ -293,6 +422,9 @@ const UserManage = () => {
           data={filteredUsers}
           handleRoleSwitched={handleRoleSwitched}
           handleDailyDigestSwitched={handleDailyDigestSwitched}
+          handlePaidSwitched={handlePaidSwitched}
+          handleCoreAccessSwitched={handleCoreAccessSwitched}
+          handleNoteEdited={handleNoteEdited}
           handleDeleted={handleDeleted}
         />
       )}

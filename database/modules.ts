@@ -40,15 +40,16 @@ export const categories: Category[] = [
 ]
 
 export const checkListLabels: string[] = [
-    "Jotted thoughts, ideas, assumptions here",
-    "Talked to people, found links to research papers/YouTubes/etc, and jotted them down here",
-    "Jotted down my questions, doubts, hopes  (and/or what “doubters” have expressed to you) here",
-    "Designed a test (what the test will do, where test will be run, who will test) to validate what I'm hoping to be true",
-    "Created the simplest possible prototype/pilot to be used in the test, and have uploaded screenshots/videos/links here",
-    "Compared post-test results w/what I thought pre-test in useful manner here",
-    "Jotted down findings summary and/or next steps for this puzzle piece here",
-    // "Made tweaks",
-    // "Test, Talk, Tweak",
+    "Step 1: Has ideas, thoughts, assumptions jotted down (+10 tokens)",
+    "Step 2: Has included some internet-research, “business plan” level research; or “STEM Fair”product insights (+25 tokens)",
+    "Step 3: Understands what needs to be tested and why; has test plan drafted (who/what/when/where/how test will be run, who are the testers, what is the expected outcome, and what decisions will be made as a result of outcomes) (+40 tokens)",
+    "Step 4: Has decided what type of prototype is needed to test, and has created “Lowest fidelity prototype possible to test the unknown” (+40 tokens)",
+    "Step 5: Finished real testing with data gathered (+25 tokens)",
+    "Step 6: Has understanding whether hypothesis was validated or not, and what to do as evidence-driven next step (+25 tokens)",
+    "Iteration 1: Has repeated Steps 3-6 (+150 tokens)",
+    "Iteration 2: Has repeated Steps 3-6 (+150 tokens)",
+    "Iteration 3: Has repeated Steps 3-6 (+150 tokens)",
+    "Reached external validation or repeated signals of success (+100 tokens and move switch to “enough proof” and needle moved in risk meter on dashboard!!)"
 ]
 
 export const modules: Module[] = [

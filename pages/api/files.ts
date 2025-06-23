@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import clientPromise from "@/utils/mongodb";
 import formidable from "formidable";
 import { ObjectId } from "mongodb";
 import { v2 as cloudinary } from 'cloudinary';
+import getDb from "@/utils/getdb";
 // import multer from 'multer';
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
@@ -59,8 +59,7 @@ async function uploadFiles(req: NextApiRequest, res: NextApiResponse) {
             }
 
             const { id } = fields;
-            const client = await clientPromise;
-            const db = client.db(process.env.MONGODB_NAME);
+            const db = await getDb();
             const moduleId = new ObjectId(id.toString());
             const currentModule = await db
                 .collection("modules")

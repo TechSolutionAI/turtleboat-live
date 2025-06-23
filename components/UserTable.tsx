@@ -5,6 +5,7 @@ import shortid from "shortid";
 import DeleteIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import EditIcon from '@mui/icons-material/Edit';
 
 import {
   Industries,
@@ -15,68 +16,14 @@ import {
 import {
   useTable,
   useGlobalFilter,
-  useAsyncDebounce,
   useFilters,
   useSortBy,
   usePagination,
 } from "react-table";
 import StatusItem from "./StatusItem";
 import UserAvatar1 from "./UserAvatar1";
-
-// Define a default UI for filtering
-const GlobalFilter = ({
-  preGlobalFilteredRows,
-  globalFilter,
-  setGlobalFilter,
-}: {
-  preGlobalFilteredRows: any;
-  globalFilter: any;
-  setGlobalFilter: any;
-}) => {
-  const count = preGlobalFilteredRows.length;
-  const [value, setValue] = useState(globalFilter);
-  const onChange = useAsyncDebounce((value: any) => {
-    setGlobalFilter(value || undefined);
-  }, 200);
-  return (
-    <label className="flex gap-x-2 items-baseline">
-      <span className="text-gray-700">Search: </span>
-      <input
-        type="text"
-        className={`mt-1 block rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50`}
-        value={value || ""}
-        onChange={(e) => {
-          setValue(e.target.value);
-          onChange(e.target.value);
-        }}
-        placeholder={`${count} records...`}
-      />
-    </label>
-  );
-};
-
-export const PageButton = ({
-  children,
-  className,
-  onClick,
-  disabled,
-}: {
-  children: any;
-  className: any;
-  onClick: Function;
-  disabled: boolean;
-}) => {
-  return (
-    <button
-      type="button"
-      className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 ${className}`}
-      disabled={disabled}
-      onClick={() => onClick}
-    >
-      {children}
-    </button>
-  );
-};
+import { toLocalDateString } from "@/utils/utils";
+import Swal from "sweetalert2";
 
 const Tags = ({ field, data }: { field: string; data: string[] }) => {
   let list: any[] = [];
@@ -115,12 +62,18 @@ const UserTable = ({
   data,
   handleRoleSwitched,
   handleDailyDigestSwitched,
+  handlePaidSwitched,
+  handleCoreAccessSwitched,
+  handleNoteEdited,
   handleDeleted,
 }: {
   columns: any[];
   data: any[];
   handleRoleSwitched: Function;
   handleDailyDigestSwitched: Function;
+  handlePaidSwitched: Function;
+  handleCoreAccessSwitched: Function;
+  handleNoteEdited: Function;
   handleDeleted: Function;
 }) => {
   // Use the state and functions returned from useTable to build your UI
@@ -175,6 +128,26 @@ const UserTable = ({
     rowData: any
   ) => {
     handleDailyDigestSwitched({ id: rowData.values.action, data: { dailyDigestEnabled: event.target.checked } });
+  };
+
+  const handlePaidSwitch = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    rowData: any
+  ) => {
+    handlePaidSwitched({ id: rowData.values.action, data: { isPaid: event.target.checked } });
+  };
+
+  const handleCoreAccessSwitch = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    rowData: any
+  ) => {
+    handleCoreAccessSwitched({ id: rowData.values.action, data: { isAccessCore: event.target.checked } });
+  };
+
+  const handleNoteEdit = (
+    rowData: any
+  ) => {
+    handleNoteEdited(rowData.original);
   };
 
   const handleDelete = (rowData: any) => {
@@ -258,37 +231,65 @@ const UserTable = ({
                           return (
                             <td
                               key={row.values.action + "-" + cell.column.id}
-                              {...cell.getCellProps()}
-                              className={`px-3 py-2 ${cell.column.isCenter ? `text-center` : ``
-                                }`}
-                            >
-                              {cell.column.id == "status" ? (
+                                {...cell.getCellProps()}
+                                className={`px-3 py-2 ${cell.column.isCenter ? `text-center` : ``}`}
+                              >
+                                {cell.column.id == "status" ? (
                                 <StatusItem
                                   active={cell.value}
                                   label={`${cell.value ? `Completed` : `Incompleted`
-                                    }  `}
+                                  }  `}
                                 />
-                              ) : cell.column.id == "admin" ? (
+                                ) : cell.column.id == "admin" ? (
                                 <input
                                   type="checkbox"
                                   id={row.original.action}
                                   name={row.original.action}
                                   value={row.original.admin}
                                   checked={row.original.admin}
-                                  className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-blue"
+                                  className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-blue cursor-pointer"
                                   onChange={(e) => handleRoleSwitch(e, row)}
                                 />
-                              ) : cell.column.id == "dailyDigestEnabled" ? (
+                                ) : cell.column.id == "dailyDigestEnabled" ? (
                                 <input
                                   type="checkbox"
                                   id={row.original.action}
                                   name={row.original.action}
                                   value={row.original.dailyDigestEnabled}
                                   checked={row.original.dailyDigestEnabled}
-                                  className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-blue"
+                                  className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-blue cursor-pointer"
                                   onChange={(e) => handleDailyDigestSwitch(e, row)}
                                 />
-                              ) : cell.column.id == "action" ? (
+                                )  : cell.column.id == "isPaid" ? (
+                                <input
+                                  type="checkbox"
+                                  id={row.original.action}
+                                  name={row.original.action}
+                                  value={row.original.isPaid}
+                                  checked={row.original.isPaid}
+                                  className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-blue cursor-pointer"
+                                  onChange={(e) => handlePaidSwitch(e, row)}
+                                />
+                                ) : cell.column.id == "paidNote" ? (
+                                  <div className="w-[250px] text-start">
+                                    <p>{row.original.paidNote}</p>
+                                    <div className="text-end">
+                                      <EditIcon className="text-end cursor-pointer" onClick={() => handleNoteEdit(row)} />
+                                    </div>
+                                </div>
+                              ) : cell.column.id == "isAccessCore" ? (
+                                <input
+                                  type="checkbox"
+                                  id={row.original.action}
+                                  name={row.original.action}
+                                  value={row.original.isAccessCore}
+                                  checked={row.original.isAccessCore}
+                                  className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-blue cursor-pointer"
+                                  onChange={(e) => handleCoreAccessSwitch(e, row)}
+                                />
+                                )  : cell.column.id == "lastLogin" ? (
+                                <p>{toLocalDateString(row.original.lastLogin)}</p>
+                              )  : cell.column.id == "action" ? (
                                 <DeleteIcon
                                   className="text-secondary-red cursor-pointer"
                                   onClick={() => handleDelete(row)}

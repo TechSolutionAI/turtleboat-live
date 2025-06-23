@@ -64,7 +64,7 @@ const Earning = () => {
 
     return (
         <>
-            <div className='pt-[75px] grid grid-cols-1 xl:grid-cols-2 gap-x-[100px]'>
+            <div className='pt-[75px]'>
                 {
                     isLoading ?
                         <div className='pt-[100px] grid grid-cols-1 gap-x-[100px]'>

@@ -1,20 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ObjectId } from "mongodb";
-import clientPromise from "@/utils/mongodb";
 import { Session, User, getServerSession } from "next-auth";
 import { authOptions } from "./auth/[...nextauth]";
-import formidable from "formidable";
-import Pusher from "pusher";
+import { pusher } from "@/utils/pusher-server";
+import getDb from "@/utils/getdb";
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
-
-const pusher = new Pusher({
-  appId: process.env.PUSHER_APP_ID ?? "",
-  key: process.env.NEXT_PUBLIC_PUSHER_APP_KEY ?? "",
-  secret: process.env.PUSHER_APP_SECRET ?? "",
-  cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER ?? "",
-  useTLS: true,
-});
 
 export default function handler(
   req: NextApiRequest,
@@ -48,8 +39,7 @@ async function udateEvaluation(req: NextApiRequest, res: NextApiResponse) {
     const ventureId = new ObjectId(vid.toString());
     const userId = new ObjectId(uid.toString());
 
-    const client = await clientPromise;
-    const db = client.db(process.env.MONGODB_NAME);
+    const db = await getDb();
 
     // const userInfo = await db
     //   .collection("users")
