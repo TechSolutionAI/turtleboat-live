@@ -1,54 +1,29 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import React, { useState } from 'react';
+import dynamic from "next/dynamic";
+
+const RichTextEditor = dynamic(() => import("@/components/RichTextEditor"), {
+  ssr: false,
+});
 
 interface EditorProps {
     value: string | null | undefined;
     onChange: (data: string) => void;
+    reset?: boolean;
 }
 
-const Editor = ({ value, onChange }: EditorProps) => {
-    const editorRef = useRef();
+const Editor = ({ value, onChange, reset}: EditorProps) => {
     const [editorData, setEditorData] = useState<string>(value ?? "");
 
-    useEffect(() => {
-        setEditorData(value ?? "")
-    }, [value])
-
-    const editorConfiguration = {
-        placeholder: 'Enter Text Here...',
-        minHeight: '400px',
-        mediaEmbed: {
-            previewsInData: true
-        },
-        toolbar: ['heading', 'bold', 'italic', 'bulletedList', 'numberedList', 'insertTable', 'mediaEmbed', 'link', 'undo', 'redo'],
-        link: {
-            addTargetToExternalLinks: true,
-        }
-    };
-
-    const handleEditorChange = (event: any, editor: any) => {
-        const data = editor.getData();
-        setEditorData(data);
-        onChange(data);
-    };
-
-    const handleEditorReady = (editor: any) => {
-        editor.setData(editorData ? editorData : "");
-        editorRef.current = editor;
+    const handleEditorChange = (html: string) => {
+        setEditorData(html);
+        onChange(html);
     };
 
     return (
         <div className='sm:mt-[25px] mt-[10px]'>
             <div className='sm:mt-[25px] mt-[10px]'>
                 <>
-                    <CKEditor
-                        editor={ClassicEditor}
-                        config={editorConfiguration}
-                        onChange={handleEditorChange}
-                        onReady={handleEditorReady}
-                        data={editorData}
-                    />
+                    <RichTextEditor initialValue={value} onChange={handleEditorChange} reset={reset}/>
                     <input type="hidden" id="content" name="content" value={editorData} />
                 </>
 

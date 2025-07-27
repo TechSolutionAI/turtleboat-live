@@ -152,7 +152,7 @@ const ProblemComicGenerator = ({
                         `fixed top-0 left-0 right-0 w-full flex 
                     justify-center items-center p-4 
                     overflow-x-hidden overflow-y-auto 
-                    md:inset-0 h-[calc(100%-1rem)] max-h-full z-[41]`
+                    md:inset-0 h-[calc(100%-1rem)] max-h-full z-41`
                     }>
                     <div className="relative w-full max-w-3xl max-h-full">
                         <div className="relative bg-white rounded-lg shadow">
@@ -185,29 +185,29 @@ const ProblemComicGenerator = ({
                             </div>
                             <div className="p-6">
                                 <div>
-                                    <p className="block mb-2 text-[#6F727A]">
+                                    <p className="block mb-2 text-secondary-gray-4">
                                     Working through your Problem Comic Strip. 
                                     This might take multiple iterations as you dig deeper to understand a problem better. Start off creating a visual of the problem you&#39;re thinking about. What is it? Is it back pain? You might start with an image of a throbbing back in the panel. Great start!
                                     </p>
-                                    <p className="block mb-3 text-[#6F727A]">
+                                    <p className="block mb-3 text-secondary-gray-4">
                                     Who has the problem? 
                                     <br/>
                                     You probably have someone in mind…maybe it&#39;s you, or your grandparent. Add that character into your comic strip, either in the same panel or in a different one.
                                     </p>
-                                    <p className="block mb-3 text-[#6F727A]">
+                                    <p className="block mb-3 text-secondary-gray-4">
                                     What triggers the problem? When/where does the problem happen? 
                                     <br/>
                                     Start to add images or captions to add context to the problem, such as on-the-job at a construction sight, playing with grandkids, or something else.
                                     </p>
-                                    <p className="block mb-3 text-[#6F727A]">
+                                    <p className="block mb-3 text-secondary-gray-4">
                                     What is the Character doing when the problem happens?
                                     <br/>
                                     Maybe they are playing with grandkids on the playground and pushing them on the swings triggers it. How do they address it? What is the pain like? Caption or add images to convey its severity.
                                     </p>
-                                    <p className="block mb-3 text-[#6F727A]">
+                                    <p className="block mb-3 text-secondary-gray-4">
                                     In another panel, show how the pain affects what they are in the middle of what they are doing. Do they keep working their 9-5 job despite the pain and pop an Advil? Do they have to stop playing with the grandkids and go home? Do they end up bedridden for a few days? How do they fix the issue right now? Are there other characters in your story that should be added to your comic, either because they help you out or because this pain affects other people in the mix?
                                     </p>
-                                    <p className="block mb-3 text-[#6F727A]">
+                                    <p className="block mb-3 text-secondary-gray-4">
                                     Feel free to play around and change the Setting of your story, even if it&#39;s the same Problem. Or swap out a different Character experiencing the same problem.
                                     </p>
                                 </div>

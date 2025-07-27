@@ -4,11 +4,13 @@ import { authOptions } from "./auth/[...nextauth]";
 import formidable from "formidable";
 import { ObjectId } from "mongodb";
 import { v2 as cloudinary } from 'cloudinary';
-import sendgrid from "@sendgrid/mail";
 import { pusher } from "@/utils/pusher-server";
 import getDb from "@/utils/getdb";
-
-sendgrid.setApiKey(process.env.SENDGRID_API_KEY ?? "");
+import { resend } from "@/utils/resend";
+import RequestERA from "@/components/email/RequestERA";
+import ResponseERA from "@/components/email/ReponseERA";
+import ForwardRequest from "@/components/email/ForwardRequest";
+import { delay } from "@/utils/utils";
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -17,13 +19,6 @@ export const config = {
         bodyParser: false,
     },
 };
-
-interface FileObject {
-    originalFilename: string;
-    mimeType: string;
-    filepath: string;
-    size: number;
-}
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME ?? '',
@@ -58,7 +53,7 @@ export default function handler(
 
 async function createRequestERA(req: NextApiRequest, res: NextApiResponse) {
     const session: Session | null = await getServerSession(req, res, authOptions);
-    const form = new formidable.IncomingForm();
+    const form = formidable();
     form.parse(req, async (err, fields, files) => {
         if (err) {
             console.error(err);
@@ -83,13 +78,13 @@ async function createRequestERA(req: NextApiRequest, res: NextApiResponse) {
             closing, 
         } = fields;
         
-        const ventureId = new ObjectId(vid.toString());
-        const specificMembers = JSON.parse(memberList.toString());
+        const ventureId = new ObjectId(vid?.toString());
+        const specificMembers = JSON.parse(memberList?.toString() ?? "");
         const db = await getDb();
 
         const folks = await db
             .collection("tagging_list")
-            .findOne({ tagNo: parseInt(type.toString()) });
+            .findOne({ tagNo: parseInt(type?.toString() ?? "") });
 
         const ventureData = await db
                 .collection("ventures")
@@ -97,34 +92,51 @@ async function createRequestERA(req: NextApiRequest, res: NextApiResponse) {
 
         let fileFields = [];
 
-        for (const file of Object.values(files)) {
-            const fileObject: FileObject = file as unknown as FileObject;
-            try {
-                const uploadResult = await cloudinary.uploader.upload(fileObject.filepath, {
-                    public_id: `ycity_files/${fileObject.originalFilename}`,
-                    overwrite: true,
-                    timestamp: new Date().getTime(),
-                    resource_type: 'auto',
-                    folder: 'ERA Files',
-                    invalidate: true
-                });
-                fileFields.push({
-                    url: uploadResult.secure_url,
-                    assetId: uploadResult.asset_id,
-                    name: fileObject.originalFilename,
-                    publicId: uploadResult.public_id
-                })
-            } catch (error) {
-                console.error(error);
-                res.status(500).json({ success: false, err: SERVER_ERR_MSG });
-            }
+        for (const key of Object.keys(files)) {
+            const fileEntry = files[key];
+
+            // Handle single or multiple file uploads
+            const fileArray = Array.isArray(fileEntry) ? fileEntry : [fileEntry];
+
+            for (const file of fileArray) {
+                if (
+                    file &&
+                    typeof file === "object" &&
+                    "filepath" in file &&
+                    "originalFilename" in file
+                ) {
+                    const { filepath, originalFilename } = file;
+                        try {
+                            const uploadResult = await cloudinary.uploader.upload(filepath, {
+                                public_id: `ycity_files/${originalFilename}`,
+                                overwrite: true,
+                                timestamp: new Date().getTime(),
+                                resource_type: 'auto',
+                                folder: 'ERA Files',
+                                invalidate: true
+                            });
+                            fileFields.push({
+                                url: uploadResult.secure_url,
+                                assetId: uploadResult.asset_id,
+                                name: originalFilename,
+                                publicId: uploadResult.public_id
+                            })
+                        } catch (error) {
+                            console.error(error);
+                            return res.status(500).json({ success: false, err: SERVER_ERR_MSG });
+                        }
+                    }  else {
+                        console.error("File object missing required properties", file);
+                        return res.status(500).json({ success: false, err: SERVER_ERR_MSG });
+                    }
+                } 
         }
 
         let notifications: any[] = [];
 
         let members = ventureData.mentors;
 
-        if (assistanceType == '0') {
+        if (assistanceType?.toString() === '0') {
             let memberList: any[] = [];
 
             specificMembers.map((item: any) => {
@@ -143,37 +155,27 @@ async function createRequestERA(req: NextApiRequest, res: NextApiResponse) {
             members = memberList;
         }
 
-        members.map(async (item: any) => {
-            const date = new Date();
-            const options: Intl.DateTimeFormatOptions = {
-                weekday: 'long',
-                month: 'long',
-                day: 'numeric'
-            };
-            const formattedDate = date.toLocaleDateString('en-US', options);
-            try {
-                await sendgrid.send({
-                    to: item.email,
-                    from: {
-                        email: "yCITIES1@gmail.com",
-                        name: "Turtle Boat"
-                    },
-                    subject: `Entrepreneurial Roadside Assistance Request`,
-                    cc: process.env.CC_EMAIL,
-                    templateId: "d-62f92175b5284e78b7876e418b539606",
-                    dynamicTemplateData: {
-                        subject: `Entrepreneurial Roadside Assistance Request`,
-                        link: `${process.env.HOME_URL}/dashboard/messages/roadassistances/${vid}`,
-                        specificHelpRequest: specificHelpRequest,
-                        whatYouDid: whatYouDid
-                    },
-                    isMultiple: false,
-                });
-            } catch (err: any) {
-                console.log(err);
+        for (const item of members) {
+            const { data, error } = await resend.emails.send({
+                from: process.env.FROM_EMAIL ?? 'Turtle Boat <vicky@youthcities.org>',
+                to: item.email,
+                subject: `Entrepreneurial Roadside Assistance Request`,
+                react: RequestERA({
+                    specificHelpRequest,
+                    whatYouDid,
+                    link: `${process.env.HOME_URL}/dashboard/messages/roadassistances/${vid}`,
+                    }),
+                cc: process.env.CC_EMAIL,
+            });
+
+            if (error) {
+                console.error({ error });
                 return res.status(500).json({ err: SERVER_ERR_MSG });
             }
-        })
+
+            // Respect Resend rate limit (2 emails/sec)
+            await new Promise((resolve) => setTimeout(resolve, 600));
+        }
 
         members.map(async (item: any) => {
             const date = new Date();
@@ -184,7 +186,7 @@ async function createRequestERA(req: NextApiRequest, res: NextApiResponse) {
             };
             const formattedDate = date.toLocaleDateString('en-US', options);
             const notificationForComment = {
-                from: uid.toString(),
+                from: uid?.toString(),
                 to: item._id.toString(),
                 message: `${session?.user?.name} requested your assistance on ${formattedDate}`,
                 link: `/dashboard/messages/roadassistances/${vid}`,
@@ -249,7 +251,7 @@ async function createRequestERA(req: NextApiRequest, res: NextApiResponse) {
                 await db
                     .collection("token_history")
                     .insertOne({
-                        userId: new ObjectId(uid.toString()),
+                        userId: new ObjectId(uid?.toString()),
                         createdAt: new Date(),
                         amount: tokenAction.tokenAmount,
                         isView: false,
@@ -258,8 +260,8 @@ async function createRequestERA(req: NextApiRequest, res: NextApiResponse) {
                         type: 'action'
                     });
 
-                const userId = new ObjectId(uid.toString());
-                pusher.trigger(`user-token-${uid.toString()}`, 'token-history', {
+                const userId = new ObjectId(uid?.toString());
+                pusher.trigger(`user-token-${uid?.toString()}`, 'token-history', {
                     type: 1,
                     name: tokenAction.name,
                     tokenAmount: tokenAction.tokenAmount
@@ -290,7 +292,7 @@ async function createRequestERA(req: NextApiRequest, res: NextApiResponse) {
 async function saveResponseERA(req: NextApiRequest, res: NextApiResponse) {
     const session: Session | null = await getServerSession(req, res, authOptions);
     const db = await getDb();
-    const form = new formidable.IncomingForm();
+    const form = formidable();
     form.parse(req, async (err, fields, files) => {
         if (err) {
             console.error(err);
@@ -298,7 +300,7 @@ async function saveResponseERA(req: NextApiRequest, res: NextApiResponse) {
         } 
 
         const { helpers, vid, responseContent, isTextResponse, email, fromUid, toUid } = fields;
-        const ventureId = new ObjectId(vid.toString());
+        const ventureId = new ObjectId(vid?.toString());
 
         const venture = await db.collection("ventures")
             .findOne(
@@ -318,39 +320,34 @@ async function saveResponseERA(req: NextApiRequest, res: NextApiResponse) {
                 whatYouDid = venture.era.request.whatYouDid;
             }
         }
-    
-        // Send forward emails
-        if (Array.isArray(helpers)) {
-            helpers.map(async (item: any) => {
-                try {
-                    await sendgrid.send({
-                        to: item,
-                        from: {
-                            email: "yCITIES1@gmail.com",
-                            name: "Turtle Boat"
-                        },
-                        subject: `${session?.user?.name} requests Entrepreneurial Advice For Their Mentee`,
-                        cc: process.env.CC_EMAIL,
-                        templateId: "d-8017b2f779494a9289a2b0fe7e778595",
-                        dynamicTemplateData: {
-                            subject: `${session?.user?.name} requests Entrepreneurial Advice For Their Mentee`,
-                            summary: `${session?.user?.name} feels that you are experienced in an area that their mentee needs some quick advice for. Below is a summary of the Entrepreneurial Roadside Assistance(ERA) ask.`,
-                            replyEmail: session?.user?.email != undefined ? session?.user?.email?.toString() : "",
-                            type: type,
-                            specificHelpRequest: specificHelpRequest,
-                            whatYouDid: whatYouDid,
-                            note: responseContent,
-                            name: session?.user?.name
-                        },
-                        isMultiple: false,
-                    });
-                } catch (err: any) {
-                    console.log(err);
-                    return res.status(500).json({ err: SERVER_ERR_MSG });
-                }
-            })
+        
+    if (Array.isArray(helpers)) {
+        for (const helperEmail of helpers) {
+            try {
+            await resend.emails.send({
+                from: process.env.FROM_EMAIL ?? 'Turtle Boat <vicky@youthcities.org>',
+                to: helperEmail,
+                subject: `${session?.user?.name} requests Entrepreneurial Advice For Their Mentee`,
+                cc: process.env.CC_EMAIL,
+                react: ForwardRequest({
+                    summary: `${session?.user?.name} feels that you are experienced in an area that their mentee needs some quick advice for. Below is a summary of the Entrepreneurial Roadside Assistance(ERA) ask.`,
+                    replyEmail: session?.user?.email ?? "",
+                    type,
+                    specificHelpRequest,
+                    whatYouDid,
+                    note: responseContent,
+                    name: session?.user?.name ?? "",
+                }),
+            });
+
+            await delay(600);
+
+            } catch (err) {
+                console.error(`Failed to send to ${helperEmail}:`, err);
+                return res.status(500).json({ err: SERVER_ERR_MSG });
+            }
         }
-    
+    }
         let notifications: any[] = [];
     
         // Send email to mentee who requested help
@@ -361,25 +358,20 @@ async function saveResponseERA(req: NextApiRequest, res: NextApiResponse) {
             day: 'numeric'
         };
         const formattedDate = date.toLocaleDateString('en-US', options);
-        const message = isTextResponse ? `${session?.user?.name} replied to your request on ${formattedDate}. ` + responseContent : `${session?.user?.name} forwarded your request to others on ${formattedDate}. <br/> ` + responseContent
         try {
             if (isTextResponse) {
-                await sendgrid.send({
-                    to: email,
-                    from: {
-                        email: "yCITIES1@gmail.com",
-                        name: "Turtle Boat"
-                    },
-                    subject: `Entrepreneurial advice for mentee`,
-                    cc: process.env.CC_EMAIL,
-                    templateId: "d-271429d35637479ea4786b95867f1270",
-                    dynamicTemplateData: {
-                        subject: `Entrepreneurial advice for mentee`,
-                        link: `${process.env.HOME_URL}/dashboard/messages/roadassistances/${vid}`,
-                        note: responseContent
-                    },
-                    isMultiple: false,
+
+                const { data, error } = await resend.emails.send({
+                      from: process.env.FROM_EMAIL ?? 'Turtle Boat <vicky@youthcities.org>',
+                      to: email ?? "",
+                      subject: `Entrepreneurial advice for mentee`,
+                      react: ResponseERA({subject: "Entrepreneurial advice for mentee", note: responseContent, link: `${process.env.HOME_URL}/dashboard/messages/roadassistances/${vid}`}),
+                      cc: process.env.CC_EMAIL,
                 });
+                
+                if (error) {
+                    console.error({ error });
+                }
             }
             const notificationForComment = {
                 from: fromUid,
@@ -451,7 +443,7 @@ async function saveResponseERA(req: NextApiRequest, res: NextApiResponse) {
             await db
                 .collection("token_history")
                 .insertOne({
-                    userId: new ObjectId(fromUid.toString()),
+                    userId: new ObjectId(fromUid?.toString()),
                     createdAt: new Date(),
                     amount: tokenAction.tokenAmount,
                     isView: false,
@@ -460,8 +452,8 @@ async function saveResponseERA(req: NextApiRequest, res: NextApiResponse) {
                     type: 'action'
                 });
 
-            const userId = new ObjectId(fromUid.toString());
-            pusher.trigger(`user-token-${fromUid.toString()}`, 'token-history', {
+            const userId = new ObjectId(fromUid?.toString());
+            pusher.trigger(`user-token-${fromUid?.toString()}`, 'token-history', {
                 type: 1,
                 name: tokenAction.name,
                 tokenAmount: tokenAction.tokenAmount

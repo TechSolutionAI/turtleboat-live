@@ -8,8 +8,8 @@ const VideoStatusItem = ({
             className={
                 `justify-center flex flex-col text-center px-4 sm:py-2 py-1 rounded-full w-fit
                 ${
-                    value == 'public' ? "bg-tertiary-green text-secondary-green border-l-1 border-tertiary-green" : 
-                    value == 'private' ? "bg-secondary-gray-2 text-secondary-gray-4 border-l-1 border-secondary-gray" : "bg-secondary-red-1 text-tertiary-red border-l-1 border-secondary-red-1" 
+                    value == 'public' ? "bg-tertiary-green text-secondary-green border-l border-tertiary-green" : 
+                    value == 'private' ? "bg-secondary-gray-2 text-secondary-gray-4 border-l border-secondary-gray" : "bg-secondary-red-1 text-tertiary-red border-l border-secondary-red-1" 
                 }`
             }
         >

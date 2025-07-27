@@ -49,17 +49,17 @@ const View = ({
                     <div className="border-0 rounded-lg relative flex flex-col w-full sm:px-[20px]">
                         <div className="relative p-6 flex-auto">
                             <div>
-                                <label className='font-Inter font-semibold tracking-[0.1em] text-[#232325]'>TITLE</label>
-                                <p className='py-3 font-Inter tracking-[0.1em] text-[#333333]'>{title}</p>
+                                <label className='font-Inter font-semibold tracking-widest text-primary-black'>TITLE</label>
+                                <p className='py-3 font-Inter tracking-widest text-[#333333]'>{title}</p>
                             </div>
                         </div>
                         <div className="relative px-6 py-3 flex-auto overflow-y-auto">
-                            <label className="font-Inter font-semibold tracking-[0.1em] text-[#232325]">COURSE</label>
-                            <p className='py-3 font-Inter tracking-[0.1em] text-[#333333]'>{editableData.course.title}</p>
+                            <label className="font-Inter font-semibold tracking-widest text-primary-black">COURSE</label>
+                            <p className='py-3 font-Inter tracking-widest text-[#333333]'>{editableData.course.title}</p>
                         </div>
 
                         <div className="relative px-6 py-3 flex-auto">
-                            <label className='font-Inter font-semibold tracking-[0.1em] text-[#232325]'>MENTEE</label>
+                            <label className='font-Inter font-semibold tracking-widest text-primary-black'>MENTEE</label>
                         </div>
                         <div className="relative px-6 pb-3">
                             <UserSelect
@@ -74,7 +74,7 @@ const View = ({
                         </div>
 
                         <div className="relative px-6 py-3 flex-auto">
-                            <label className='font-Inter font-semibold tracking-[0.1em] text-[#232325]'>MENTORS</label>
+                            <label className='font-Inter font-semibold tracking-widest text-primary-black'>MENTORS</label>
                         </div>
                         <div className="relative px-6 pb-3">
                             <UserSelect
@@ -89,8 +89,8 @@ const View = ({
                         </div>
 
                         <div className="relative p-6 flex-auto">
-                            <label className='font-Inter font-semibold tracking-[0.1em] text-[#232325]'>DESCRIPTION</label>
-                            <p className='py-3 font-Inter tracking-[0.1em] text-[#333333]'>{description}</p>
+                            <label className='font-Inter font-semibold tracking-widest text-primary-black'>DESCRIPTION</label>
+                            <p className='py-3 font-Inter tracking-widest text-[#333333]'>{description}</p>
                         </div>
 
                         <div className="flex items-center justify-end font-Inter font-bold p-6">

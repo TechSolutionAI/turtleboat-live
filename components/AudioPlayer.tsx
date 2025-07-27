@@ -14,9 +14,9 @@ const AudioPlayer = ({audioData} : any) => {
     const [color, setColor] = useState("red");
 
     useEffect(() => {
-        let intervalId: NodeJS.Timer | undefined;
+        let intervalId: number | undefined;
         if (isRunning) {
-            intervalId = setInterval(() => {
+            intervalId = window.setInterval(() => {
                 setTime((time) => time + 1);
             }, 1000);
         }
@@ -96,11 +96,11 @@ const AudioPlayer = ({audioData} : any) => {
                     <div className='text-center flex flex-row justify-around ml-[15px]'>
                         {
                             isLoading ? 
-                            <p className='font-Inter font-semibold text-[16px] text-[#6F727A]'>Loading ...</p>
+                            <p className='font-Inter font-semibold text-[16px] text-secondary-gray-4'>Loading ...</p>
                             : 
                             playStatus ?
-                            <button onClick={pauseAudio} className='font-Inter font-semibold text-[16px] text-[#6F727A]'>Pause</button> :
-                            <button onClick={playAudio} className='font-Inter font-semibold text-[16px] text-[#6F727A]'>Play</button>
+                            <button onClick={pauseAudio} className='font-Inter font-semibold text-[16px] text-secondary-gray-4'>Pause</button> :
+                            <button onClick={playAudio} className='font-Inter font-semibold text-[16px] text-secondary-gray-4'>Play</button>
                         }
                     </div>
                 }

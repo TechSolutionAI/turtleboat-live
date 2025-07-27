@@ -1,11 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { ObjectId } from "mongodb";
-import sendgrid from "@sendgrid/mail";
 import { pusher } from "@/utils/pusher-server";
 import getDb from "@/utils/getdb";
-
-sendgrid.setApiKey(process.env.SENDGRID_API_KEY ?? "");
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 

@@ -271,7 +271,7 @@ const Index = () => {
   return (
     <div>
       <div className="pb-[32px]">
-        <h1 className="font-Inter font-bold text-[24px] text-[#232325] mt-0">
+        <h1 className="font-Inter font-bold text-[24px] text-primary-black mt-0">
           My Ventures
         </h1>
         <p className={"mt-5 font-Inter text-[14px]"}>
@@ -421,7 +421,7 @@ const Index = () => {
                         className="shadow-md h-[220px] font-Inter rounded-lg"
                         key={`venture_${index}`}
                       >
-                        <div className="text-[16px] bg-[#F3F4F6] rounded-t-lg font-bold text-[#232325] px-[15px] py-[10px] ">
+                        <div className="text-[16px] bg-[#F3F4F6] rounded-t-lg font-bold text-primary-black px-[15px] py-[10px] ">
                           <a
                             className="block min-h-[48px] flex items-center"
                             href={`/dashboard/myventures/${item._id}`}
@@ -450,7 +450,7 @@ const Index = () => {
                             })}
                             {memberList.length > 2 && (
                               <a
-                                className="flex items-center justify-center w-9 h-9 text-full font-medium text-white bg-gradient-to-r from-[#B32F1A] to-[#DF897C] border-2 border-white rounded-full"
+                                className="flex items-center justify-center w-9 h-9 text-full font-medium text-white bg-linear-to-r from-[#B32F1A] to-[#DF897C] border-2 border-white rounded-full"
                                 href="#"
                               >
                                 +{memberList.length - 2}
@@ -464,7 +464,7 @@ const Index = () => {
                               })}
                             </p>
                           </div>
-                          <p className="text-[#232325] pt-1 min-h-[40px]">
+                          <p className="text-primary-black pt-1 min-h-[40px]">
                             <strong>Mentors:</strong>&nbsp;
                             {item.mentors.map((mentor: any, index: number) => {
                               if (index < item.mentors.length - 1)
@@ -506,7 +506,7 @@ const Index = () => {
                         className="shadow-md h-[220px] font-Inter rounded-lg"
                         key={`venture_${index}`}
                       >
-                        <div className="text-[16px] bg-[#F3F4F6] rounded-t-lg font-bold text-[#232325] px-[15px] py-[10px] ">
+                        <div className="text-[16px] bg-[#F3F4F6] rounded-t-lg font-bold text-primary-black px-[15px] py-[10px] ">
                           <a
                             className="block min-h-[48px] flex items-center"
                             href={`/dashboard/myventures/${item._id}`}
@@ -535,7 +535,7 @@ const Index = () => {
                             })}
                             {memberList.length > 2 && (
                               <a
-                                className="flex items-center justify-center w-9 h-9 text-full font-medium text-white bg-gradient-to-r from-[#B32F1A] to-[#DF897C] border-2 border-white rounded-full"
+                                className="flex items-center justify-center w-9 h-9 text-full font-medium text-white bg-linear-to-r from-[#B32F1A] to-[#DF897C] border-2 border-white rounded-full"
                                 href="#"
                               >
                                 +{memberList.length - 2}
@@ -549,7 +549,7 @@ const Index = () => {
                               })}
                             </p>
                           </div>
-                          <p className="text-[#232325] pt-1 min-h-[40px]">
+                          <p className="text-primary-black pt-1 min-h-[40px]">
                             <strong>Mentors:</strong>&nbsp;
                             {item.mentors.map((mentor: any, index: number) => {
                               if (index < item.mentors.length - 1)
@@ -591,7 +591,7 @@ const Index = () => {
                         className="shadow-md h-[220px] font-Inter rounded-lg"
                         key={`venture_${index}`}
                       >
-                        <div className="text-[16px] bg-[#F3F4F6] rounded-t-lg font-bold text-[#232325] px-[15px] py-[10px] ">
+                        <div className="text-[16px] bg-[#F3F4F6] rounded-t-lg font-bold text-primary-black px-[15px] py-[10px] ">
                           <a
                             className="block min-h-[48px] flex items-center"
                             href={`/dashboard/myventures/${item._id}`}
@@ -620,7 +620,7 @@ const Index = () => {
                             })}
                             {memberList.length > 2 && (
                               <a
-                                className="flex items-center justify-center w-9 h-9 text-full font-medium text-white bg-gradient-to-r from-[#B32F1A] to-[#DF897C] border-2 border-white rounded-full"
+                                className="flex items-center justify-center w-9 h-9 text-full font-medium text-white bg-linear-to-r from-[#B32F1A] to-[#DF897C] border-2 border-white rounded-full"
                                 href="#"
                               >
                                 +{memberList.length - 2}
@@ -634,7 +634,7 @@ const Index = () => {
                               })}
                             </p>
                           </div>
-                          <p className="text-[#232325] pt-1 min-h-[40px]">
+                          <p className="text-primary-black pt-1 min-h-[40px]">
                             <strong>Mentors:</strong>&nbsp;
                             {item.mentors.map((mentor: any, index: number) => {
                               if (index < item.mentors.length - 1)
@@ -673,7 +673,7 @@ const Index = () => {
             className={`fixed top-0 left-0 right-0 w-full flex 
                             justify-center items-center p-4 
                             overflow-x-hidden overflow-y-auto 
-                            md:inset-0 h-[calc(100%-1rem)] max-h-full z-[41]`}
+                            md:inset-0 h-[calc(100%-1rem)] max-h-full z-41`}
           >
             <div className="relative w-full max-w-3xl max-h-full">
               <div className="relative bg-white rounded-lg shadow">

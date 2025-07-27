@@ -32,15 +32,15 @@ const LandingPage = () => {
           Welcome to Turtle Boat, powered by yCITIES!
         </h1>
         <button
-          className={`text-white bg-gradient-to-r from-green-500 via-green-600 
-                  to-green-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 
+          className={`text-white bg-linear-to-r from-green-500 via-green-600 
+                  to-green-700 hover:bg-linear-to-br focus:ring-4 focus:outline-none focus:ring-green-300 
                   shadow-lg shadow-green-500/50 font-medium rounded-lg text-sm sm:px-8 px-4 sm:py-4 py-2 text-center sm:mt-10 mt-6`}
           onClick={onLoginBtnClicked}
         >
           <span className={`text-xl font-bold`}>Please Login</span>
         </button>
         {/* <button
-          className={`text-green bg-white hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 
+          className={`text-green bg-white hover:bg-linear-to-br focus:ring-4 focus:outline-none focus:ring-green-300 
                   shadow-lg shadow-green-500/10 font-medium rounded-lg text-sm sm:px-8 px-4 sm:py-4 py-2 text-center sm:mt-10 mt-6`}
           onClick={onGuestBtnClicked}
         >

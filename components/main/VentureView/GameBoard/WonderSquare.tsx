@@ -23,7 +23,7 @@ const WonderSquare = ({ size, data, content, style }: WonderSquareProps) => {
 
   const wonderSquare = (
     <div
-      className="wonder-square w-[100%] h-[100%] bg-white border-4 border-white box-border rounded-[8px] -translate-x-1/2 -translate-y-1/2 rotate-45 relative top-[50%] left-[50%] font-Inter"
+      className="wonder-square w-full h-full bg-white border-4 border-white box-border rounded-[8px] -translate-x-1/2 -translate-y-1/2 rotate-45 relative top-[50%] left-[50%] font-Inter"
       style={{
         width: `${newSize}px`,
         height: `${newSize}px`,
@@ -56,7 +56,7 @@ const WonderSquare = ({ size, data, content, style }: WonderSquareProps) => {
     >
       {wonderSquare}
       <div
-        className="ws-content absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[100%] text-center pointer-events-none"
+        className="ws-content absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none"
       >
         {content ?
           content :

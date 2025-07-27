@@ -61,7 +61,7 @@ const Courses = () => {
       {!showModal && (
         <div className="px-4 pt-[60px] pb-[20px] fixed bg-white w-full z-10 block sm:flex items-center">
           <button
-            className="flex items-center justify-center bg-[#2E65F3] text-[white] w-[133px] h-[50px] text-[12px] font-Inter rounded-[50px]"
+            className="flex items-center justify-center bg-primary-blue text-[white] w-[133px] h-[50px] text-[12px] font-Inter rounded-[50px]"
             onClick={() => setShowModal(true)}
           >
             <AddIcon />

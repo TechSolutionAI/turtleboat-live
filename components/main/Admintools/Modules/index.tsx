@@ -57,7 +57,7 @@ const Modules = () => {
         <>
             <div className='px-[20px] pt-[60px] pb-[20px] bg-white fixed w-full z-10 sm:flex items-center'>
                 {!addOpen && <button
-                    className="flex items-center justify-center bg-[#2E65F3] text-[white] w-[133px] h-[50px] text-[12px] font-Inter rounded-[50px]"
+                    className="flex items-center justify-center bg-primary-blue text-[white] w-[133px] h-[50px] text-[12px] font-Inter rounded-[50px]"
                     onClick={() => setAddOpen(true)}
                 >
                     <AddIcon />{' New Module'}

@@ -16,7 +16,7 @@ const QuickStart = () => {
       <div>
         <h1
           className={
-            "font-Inter font-bold text-[30px] text-[#232325] leading-tight"
+            "font-Inter font-bold text-[30px] text-primary-black leading-tight"
           }
         >
           Features Overview
@@ -108,7 +108,7 @@ const QuickStart = () => {
         <div className={"lg:col-span-3"}>
           <h2
             className={
-              "font-Inter font-bold text-[24px] text-[#232325] leading-tight"
+              "font-Inter font-bold text-[24px] text-primary-black leading-tight"
             }
           >
             My Ventures Tab
@@ -135,7 +135,7 @@ const QuickStart = () => {
       <div className={"mt-10"}>
         <h2
           className={
-            "font-Inter font-bold text-[24px] text-[#232325] leading-tight"
+            "font-Inter font-bold text-[24px] text-primary-black leading-tight"
           }
         >
           Dashboard to Access Tools and Thinkspace
@@ -155,7 +155,7 @@ const QuickStart = () => {
           <div className={"lg:col-span-3"}>
             <h3
               className={
-                "font-Inter font-bold text-[20px] text-[#232325] leading-tight"
+                "font-Inter font-bold text-[20px] text-primary-black leading-tight"
               }
             >
               Thinkspace
@@ -180,7 +180,7 @@ const QuickStart = () => {
           <div className={"lg:col-span-2"}>
             <h3
               className={
-                "font-Inter font-bold text-[20px] text-[#232325] leading-tight"
+                "font-Inter font-bold text-[20px] text-primary-black leading-tight"
               }
             >
               Baby Steps Checklist
@@ -196,7 +196,7 @@ const QuickStart = () => {
             </p>
             <h3
               className={
-                "mt-10 font-Inter font-bold text-[20px] text-[#232325] leading-tight"
+                "mt-10 font-Inter font-bold text-[20px] text-primary-black leading-tight"
               }
             >
               Proof of Opportunity
@@ -243,7 +243,7 @@ const QuickStart = () => {
         <div>
           <h2
             className={
-              "font-Inter font-bold text-[24px] text-[#232325] leading-tight"
+              "font-Inter font-bold text-[24px] text-primary-black leading-tight"
             }
           >
             ERA (Entrepreneurial Roadside Assistance)
@@ -281,7 +281,7 @@ const QuickStart = () => {
         <div>
           <h2
             className={
-              "font-Inter font-bold text-[24px] text-[#232325] leading-tight"
+              "font-Inter font-bold text-[24px] text-primary-black leading-tight"
             }
           >
             Teamwork
@@ -307,7 +307,7 @@ const QuickStart = () => {
         <div className={"lg:col-span-3"}>
           <h2
             className={
-              "font-Inter font-bold text-[24px] text-[#232325] leading-tight"
+              "font-Inter font-bold text-[24px] text-primary-black leading-tight"
             }
           >
             Elevator Pitch Recorder
@@ -336,7 +336,7 @@ const QuickStart = () => {
       <div className="mt-7">
         <h2
           className={
-            "font-Inter font-bold text-[24px] text-[#232325] leading-tight"
+            "font-Inter font-bold text-[24px] text-primary-black leading-tight"
           }
         >
           Tools
@@ -414,7 +414,7 @@ const QuickStart = () => {
         <div className={"lg:col-span-3"}>
           <h2
             className={
-              "font-Inter font-bold text-[24px] text-[#232325] leading-tight"
+              "font-Inter font-bold text-[24px] text-primary-black leading-tight"
             }
           >
             Token Tracker - The CORE Experience Economy
@@ -443,7 +443,7 @@ const QuickStart = () => {
       <div className={"mt-10"}>
         <h2
           className={
-            "font-Inter font-bold text-[24px] text-[#232325] leading-tight"
+            "font-Inter font-bold text-[24px] text-primary-black leading-tight"
           }
         >
           CORE Tab
@@ -460,7 +460,7 @@ const QuickStart = () => {
           <div className={"lg:col-span-3"}>
             <h3
               className={
-                "font-Inter font-bold text-[20px] text-[#232325] leading-tight"
+                "font-Inter font-bold text-[20px] text-primary-black leading-tight"
               }
             >
               Can You Make A Kid Care in 90 Seconds
@@ -492,7 +492,7 @@ const QuickStart = () => {
         <div className={"mt-10 ml:[20px] sm:ml-[70px]"}>
           <h2
             className={
-              "font-Inter font-bold text-[20px] text-[#232325] leading-tight"
+              "font-Inter font-bold text-[20px] text-primary-black leading-tight"
             }
           >
             90 Seconds Inside the Mind of an Investor
@@ -507,7 +507,7 @@ const QuickStart = () => {
         <div className={"mt-10 ml:[20px] sm:ml-[70px]"}>
           <h2
             className={
-              "font-Inter font-bold text-[20px] text-[#232325] leading-tight"
+              "font-Inter font-bold text-[20px] text-primary-black leading-tight"
             }
           >
             And Then This Happened
@@ -525,7 +525,7 @@ const QuickStart = () => {
         <div className={"mt-10 ml:[20px] sm:ml-[70px]"}>
           <h2
             className={
-              "font-Inter font-bold text-[20px] text-[#232325] leading-tight"
+              "font-Inter font-bold text-[20px] text-primary-black leading-tight"
             }
           >
             NanoTalks

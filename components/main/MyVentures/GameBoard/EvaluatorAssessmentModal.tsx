@@ -109,7 +109,7 @@ const EvaluatorAssessmentModal = ({ showModal, closeModal, vid, user, assessment
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0">
                 <div
-                    className={`fixed top-0 left-0 right-0 w-full flex justify-center items-center p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full z-[41]`}>
+                    className={`fixed top-0 left-0 right-0 w-full flex justify-center items-center p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full z-41`}>
                     <div className="relative w-full max-w-3xl max-h-full">
                         <div className="relative bg-white rounded-lg shadow">
                             <button
@@ -151,19 +151,19 @@ const EvaluatorAssessmentModal = ({ showModal, closeModal, vid, user, assessment
                                 <div className="flex flex-row justify-center my-[2px]">
                                     <div className="w-[60px] lg:w-[100px] h-[40px] lg:h-[74px] rounded-md">
                                     </div>
-                                    <div className="w-[60px] lg:w-[100px] ml-1 lg:ml-2 mr-1 text-center my-[auto]">
+                                    <div className="w-[60px] lg:w-[100px] ml-1 lg:ml-2 mr-1 text-center my-auto">
                                         <p className="font-Inter text-[10px] font-semibold text-gray-600">None or not able to understand</p>
                                     </div>
-                                    <div className="w-[60px] lg:w-[100px] ml-1 lg:ml-2 mr-1 text-center my-[auto]">
+                                    <div className="w-[60px] lg:w-[100px] ml-1 lg:ml-2 mr-1 text-center my-auto">
                                         <p className="font-Inter text-[10px] font-semibold text-gray-600">Need more detail</p>
                                     </div>
-                                    <div className="w-[60px] lg:w-[100px] ml-1 lg:ml-2 mr-1 text-center my-[auto]">
+                                    <div className="w-[60px] lg:w-[100px] ml-1 lg:ml-2 mr-1 text-center my-auto">
                                         <p className="font-Inter text-[10px] font-semibold text-gray-600">On the right track</p>
                                     </div>
-                                    <div className="w-[60px] lg:w-[100px] ml-1 lg:ml-2 mr-1 text-center my-[auto]">
+                                    <div className="w-[60px] lg:w-[100px] ml-1 lg:ml-2 mr-1 text-center my-auto">
                                         <p className="font-Inter text-[10px] font-semibold text-gray-600">Well-thought out</p>
                                     </div>
-                                    <div className="w-[60px] lg:w-[100px] ml-1 lg:ml-2 mr-1 text-center my-[auto]">
+                                    <div className="w-[60px] lg:w-[100px] ml-1 lg:ml-2 mr-1 text-center my-auto">
                                         <p className="font-Inter text-[10px] font-semibold text-gray-600">Very comfortable</p>
                                     </div>
                                 </div>
@@ -172,7 +172,7 @@ const EvaluatorAssessmentModal = ({ showModal, closeModal, vid, user, assessment
                                 <h3 className="text-base font-semibold text-gray-900 lg:text-lg font-Inter">Step 2 of 2: Ability to Articulate</h3>
                                 <p className="font-Inter text-sm">Rate the founder&#39;s ability to articulate each pillar in a way that is clear, concise, and compelling on a scale of 1 to 5. Select a circle and enter a value. You may reference the founder&#39;s story train and/or recorded elevator pitch.</p>
                             </div>
-                            <div className="grid grid-cols-2 gap-12 bg-[#f8f8f8] border-[2px] rounded-[15px] mx-12 mt-4 p-8">
+                            <div className="grid grid-cols-2 gap-12 bg-[#f8f8f8] border-2 rounded-[15px] mx-12 mt-4 p-8">
                                 <IndividualArticulate index={0} articulate={articulate} handleAbility={handleAbility} ispdf={false} />
                                 <IndividualArticulate index={1} articulate={articulate} handleAbility={handleAbility} ispdf={false} />
                                 <IndividualArticulate index={2} articulate={articulate} handleAbility={handleAbility} ispdf={false} />

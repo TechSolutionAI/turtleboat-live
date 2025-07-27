@@ -90,8 +90,8 @@ const Index = () => {
                             {
                                 moduleItem?.module?.files != undefined && moduleItem?.module?.files?.length > 0 && (
                                     <div className='pt-[30px]'>
-                                        <label className='text-[14px] text-[#232325]'>ATTACHMENTS</label>
-                                        <div className='text-[#2E65F3] font-semibold text-[14px] py-[15px]'>
+                                        <label className='text-[14px] text-primary-black'>ATTACHMENTS</label>
+                                        <div className='text-primary-blue font-semibold text-[14px] py-[15px]'>
                                             {
                                                 moduleItem?.module.files.map((fileItem: any, index: number) => {
                                                     return <div className='flex items-center' key={`file_${index}`}>
@@ -105,7 +105,7 @@ const Index = () => {
                                     </div>
                                 )
                             }
-                            <div className='border-b border-[#6F727A] py-[15px]'>
+                            <div className='border-b border-secondary-gray-4 py-[15px]'>
                             </div>
                             {
                                 comments != null && comments.length > 0 && (

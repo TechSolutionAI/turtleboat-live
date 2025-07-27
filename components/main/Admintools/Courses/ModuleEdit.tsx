@@ -38,6 +38,7 @@ const ModuleEdit = ({ setEditOpen, selectedData, editData, index }: any) => {
     const [contentError, setContentError] = useState<string>("");
     const [itemError, setItemError] = useState<string>("");
     const [isCreating, setIsCreating] = useState(false);
+    const [resetEditor, setResetEditor] = useState(false);
 
     useEffect(() => {
         setTitle(selectedData.title);
@@ -92,6 +93,7 @@ const ModuleEdit = ({ setEditOpen, selectedData, editData, index }: any) => {
         } else {
             const { result } = await response.json();
             setIsCreating(false);
+            setResetEditor(true);
             Swal.fire({
                 icon: "success",
                 title: "Success!",
@@ -140,7 +142,7 @@ const ModuleEdit = ({ setEditOpen, selectedData, editData, index }: any) => {
                         `fixed top-0 left-0 right-0 w-full flex 
                         justify-center items-center p-4 
                         overflow-x-hidden overflow-y-auto 
-                        md:inset-0 h-[calc(100%-1rem)] max-h-full z-[41]`
+                        md:inset-0 h-[calc(100%-1rem)] max-h-full z-41`
                     }>
                         <div className="relative w-full max-w-3xl max-h-full">
                             <div className="relative bg-white rounded-lg shadow">
@@ -181,12 +183,12 @@ const ModuleEdit = ({ setEditOpen, selectedData, editData, index }: any) => {
                                             <div className="border-0 rounded-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                                                 <div className="relative p-6 flex-auto">
                                                     <div>
-                                                        <label className="font-Inter font-semibold tracking-[0.1em] text-[#232325]">
+                                                        <label className="font-Inter font-semibold tracking-widest text-primary-black">
                                                         TITLE <span className="text-secondary-red">*</span>
                                                         </label>
                                                         <input
                                                         type="text"
-                                                        className="w-full mt-[15px] border-secondary-gray border-[1px] rounded-[8px] h-[48px] placeholder:text-[16px] pl-[16px] focus:outline-none focus:border-primary-blue focus:ring-primary-blue"
+                                                        className="w-full mt-[15px] border-secondary-gray border rounded-[8px] h-[48px] placeholder:text-[16px] pl-[16px] focus:outline-none focus:border-primary-blue focus:ring-primary-blue"
                                                         placeholder="Enter Text Here..."
                                                         id="title"
                                                         {...register("title")}
@@ -210,19 +212,21 @@ const ModuleEdit = ({ setEditOpen, selectedData, editData, index }: any) => {
                                                         updateExistFiles={setExistFiles}
                                                     />
                                                     <div className="sm:mt-[35px] mt-[10px]">
-                                                        <label className="font-Inter font-semibold tracking-[0.1em] text-[#232325]">
+                                                        <label className="font-Inter font-semibold tracking-widest text-primary-black">
                                                         DESCRIPTION <span className="text-secondary-red">*</span>
                                                         </label>
                                                     </div>
                                                     <Editor
                                                         value={content}
                                                         onChange={(data: string) => {
-                                                        if (data == "") {
-                                                            setContentError("Content is required");
-                                                        }
-                                                        setContent(data);
+                                                            if (data == "") {
+                                                                setContentError("Content is required");
+                                                            }
+                                                            setContent(data);
+                                                            setResetEditor(false);
                                                         }}
                                                         register={register}
+                                                        reset={resetEditor}
                                                     />
                                                     {content == "" && contentError != "" && (
                                                         <div className="p-1">
@@ -232,7 +236,7 @@ const ModuleEdit = ({ setEditOpen, selectedData, editData, index }: any) => {
                                                         </div>
                                                     )}
                                                     <div className="sm:mt-[35px] mt-[10px]">
-                                                        <label className="font-Inter font-semibold tracking-[0.1em] text-[#232325]">
+                                                        <label className="font-Inter font-semibold tracking-widest text-primary-black">
                                                         VENTURE PILLARS <span className="text-secondary-red">*</span>
                                                         </label>
                                                     </div>

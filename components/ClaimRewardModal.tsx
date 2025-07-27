@@ -136,7 +136,7 @@ const ClaimRewardModal = ({
                         `fixed top-0 left-0 right-0 w-full flex 
                         justify-center items-center p-4 
                         overflow-x-hidden overflow-y-auto 
-                        md:inset-0 h-[calc(100%-1rem)] max-h-full z-[41]`
+                        md:inset-0 h-[calc(100%-1rem)] max-h-full z-41`
                     }>
                     <div className="relative w-full max-w-3xl max-h-full">
                         <div className="relative bg-white rounded-lg shadow">

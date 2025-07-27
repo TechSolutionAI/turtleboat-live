@@ -58,7 +58,7 @@ const MenteeTokenItem = ({
                     <OutsideClickHandler onOutsideClick={() => {
                         setDropdownOpen(false)
                     }}>
-                        <div className={`absolute z-50 right-[10px] top-[70px] mt-[10px] border-1 border-secondary-gray w-[480px] rounded-[8px] bg-white`}>
+                        <div className={`absolute z-50 right-[10px] top-[70px] mt-[10px] border border-secondary-gray w-[480px] rounded-[8px] bg-white`}>
                             <RedeemModal data={tokenData} newToken={null}/>
                         </div>
                     </OutsideClickHandler>

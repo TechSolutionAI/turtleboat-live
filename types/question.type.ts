@@ -1,4 +1,3 @@
-import { State } from "zustand";
 import { Validation, Option } from "./validation.type";
 
 export type Question = {

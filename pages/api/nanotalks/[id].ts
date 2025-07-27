@@ -3,11 +3,10 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { ObjectId } from "mongodb";
 import { Session, getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
-import sendgrid from "@sendgrid/mail";
 import { pusher } from "@/utils/pusher-server";
 import getDb from "@/utils/getdb";
+import { resend } from "@/utils/resend";
 
-sendgrid.setApiKey(process.env.SENDGRID_API_KEY ?? "");
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -255,16 +254,12 @@ async function updateVideoStatus(req: NextApiRequest, res: NextApiResponse) {
             notificationLink: `${process.env.HOME_URL}/dashboard/core/makeninety`
         };
         try {
-            await sendgrid.send({
+            await resend.emails.send({
+                from: process.env.FROM_EMAIL ?? 'Turtle Boat <vicky@youthcities.org>',
                 to: notify.email,
-                from: {
-                    email: "yCITIES1@gmail.com",
-                    name: "Turtle Boat"
-                },
                 subject: status == 'public' ? 'Your 3 min NanoTalk has been approved' : 'Your 3 min NanoTalk was not approved.',
                 cc: process.env.CC_EMAIL,
                 text: message,
-                isMultiple: false,
             });
         } catch (err: any) {
             console.log(err);

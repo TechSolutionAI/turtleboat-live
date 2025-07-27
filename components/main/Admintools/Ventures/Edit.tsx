@@ -215,8 +215,8 @@ const Edit = ({
                     <div className="border-0 rounded-lg relative flex flex-col w-full sm:px-[20px]">
                         <div className="relative p-6 flex-auto">
                             <div>
-                                <label className='font-Inter font-semibold tracking-[0.1em] text-[#232325]'>TITLE <span className="text-secondary-red">*</span></label>
-                                <input type='text' className='w-full mt-[15px] border-secondary-gray border-[1px] rounded-[8px] h-[48px] placeholder:text-[16px] pl-[16px] focus:outline-none focus:border-primary-blue focus:ring-primary-blue'
+                                <label className='font-Inter font-semibold tracking-widest text-primary-black'>TITLE <span className="text-secondary-red">*</span></label>
+                                <input type='text' className='w-full mt-[15px] border-secondary-gray border rounded-[8px] h-[48px] placeholder:text-[16px] pl-[16px] focus:outline-none focus:border-primary-blue focus:ring-primary-blue'
                                     placeholder='Enter Text Here...'
                                     id="title"
                                     {...register('title')}
@@ -239,10 +239,10 @@ const Edit = ({
                             </div>
                         </div>
                         <div className="relative px-6 py-3 flex-auto overflow-y-auto">
-                            <label className="font-Inter font-semibold tracking-[0.1em] text-[#232325]">COURSE <span className="text-secondary-red">*</span></label>
+                            <label className="font-Inter font-semibold tracking-widest text-primary-black">COURSE <span className="text-secondary-red">*</span></label>
                         </div>
                         <div className="relative px-6 pb-3">
-                            <input type='text' className='w-full mt-[15px] border-secondary-gray border-[1px] rounded-[8px] h-[48px] placeholder:text-[16px] pl-[16px] focus:outline-none focus:border-primary-blue focus:ring-primary-blue'
+                            <input type='text' className='w-full mt-[15px] border-secondary-gray border rounded-[8px] h-[48px] placeholder:text-[16px] pl-[16px] focus:outline-none focus:border-primary-blue focus:ring-primary-blue'
                                 placeholder='Enter Text Here...'
                                 id="course"
                                 value={editableData.course.title}
@@ -251,7 +251,7 @@ const Edit = ({
                         </div>
 
                         <div className="relative px-6 py-3 flex-auto">
-                            <label className='font-Inter font-semibold tracking-[0.1em] text-[#232325]'>ASSIGN MENTEE</label>
+                            <label className='font-Inter font-semibold tracking-widest text-primary-black'>ASSIGN MENTEE</label>
                         </div>
                         <div className="relative px-6 pb-3">
                             <UserSelect
@@ -266,7 +266,7 @@ const Edit = ({
                         </div>
 
                         <div className="relative px-6 py-3 flex-auto">
-                            <label className='font-Inter font-semibold tracking-[0.1em] text-[#232325]'>ASSIGN MENTORS</label>
+                            <label className='font-Inter font-semibold tracking-widest text-primary-black'>ASSIGN MENTORS</label>
                         </div>
                         <div className="relative px-6 pb-3">
                             <UserSelect
@@ -281,7 +281,7 @@ const Edit = ({
                         </div>
 
                         <div className="relative p-6 flex-auto">
-                            <label className='font-Inter font-semibold tracking-[0.1em] text-[#232325]'>DESCRIPTION</label>
+                            <label className='font-Inter font-semibold tracking-widest text-primary-black'>DESCRIPTION</label>
                             <textarea rows={4} className="block p-3 mt-[15px] w-full text-[16px] text-gray-900 bg-white rounded-lg border border-gray-300 min-h-[200px] focus:outline-none focus:border-primary-blue focus:ring-primary-blue placeholder:text-[16px]"
                                 placeholder="Write your thoughts here..."
                                 onChange={(e) => setDescription(e.target.value)}
@@ -291,7 +291,7 @@ const Edit = ({
 
                         <div className="flex items-center justify-end font-Inter font-bold p-6">
                             <button
-                                className="text-[#232325] background-transparent px-6 py-2 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                className="text-primary-black background-transparent px-6 py-2 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                 type="button"
                                 onClick={() => setEditModal(false)}
                                 disabled={isCreating ? true : false}

@@ -135,7 +135,7 @@ const MemberDetail = () => {
           {userInfo != null && (
             <div className="mt-[40px] py-[34px] flex flex-col justify-center font-Inter">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-0">
-                <div className="flex justify-center px-8 py-4 lg:border-r-[2px]">
+                <div className="flex justify-center px-8 py-4 lg:border-r-2">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-2">
                     <div className="flex justify-center">
                       <UserAvatar1 

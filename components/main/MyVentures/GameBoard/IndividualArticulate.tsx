@@ -60,19 +60,19 @@ const IndividualArticulate = ({ index, articulate, handleAbility, ispdf }: Indiv
                 {ispdf && <span className="font-Inter ml-2 h-full">{uiParams[index].label}</span>}
             </div>
             {!ispdf &&
-                <div className={`flex justify-center items-center w-[150px] h-[150px] border-[2px] ${ability != 5 ? "border-secondary-gray-3" : ""}  border-dotted rounded-full`}>
-                    {(ability != 5 && ability != 0) && <button className={`flex rounded-full justify-center items-center text-center font-Inter font-semibold ${sizes[ability].w} ${sizes[ability].h} ${sizes[ability].f} ${uiParams[index].bg2} border-[1px] ${uiParams[index].border}`} onClick={handleItem}>{ability}</button>}
-                    {ability == 5 && <button className={`flex rounded-full justify-center items-center text-center font-Inter font-semibold ${sizes[ability].w} ${sizes[ability].h} ${sizes[ability].f} ${uiParams[index].bg2} border-[2px] border-dotted ${uiParams[index].border}`} onClick={handleItem}>{ability}</button>}
+                <div className={`flex justify-center items-center w-[150px] h-[150px] border-2 ${ability != 5 ? "border-secondary-gray-3" : ""}  border-dotted rounded-full`}>
+                    {(ability != 5 && ability != 0) && <button className={`flex rounded-full justify-center items-center text-center font-Inter font-semibold ${sizes[ability].w} ${sizes[ability].h} ${sizes[ability].f} ${uiParams[index].bg2} border ${uiParams[index].border}`} onClick={handleItem}>{ability}</button>}
+                    {ability == 5 && <button className={`flex rounded-full justify-center items-center text-center font-Inter font-semibold ${sizes[ability].w} ${sizes[ability].h} ${sizes[ability].f} ${uiParams[index].bg2} border-2 border-dotted ${uiParams[index].border}`} onClick={handleItem}>{ability}</button>}
                     {ability == 0 && <button className="text-[20px] font-semibold font-Inter" onClick={handleItem}>{ability}</button>}
                 </div>
             }
             {ispdf &&
-                <div className={`flex justify-center items-center w-[150px] h-[150px] border-[2px] ${ability != 5 ? "border-secondary-gray-3" : ""}  border-dotted rounded-full`}>
-                    {(ability == 1) && <button className={`rounded-full font-Inter font-semibold ${sizes[ability].w} ${sizes[ability].h} ${sizes[ability].f} ${uiParams[index].bg2} border-[1px] ${uiParams[index].border} relative`} onClick={handleItem}><span className="h-full block mt-[-22px]">{ability}</span></button>}
-                    {(ability == 2) && <button className={`rounded-full font-Inter font-semibold ${sizes[ability].w} ${sizes[ability].h} ${sizes[ability].f} ${uiParams[index].bg2} border-[1px] ${uiParams[index].border} relative`} onClick={handleItem}><span className="h-full block mt-[-10px]">{ability}</span></button>}
-                    {(ability == 3) && <button className={`rounded-full font-Inter font-semibold ${sizes[ability].w} ${sizes[ability].h} ${sizes[ability].f} ${uiParams[index].bg2} border-[1px] ${uiParams[index].border} relative`} onClick={handleItem}><span className="h-full block mt-[4px]">{ability}</span></button>}
-                    {(ability == 4) && <button className={`rounded-full font-Inter font-semibold ${sizes[ability].w} ${sizes[ability].h} ${sizes[ability].f} ${uiParams[index].bg2} border-[1px] ${uiParams[index].border} relative`} onClick={handleItem}><span className="h-full block mt-[14px]">{ability}</span></button>}
-                    {ability == 5 && <button className={`rounded-full font-Inter font-semibold ${sizes[ability].w} ${sizes[ability].h} ${sizes[ability].f} ${uiParams[index].bg2} border-[2px] border-dotted ${uiParams[index].border}`} onClick={handleItem}><span className="h-full block mt-[24px]">{ability}</span></button>}
+                <div className={`flex justify-center items-center w-[150px] h-[150px] border-2 ${ability != 5 ? "border-secondary-gray-3" : ""}  border-dotted rounded-full`}>
+                    {(ability == 1) && <button className={`rounded-full font-Inter font-semibold ${sizes[ability].w} ${sizes[ability].h} ${sizes[ability].f} ${uiParams[index].bg2} border ${uiParams[index].border} relative`} onClick={handleItem}><span className="h-full block mt-[-22px]">{ability}</span></button>}
+                    {(ability == 2) && <button className={`rounded-full font-Inter font-semibold ${sizes[ability].w} ${sizes[ability].h} ${sizes[ability].f} ${uiParams[index].bg2} border ${uiParams[index].border} relative`} onClick={handleItem}><span className="h-full block mt-[-10px]">{ability}</span></button>}
+                    {(ability == 3) && <button className={`rounded-full font-Inter font-semibold ${sizes[ability].w} ${sizes[ability].h} ${sizes[ability].f} ${uiParams[index].bg2} border ${uiParams[index].border} relative`} onClick={handleItem}><span className="h-full block mt-[4px]">{ability}</span></button>}
+                    {(ability == 4) && <button className={`rounded-full font-Inter font-semibold ${sizes[ability].w} ${sizes[ability].h} ${sizes[ability].f} ${uiParams[index].bg2} border ${uiParams[index].border} relative`} onClick={handleItem}><span className="h-full block mt-[14px]">{ability}</span></button>}
+                    {ability == 5 && <button className={`rounded-full font-Inter font-semibold ${sizes[ability].w} ${sizes[ability].h} ${sizes[ability].f} ${uiParams[index].bg2} border-2 border-dotted ${uiParams[index].border}`} onClick={handleItem}><span className="h-full block mt-[24px]">{ability}</span></button>}
                     {ability == 0 && <button className="text-[20px] font-semibold font-Inter" onClick={handleItem}>{ability}</button>}
                 </div>
             }

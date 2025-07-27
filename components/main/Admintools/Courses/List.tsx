@@ -140,16 +140,16 @@ const List = ({ initialCourses, updateData, duplicateData, deleteData, setSelect
                         return (
                             deletingIndex === index
                             ?
-                            <div className='flex flex-row w-full border-b-2 pt-[20px] pb-[20px] justify-between border-[#6F727A]' key={`deleting_` + index}>
+                            <div className='flex flex-row w-full border-b-2 pt-[20px] pb-[20px] justify-between border-secondary-gray-4' key={`deleting_` + index}>
                                 <Spinner text="Deleting..." />
                             </div>
                             :
                             duplicatingIndex === index ?
-                                <div className='flex flex-row w-full border-b-2 pt-[20px] pb-[20px] justify-between border-[#6F727A]' key={`duplicating` + index}>
+                                <div className='flex flex-row w-full border-b-2 pt-[20px] pb-[20px] justify-between border-secondary-gray-4' key={`duplicating` + index}>
                                     <Spinner text="Duplicating..." />
                                 </div>
                                 : 
-                            <div className='flex flex-row w-full border-b-2 pt-[20px] pb-[20px] justify-between border-[#6F727A] hover:bg-gray-100' key={'col-1' + index}>
+                            <div className='flex flex-row w-full border-b-2 pt-[20px] pb-[20px] justify-between border-secondary-gray-4 hover:bg-gray-100' key={'col-1' + index}>
                                 <div className='w-[60%] truncate'>
                                     <a className='cursor-pointer' onClick={() => handleViewClicked(item, index)}>
                                         <FileCopyOutlinedIcon />
@@ -158,12 +158,12 @@ const List = ({ initialCourses, updateData, duplicateData, deleteData, setSelect
                                         <label className='font-Inter font-semibold text-[16px] ml-[18px]'>{item.title}</label>
                                     </a>
                                 </div>
-                                <div className='font-Inter text-[12px] flex items-center text-[#6F727A] w-[35%]'>
+                                <div className='font-Inter text-[12px] flex items-center text-secondary-gray-4 w-[35%]'>
                                     <TipsAndUpdatesOutlinedIcon />
                                     <label className='font-Inter font-semibold pl-[10px] '>{item.ventures} ventures</label>
                                 </div>
                                 <div className="relative w-[10%]">
-                                    <button className={`rounded-[50px] border-2 border-transparent hover:border-[#6F727A] text-secondary-gray-4  float-right ${dropdownOpen === true && index === dropdownIndex && 'bg-[#DCECFB]'}`} onClick={() => {
+                                    <button className={`rounded-[50px] border-2 border-transparent hover:border-secondary-gray-4 text-secondary-gray-4  float-right ${dropdownOpen === true && index === dropdownIndex && 'bg-tertiary-blue'}`} onClick={() => {
                                         setDropdownOpen(!dropdownOpen);
                                         setDropdownIndex(index);
                                     }}>

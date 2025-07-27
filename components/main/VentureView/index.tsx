@@ -43,7 +43,7 @@ const Index = () => {
   return (
     <div>
       <div className="py-[40px]">
-        <label className="font-Inter font-bold text-[36px] text-[#232325] mt-[100px]">
+        <label className="font-Inter font-bold text-[36px] text-primary-black mt-[100px]">
           My Ventures
         </label>
       </div>
@@ -62,7 +62,7 @@ const Index = () => {
                   className="shadow-md h-[150px] px-[40px] py-[20px] font-Inter rounded-lg"
                   key={`venture_${index}`}
                 >
-                  <div className="text-[20px] font-bold text-[#232325]">
+                  <div className="text-[20px] font-bold text-primary-black">
                     <a href={`/dashboard/myventures/${item._id}`}>
                       {item.title}
                     </a>

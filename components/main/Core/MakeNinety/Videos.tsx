@@ -57,7 +57,7 @@ const VideosWithType = ({
         </h2>
         <div className="md:flex grid grid-cols-1 gap-y-2 relative">
           <button
-            className="flex items-center justify-center gap-x-2 bg-[#2E65F3] text-white active:bg-[#2E65F3] px-4 py-1.5 rounded-[50px] shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150 font-Inter truncate"
+            className="flex items-center justify-center gap-x-2 bg-primary-blue text-white active:bg-primary-blue px-4 py-1.5 rounded-[50px] shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150 font-Inter truncate"
             type="button"
             onClick={() => handleUploadNew(type + 1)}
           >
@@ -89,7 +89,7 @@ const VideosWithType = ({
           {videos.length > 6 && !showAll && (
             <div className="flex justify-center p-1">
               <button
-                className="flex items-center justify-center gap-x-2 bg-[#2E65F3] text-white active:bg-[#2E65F3] px-6 py-3 rounded-[50px] shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 font-Inter truncate"
+                className="flex items-center justify-center gap-x-2 bg-primary-blue text-white active:bg-primary-blue px-6 py-3 rounded-[50px] shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 font-Inter truncate"
                 type="button"
                 onClick={() => setShowAll(true)}
               >

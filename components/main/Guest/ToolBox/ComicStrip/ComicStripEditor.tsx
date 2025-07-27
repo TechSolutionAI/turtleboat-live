@@ -1002,7 +1002,7 @@ const ComicStripEditor = ({
                     <div className="rounded-md shadow-md p-4 flex gap-x-8">
                         <input type="file" className="hidden" name="image" ref={inputImageFileRef} onChange={handleImageFileSelect} />
                         <button
-                            className={`${tool == 'image' ? 'bg-[#E5632B] text-white border-[#E5632B]' : 'bg-white text-black border-secondary-gray-4'} border border-1 text-black px-2 py-2 rounded shadow outline-none focus:outline-none ease-linear transition-all duration-150 hover:bg-[#E5632B] hover:text-white hover:border-[#E5632B]`}
+                            className={`${tool == 'image' ? 'bg-[#E5632B] text-white border-[#E5632B]' : 'bg-white text-black border-secondary-gray-4'} border border text-black px-2 py-2 rounded shadow outline-none focus:outline-none ease-linear transition-all duration-150 hover:bg-[#E5632B] hover:text-white hover:border-[#E5632B]`}
                             onClick={addImageElement}
                             data-tooltip-id={"panel-tool-tip"}
                             data-tooltip-content="Image"
@@ -1011,7 +1011,7 @@ const ComicStripEditor = ({
                             <ImageIcon fontSize="large" />
                         </button>
                         <button
-                            className={`${tool == 'text' ? 'bg-[#E5632B] text-white border-[#E5632B]' : 'bg-white text-black border-secondary-gray-4'} border border-1 border-[#E5632B] text-black px-2 py-2 rounded shadow outline-none focus:outline-none ease-linear transition-all duration-150 hover:bg-[#E5632B] hover:text-white hover:border-[#E5632B]`}
+                            className={`${tool == 'text' ? 'bg-[#E5632B] text-white border-[#E5632B]' : 'bg-white text-black border-secondary-gray-4'} border border border-[#E5632B] text-black px-2 py-2 rounded shadow outline-none focus:outline-none ease-linear transition-all duration-150 hover:bg-[#E5632B] hover:text-white hover:border-[#E5632B]`}
                             onClick={addTextElement}
                             data-tooltip-id={"panel-tool-tip"}
                             data-tooltip-content="Text"
@@ -1020,7 +1020,7 @@ const ComicStripEditor = ({
                             <TitleIcon fontSize="large" />
                         </button>
                         <button
-                            className={`${tool == 'arrow' ? 'bg-[#E5632B] text-white border-[#E5632B]' : 'bg-white text-black border-secondary-gray-4'} border border-1 border-[#E5632B] text-black px-2 py-2 rounded shadow outline-none focus:outline-none ease-linear transition-all duration-150 hover:bg-[#E5632B] hover:text-white hover:border-[#E5632B]`}
+                            className={`${tool == 'arrow' ? 'bg-[#E5632B] text-white border-[#E5632B]' : 'bg-white text-black border-secondary-gray-4'} border border border-[#E5632B] text-black px-2 py-2 rounded shadow outline-none focus:outline-none ease-linear transition-all duration-150 hover:bg-[#E5632B] hover:text-white hover:border-[#E5632B]`}
                             onClick={addArrowElement}
                             data-tooltip-id={"panel-tool-tip"}
                             data-tooltip-content="Arrow"
@@ -1029,7 +1029,7 @@ const ComicStripEditor = ({
                             <ArrowForwardIcon fontSize="large" />
                         </button>
                         {/* <button
-                            className={`${tool == 'drawing' && drawingTool == 'pen' ? 'bg-tertiary-red text-white' : 'bg-white text-tertiary-red'} border border-1 border-tertiary-red px-1 py-1 rounded shadow outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 hover:bg-tertiary-red hover:text-white`}
+                            className={`${tool == 'drawing' && drawingTool == 'pen' ? 'bg-tertiary-red text-white' : 'bg-white text-tertiary-red'} border border border-tertiary-red px-1 py-1 rounded shadow outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 hover:bg-tertiary-red hover:text-white`}
                             onClick={addDrawingElement}
                             data-tooltip-id={"panel-tool-tip"}
                             data-tooltip-content="Pencil"
@@ -1038,7 +1038,7 @@ const ComicStripEditor = ({
                             <DriveFileRenameOutlineIcon />
                         </button>
                         <button
-                            className={`${tool == 'drawing' && drawingTool == 'eraser' ? 'bg-tertiary-red text-white' : 'bg-white text-tertiary-red'} border border-1 border-tertiary-red px-1 py-1 rounded shadow outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 hover:bg-tertiary-red hover:text-white`}
+                            className={`${tool == 'drawing' && drawingTool == 'eraser' ? 'bg-tertiary-red text-white' : 'bg-white text-tertiary-red'} border border border-tertiary-red px-1 py-1 rounded shadow outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 hover:bg-tertiary-red hover:text-white`}
                             onClick={() => {
                                 setTool('drawing');
                                 setDrawingTool('eraser');

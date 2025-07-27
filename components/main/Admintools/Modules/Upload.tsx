@@ -51,8 +51,8 @@ const Upload = ({
                     <input type="file" onChange={handleFile} className="sm:h-[130px] h-[90px] opacity-0 z-10 absolute" multiple={true} name="files[]" />
                     <div className='sm:h-[130px] h-[90px] absolute z-1 flex flex-col items-center justify-evenly'>
                         <UploadFileOutlinedIcon />
-                        <label className='font-Inter font-semibold text-[14px]'><span className='text-primary-blue'>Upload a file </span><span className='text-[#6F727A]'>or Drag and drop</span></label>
-                        <label className='font-Inter font-normal text-[14px] text-[#6F727A]'>PNG, JPG, GIF up to 5MB</label>
+                        <label className='font-Inter font-semibold text-[14px]'><span className='text-primary-blue'>Upload a file </span><span className='text-secondary-gray-4'>or Drag and drop</span></label>
+                        <label className='font-Inter font-normal text-[14px] text-secondary-gray-4'>PNG, JPG, GIF up to 5MB</label>
                     </div>
                 </div>
             }

@@ -96,7 +96,7 @@ const InviteModal = ({
             `fixed top-0 left-0 right-0 w-full flex 
               justify-center items-center p-4 
               overflow-x-hidden overflow-y-auto 
-              md:inset-0 h-[calc(100%-1rem)] max-h-full z-[41]`
+              md:inset-0 h-[calc(100%-1rem)] max-h-full z-41`
           }>
           <div className="relative w-full max-w-3xl max-h-full">
             <div className="relative bg-white rounded-lg shadow">
@@ -130,10 +130,10 @@ const InviteModal = ({
               <div className="p-6">
                 <div>
                   <label className="block mb-2 font-semibold text-black">Refer someone to our Circle of Resources Exchange &#10088;CORE&#10089;.</label>
-                  <p className="block mb-2 text-[#6F727A]">
+                  <p className="block mb-2 text-secondary-gray-4">
                     Turtleboat provides a welcoming entry point for resources that have long been limited to a small group of people. A community full of enthusiastic subject-matter-experts &#10088;everyone is a subject-matter-expert in something&#10089;, resources, and learning experiences, our CORE members help each other de-risk ideas and ultimately reach goals.
                   </p>
-                  <p className="block mb-2 text-[#6F727A]">
+                  <p className="block mb-2 text-secondary-gray-4">
                     If you believe that you have a contact in your network &#10088;ages 11 to 111&#10089; who is passionate about innovation, willing to share their experiences/perspectives/skills, and excited to learn from others, fill out this referral form and we&#39;ll send them an invitation to become a CORE Member.
                   </p>
                 </div>
@@ -172,8 +172,8 @@ const InviteModal = ({
                 {/* {
                   user.role == "admin" && 
                   <div className="mt-8">
-                    <label htmlFor="email" className="block mb-2 font-semibold text-[#6F727A]">Add to a program</label>
-                    <p className="font-normal text-[#6F727A] mb-2">Add users as mentees for the selected program</p>
+                    <label htmlFor="email" className="block mb-2 font-semibold text-secondary-gray-4">Add to a program</label>
+                    <p className="font-normal text-secondary-gray-4 mb-2">Add users as mentees for the selected program</p>
                     <CourseSelect 
                       setCourse={handleCourseSelected} 
                       courseValue={null} 

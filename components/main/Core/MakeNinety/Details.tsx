@@ -13,7 +13,6 @@ import { formatDate } from "@/utils/utils";
 
 import { emotionList } from "@/utils/constant";
 import UserAvatar from "@/components/UserAvatar";
-import Link from "next/link";
 
 const Details = () => {
   const { data: session, status } = useSession();
@@ -228,35 +227,34 @@ const Details = () => {
                       {moreVideos.map(
                         (videoItem: NinetyVideo, index: number) => {
                           return (
-                            <Link
+                            <a
                               key={`video_item_${index}`}
                               className="grid grid-cols-10 gap-3 font-Inter cursor-pointer"
                               href={`/dashboard/core/makeninety/${videoItem._id}`}
                             >
                               <div className="col-span-4">
-                                <video className="rounded-lg max-h-[100px] w-[100%] object-cover">
+                                <video className="rounded-lg max-h-[100px] w-full object-cover">
                                   <source src={videoItem.video.url} />
                                 </video>
                               </div>
                               <div className="col-span-6">
-                                <Link
-                                  href={`/dashboard/core/makeninety/${videoItem._id}`}
+                                <p
                                   className="text-md break-words text-[#333] font-bold font-Inter cursor-pointer"
                                 >
                                   {videoItem.title}
-                                </Link>
+                                </p>
                               </div>
-                            </Link>
+                            </a>
                           );
                         }
                       )}
                     </div>
                   </div>
                 </div>
-                <div className="col-span-12 lg:col-span-5 bg-gray-100 rounded-lg border-[1px] border-secondary-gray font-Inter">
+                <div className="col-span-12 lg:col-span-5 bg-gray-100 rounded-lg border border-secondary-gray font-Inter">
                   <>
                     {isClicked ? (
-                      <div className="px-5 font-Inter border-[1px] border-secondary-gray">
+                      <div className="px-5 font-Inter border border-secondary-gray">
                         <div className="inline-grid py-5">
                           <label className="text-lg font-semibold">
                             ADD COMMENT
@@ -352,7 +350,7 @@ const Details = () => {
                             Cancel
                           </button>
                           <button
-                            className="px-3 py-3 bg-[#2E65F3] text-white font-bold rounded-lg"
+                            className="px-3 py-3 bg-primary-blue text-white font-bold rounded-lg"
                             onClick={handleAddComment}
                           >
                             {isCreating ? (
@@ -364,7 +362,7 @@ const Details = () => {
                         </div>
                       </div>
                     ) : (
-                      <div className="flex justify-between px-7 py-6 border-b-[1px] border-secondary-gray text-lg items-center">
+                      <div className="flex justify-between px-7 py-6 border-b border-secondary-gray text-lg items-center">
                         <label className="font-semibold">COMMENTS</label>
                         <button
                           className="px-2 py-2 bg-primary-black text-sm text-white rounded-md"
@@ -385,7 +383,7 @@ const Details = () => {
                       return (
                         <div
                           key={`comment_${index}`}
-                          className="px-5 border-b-[1px] border-secondary-gray py-4"
+                          className="px-5 border-b border-secondary-gray py-4"
                         >
                           <div className="flex items-center">
                             <UserAvatar
@@ -522,25 +520,24 @@ const Details = () => {
                       {moreVideos.map(
                         (videoItem: NinetyVideo, index: number) => {
                           return (
-                            <Link
+                            <a
                               key={`video_item_${index}`}
                               className="grid grid-cols-10 gap-3 font-Inter cursor-pointer"
                               href={`/dashboard/core/makeninety/${videoItem._id}`}
                             >
                               <div className="col-span-4">
-                                <video className="rounded-lg max-h-[100px] w-[100%] object-cover">
+                                <video className="rounded-lg max-h-[100px] w-full object-cover">
                                   <source src={videoItem.video.url} />
                                 </video>
                               </div>
                               <div className="col-span-6">
-                                <Link
-                                  href={`/dashboard/core/makeninety/${videoItem._id}`}
+                                <p
                                   className="text-md break-words text-[#333] font-bold font-Inter cursor-pointer"
                                 >
                                   {videoItem.title}
-                                </Link>
+                                </p>
                               </div>
-                            </Link>
+                            </a>
                           );
                         }
                       )}

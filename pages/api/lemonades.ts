@@ -1,13 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { ObjectId } from "mongodb";
-import sendgrid from "@sendgrid/mail";
 import { v4 as uuid } from "uuid";
 import { Session, getServerSession } from "next-auth";
 import { authOptions } from "./auth/[...nextauth]";
 import { pusher } from "@/utils/pusher-server";
 import getDb from "@/utils/getdb";
-
-sendgrid.setApiKey(process.env.SENDGRID_API_KEY ?? "");
+import { resend } from "@/utils/resend";
+import LemonadeInvite from "@/components/email/LemonadeInvite";
+import { delay } from "@/utils/utils";
+import { error } from "console";
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -114,8 +115,8 @@ async function createLemonade(req: NextApiRequest, res: NextApiResponse) {
         if (!result.acknowledged) {
             res.status(500).json({ success: false, err: SERVER_ERR_MSG });
         } else {
-            data.participants.map(async (participant: any, idx: any) => {
-                const uniqueId: any = uuid();
+            for (const participant of data.participants) {
+                const uniqueId = uuid();
                 invites.push({
                     inviteId: uniqueId,
                     from: data.user.name,
@@ -125,7 +126,7 @@ async function createLemonade(req: NextApiRequest, res: NextApiResponse) {
                     lemonadeId: lemonadeId,
                     time: new Date(),
                     isExpired: false,
-                    isRemind: false
+                    isRemind: false,
                 });
 
                 const notificationForComment = {
@@ -136,31 +137,34 @@ async function createLemonade(req: NextApiRequest, res: NextApiResponse) {
                     isRead: false,
                     isFlag: false,
                     createdAt: new Date(),
-                    type: 'lemonade'
+                    type: "lemonade",
                 };
                 notifications.push(notificationForComment);
-                pusher.trigger(`user-${participant._id.toString()}`, 'comment', notificationForComment);
+                pusher.trigger(`user-${participant._id.toString()}`, "comment", notificationForComment);
 
                 try {
-                    await sendgrid.send({
+                    const { error } = await resend.emails.send({
+                        from: process.env.FROM_EMAIL ?? 'Turtle Boat <vicky@youthcities.org>',
                         to: participant.email,
-                        from: {
-                            email: "yCITIES1@gmail.com",
-                            name: "Turtle Boat"
-                        },
                         subject: `${data.user.name} has invited you to Coffee Chat`,
                         cc: process.env.CC_EMAIL,
-                        templateId: "d-fe729e80a4e64a18be0907571cfe5e61",
-                        dynamicTemplateData: {
-                            subject: `${data.user.name} has invited you to Coffee Chat`,
+                        react: LemonadeInvite({
                             inviteAddress: `${process.env.HOME_URL}/dashboard/toolbox/lemonade/invite?id=${uniqueId}`,
-                        },
-                        isMultiple: false,
+                        }),
                     });
+
+                    if (error) {
+                        console.error({ error });
+                        return res.status(500).json({ err: SERVER_ERR_MSG });
+                    }
+
+                    await delay(600);
+
                 } catch (err: any) {
+                    console.error(`Failed to send invite to ${participant.email}`, err);
                     return res.status(500).json({ err: SERVER_ERR_MSG });
                 }
-            });
+            }
 
             const insertResult = await db
                 .collection("lemonade_invites")
@@ -247,16 +251,12 @@ async function updateLemonade(req: NextApiRequest, res: NextApiResponse) {
         lemonade.participants.map(async (participant: any, idx: any) => {
             if (!participant.isInitiator) {
                 try {
-                    await sendgrid.send({
+                    await resend.emails.send({
+                        from: process.env.FROM_EMAIL ?? 'Turtle Boat <vicky@youthcities.org>',
                         to: participant.email,
-                        from: {
-                            email: "yCITIES1@gmail.com",
-                            name: "Turtle Boat"
-                        },
                         subject: `Coffee Chat Completion`,
                         text: 'Thank you for participating in this Coffee Chat of Entrepreneurial Wits. It is now complete, and your input has helped move the needle.',
                         cc: process.env.CC_EMAIL,
-                        isMultiple: false,
                     });
                 } catch (err: any) {
                     return res.status(500).json({ err: SERVER_ERR_MSG });

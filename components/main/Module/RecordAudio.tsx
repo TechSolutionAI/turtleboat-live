@@ -14,9 +14,9 @@ const RecordAudio = () => {
   const [color, setColor] = useState("red");
 
   useEffect(() => {
-    let intervalId: NodeJS.Timer | undefined;
+    let intervalId: number | undefined;
     if (isRunning) {
-      intervalId = setInterval(() => {
+      intervalId = window.setInterval(() => {
         setTime((time) => time + 1);
       }, 1000);
     }
@@ -108,7 +108,7 @@ const RecordAudio = () => {
 
       <div className='w-[240px] h-[160px] rounded-xl mt-[100px] border-2 border-black flex flex-col justify-between py-[10px]'>
         <div className='text-center'>
-          <label className='font-Inter font-bold text-[24px] text-[#232325]'>Elevator pitch</label>
+          <label className='font-Inter font-bold text-[24px] text-primary-black'>Elevator pitch</label>
         </div>
         <div className='flex justify-center'>
           {/* {audioBlob ? <audio controls src={URL.createObjectURL(audioBlob)} ref={audioRef} /> : <Image src={ico_audio} alt={'ico_audio'} />} */}
@@ -130,18 +130,18 @@ const RecordAudio = () => {
         {!audioBlob &&
           <div className='text-center'>
             {recording ?
-              <button onClick={handleStop} className='font-Inter font-semibold text-[16px] text-[#6F727A]'>stop</button>
-              : <button onClick={handleStart} className='font-Inter font-semibold text-[16px] text-[#6F727A]'>create</button>}
+              <button onClick={handleStop} className='font-Inter font-semibold text-[16px] text-secondary-gray-4'>stop</button>
+              : <button onClick={handleStart} className='font-Inter font-semibold text-[16px] text-secondary-gray-4'>create</button>}
           </div>
         }
 
         {audioBlob &&
           <div className='text-center flex flex-row justify-around'>
             {playStatus ?
-              <button onClick={pauseAudio} className='font-Inter font-semibold text-[16px] text-[#6F727A]'>Pause</button> :
-              <button onClick={playAudio} className='font-Inter font-semibold text-[16px] text-[#6F727A]'>Play</button>
+              <button onClick={pauseAudio} className='font-Inter font-semibold text-[16px] text-secondary-gray-4'>Pause</button> :
+              <button onClick={playAudio} className='font-Inter font-semibold text-[16px] text-secondary-gray-4'>Play</button>
             }
-            <button onClick={handleStart} className='font-Inter font-semibold text-[16px] text-[#6F727A]'>Update</button>
+            <button onClick={handleStart} className='font-Inter font-semibold text-[16px] text-secondary-gray-4'>Update</button>
             {/* <audio src={URL.createObjectURL(audioBlob)} ref={audioRef} /> */}
           </div>
         }

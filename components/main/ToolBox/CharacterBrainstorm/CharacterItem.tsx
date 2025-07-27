@@ -24,7 +24,7 @@ const CharacterItem = ({ size, data, id, isSelected, handleCharacterSelected, st
     return (
         <div
             onClick={handleClick} 
-            className={`cursor-pointer bg-[#ECDBFF] border ${isSelected ? `border-4 border-primary-blue` : `border-1 border-[#B6B6B6]`} rounded-md p-1`} style={style}>
+            className={`cursor-pointer bg-[#ECDBFF] border ${isSelected ? `border-4 border-primary-blue` : `border border-[#B6B6B6]`} rounded-md p-1`} style={style}>
             <div className='flex items-center bg-white max-w-[185px] px-1 py-2 rounded-md gap-x-1 min-w-[180px]'>
                 <AccountCircleRoundedIcon sx={{ fontSize: "30px", color: "#4C2E87" }}/> 
                 <div className='truncate'>{data.name}</div>

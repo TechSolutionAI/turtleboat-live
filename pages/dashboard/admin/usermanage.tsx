@@ -404,7 +404,7 @@ const UserManage = () => {
     <DashboardLayout noHeader={true}>
       <input
         type="text"
-        className="mt-[15px] border-secondary-gray border-[1px] rounded-[8px] h-[48px] placeholder:text-[16px] pl-[16px] focus:outline-none focus:border-primary-blue focus:ring-primary-blue"
+        className="mt-[15px] border-secondary-gray border rounded-[8px] h-[48px] placeholder:text-[16px] pl-[16px] focus:outline-none focus:border-primary-blue focus:ring-primary-blue"
         placeholder="Search members..."
         id="search"
         onChange={(e) => {

@@ -4,10 +4,7 @@ import { authOptions } from "./auth/[...nextauth]";
 import formidable from "formidable";
 import { ObjectId } from "mongodb";
 import { v2 as cloudinary } from 'cloudinary';
-import sendgrid from "@sendgrid/mail";
 import getDb from "@/utils/getdb";
-
-sendgrid.setApiKey(process.env.SENDGRID_API_KEY ?? "");
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -16,13 +13,6 @@ export const config = {
         bodyParser: false,
     },
 };
-
-interface FileObject {
-    originalFilename: string;
-    mimeType: string;
-    filepath: string;
-    size: number;
-}
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME ?? '',
@@ -71,7 +61,7 @@ async function getClaimRequests(res: NextApiResponse) {
 
 async function sendClaimRequest(req: NextApiRequest, res: NextApiResponse) {
     const session: Session | null = await getServerSession(req, res, authOptions);
-    const form = new formidable.IncomingForm();
+    const form = formidable();
     form.parse(req, async (err, fields, files) => {
         if (err) {
             console.error(err);
@@ -86,10 +76,10 @@ async function sendClaimRequest(req: NextApiRequest, res: NextApiResponse) {
             username
         } = fields;
 
-        const availableDates = JSON.parse(dates.toString());
+        const availableDates = JSON.parse(dates?.toString() ?? "");
         const db = await getDb();
         const rewardInfo = await db.collection("rewards").findOne({
-            no: parseInt(rewardNo.toString())
+            no: parseInt(rewardNo?.toString() ?? "")
         })
 
         const userInfo = await db
@@ -99,7 +89,7 @@ async function sendClaimRequest(req: NextApiRequest, res: NextApiResponse) {
         const result = await db
             .collection("claim_requests")
             .insertOne({
-                userId: new ObjectId(uid.toString()),
+                userId: new ObjectId(uid?.toString()),
                 createdAt: new Date(),
                 rewardInfo: rewardInfo,
                 isClaimed: false,

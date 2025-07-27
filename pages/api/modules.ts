@@ -3,7 +3,6 @@ import formidable from "formidable";
 import { ObjectId } from "mongodb";
 import { v2 as cloudinary } from 'cloudinary';
 import getDb from "@/utils/getdb";
-// import multer from 'multer';
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -12,13 +11,6 @@ export const config = {
     bodyParser: false,
   },
 };
-
-interface FileObject {
-  originalFilename: string;
-  mimeType: string;
-  filepath: string;
-  size: number;
-}
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME ?? '',
@@ -65,7 +57,7 @@ async function getModules(res: NextApiResponse) {
 }
 
 async function updateModule(req: NextApiRequest, res: NextApiResponse) {
-  const form = new formidable.IncomingForm();
+  const form = formidable();
   try {
     form.parse(req, async (err, fields, files) => {
       if (err) {
@@ -75,7 +67,7 @@ async function updateModule(req: NextApiRequest, res: NextApiResponse) {
 
       const { id, title, content, item } = fields;
       const db = await getDb();
-      const moduleId = new ObjectId(id.toString());
+      const moduleId = new ObjectId(id?.toString());
       const currentModule = await db
         .collection("modules")
         .findOne({ _id: moduleId })
@@ -92,26 +84,45 @@ async function updateModule(req: NextApiRequest, res: NextApiResponse) {
         }
       });
 
-      for (const file of Object.values(files)) {
-        const fileObject: FileObject = file as unknown as FileObject;
-        try {
-          const uploadResult = await cloudinary.uploader.upload(fileObject.filepath, {
-            public_id: `ycity_files/${fileObject.originalFilename}`,
-            overwrite: true,
-            timestamp: new Date().getTime(),
-            resource_type: 'auto',
-            folder: 'modules',
-            invalidate: true
-          });
-          fileFields.push({
-            url: uploadResult.secure_url,
-            assetId: uploadResult.asset_id,
-            name: fileObject.originalFilename,
-            publicId: uploadResult.public_id
-          })
-        } catch (error) {
-          console.error(error);
-          res.status(500).json({ success: false, err: SERVER_ERR_MSG });
+      for (const key of Object.keys(files)) {
+        const fileEntry = files[key];
+
+        // Handle single or multiple file uploads
+        const fileArray = Array.isArray(fileEntry) ? fileEntry : [fileEntry];
+
+        for (const file of fileArray) {
+          if (
+            file &&
+            typeof file === "object" &&
+            "filepath" in file &&
+            "originalFilename" in file
+          ) {
+            const { filepath, originalFilename } = file;
+
+            try {
+              const uploadResult = await cloudinary.uploader.upload(filepath, {
+                public_id: `ycity_files/${originalFilename}`,
+                overwrite: true,
+                timestamp: new Date().getTime(),
+                resource_type: "auto",
+                folder: "modules", // <-- Updated folder
+                invalidate: true,
+              });
+
+              fileFields.push({
+                url: uploadResult.secure_url,
+                assetId: uploadResult.asset_id,
+                name: originalFilename,
+                publicId: uploadResult.public_id,
+              });
+            } catch (error) {
+              console.error("File upload error:", error);
+              return res.status(500).json({ success: false, err: SERVER_ERR_MSG });
+            }
+          } else {
+            console.error("File object missing required properties", file);
+            return res.status(500).json({ success: false, err: SERVER_ERR_MSG });
+          }
         }
       }
 
@@ -155,7 +166,7 @@ async function updateModule(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function createModule(req: NextApiRequest, res: NextApiResponse) {
-  const form = new formidable.IncomingForm();
+  const form = formidable();
   form.parse(req, async (err, fields, files) => {
     if (err) {
       console.error(err);
@@ -166,28 +177,47 @@ async function createModule(req: NextApiRequest, res: NextApiResponse) {
 
     let fileFields = [];
 
-    for (const file of Object.values(files)) {
-      const fileObject: FileObject = file as unknown as FileObject;
-      try {
-        const uploadResult = await cloudinary.uploader.upload(fileObject.filepath, {
-          public_id: `ycity_files/${fileObject.originalFilename}`,
-          overwrite: true,
-          timestamp: new Date().getTime(),
-          resource_type: 'auto',
-          folder: 'modules',
-          invalidate: true
-        });
-        fileFields.push({
-          url: uploadResult.secure_url,
-          assetId: uploadResult.asset_id,
-          name: fileObject.originalFilename,
-          publicId: uploadResult.public_id
-        })
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ success: false, err: SERVER_ERR_MSG });
+    for (const key of Object.keys(files)) {
+        const fileEntry = files[key];
+
+        // Handle single or multiple file uploads
+        const fileArray = Array.isArray(fileEntry) ? fileEntry : [fileEntry];
+
+        for (const file of fileArray) {
+          if (
+            file &&
+            typeof file === "object" &&
+            "filepath" in file &&
+            "originalFilename" in file
+          ) {
+            const { filepath, originalFilename } = file;
+
+            try {
+              const uploadResult = await cloudinary.uploader.upload(filepath, {
+                public_id: `ycity_files/${originalFilename}`,
+                overwrite: true,
+                timestamp: new Date().getTime(),
+                resource_type: "auto",
+                folder: "modules", // <-- Updated folder
+                invalidate: true,
+              });
+
+              fileFields.push({
+                url: uploadResult.secure_url,
+                assetId: uploadResult.asset_id,
+                name: originalFilename,
+                publicId: uploadResult.public_id,
+              });
+            } catch (error) {
+              console.error("File upload error:", error);
+              return res.status(500).json({ success: false, err: SERVER_ERR_MSG });
+            }
+          } else {
+            console.error("File object missing required properties", file);
+            return res.status(500).json({ success: false, err: SERVER_ERR_MSG });
+          }
+        }
       }
-    }
 
     const db = await getDb();
     const result = await db

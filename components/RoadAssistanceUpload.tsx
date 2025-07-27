@@ -41,7 +41,7 @@ const RoadAssistanceUpload = ({
                     <input type="file" onChange={handleFile} className="sm:h-[130px] h-[90px] opacity-0 z-10 absolute" multiple={true} name="files[]" />
                     <div className='sm:h-[130px] h-[90px] absolute flex flex-col items-center justify-evenly'>
                         <UploadFileOutlinedIcon />
-                        <label className='font-Inter font-semibold text-[14px]'><span className='text-primary-blue'>Upload a file </span><span className='text-[#6F727A]'>or Drag and drop</span></label>
+                        <label className='font-Inter font-semibold text-[14px]'><span className='text-primary-blue'>Upload a file </span><span className='text-secondary-gray-4'>or Drag and drop</span></label>
                     </div>
                 </div>
             }

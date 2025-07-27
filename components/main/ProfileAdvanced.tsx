@@ -191,7 +191,7 @@ const ProfileAdvanced = ({
                             {
                               (question.options ?? []).map((option) => {
                                 return (
-                                  <th key={shortid()} className="px-6 py-3">
+                                  <th key={shortid()} className="px-6 py-3 w-auto">
                                     {option.desc}
                                   </th>
                                 );
@@ -207,7 +207,7 @@ const ProfileAdvanced = ({
                                   key={shortid()}
                                   className={
                                     `bg-white border-b`}>
-                                  <td className="px-6 w-30 text-left">{subquestion.desc}</td>
+                                  <td className="px-6 text-left">{subquestion.desc}</td>
                                   {
                                     (question.options ?? []).map((option: Option, index: number) => {
                                       return (

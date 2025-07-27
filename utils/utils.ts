@@ -186,3 +186,5 @@ export function sortModulesByDateAndType(modules: ModuleItem[], updatedAt: strin
       minute: "2-digit",
     });
   };
+
+export  const delay = (ms: number) => new Promise(res => setTimeout(res, ms));

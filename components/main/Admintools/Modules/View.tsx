@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 const EditorView = dynamic(() => import("@/components/EditorView"), { ssr: false });
 
 const View = ({
@@ -24,16 +22,16 @@ const View = ({
                 <div className="relative sm:w-11/12 w-11/12 my-10 mx-3 max-w-3xl">
                     <div className="border-0 rounded-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                         <div className="relative px-6 pt-6 pb-2 flex-auto">
-                            <label className='font-Inter font-semibold tracking-[0.1em] text-[#232325]'>TITLE</label>
-                            <p className='py-3 font-Inter tracking-[0.1em] text-[#333333]'>{title}</p>
+                            <label className='font-Inter font-semibold tracking-widest text-primary-black'>TITLE</label>
+                            <p className='py-3 font-Inter tracking-widest text-[#333333]'>{title}</p>
                         </div>
                         <div className="relative px-6 py-2 flex-auto">
-                            <label className='font-Inter font-semibold tracking-[0.1em] text-[#232325]'>DESCRIPTION</label>
+                            <label className='font-Inter font-semibold tracking-widest text-primary-black'>DESCRIPTION</label>
                         </div>
                         <EditorView value={content} />
                         {
                             existFiles && existFiles.length > 0 && <div className="relative px-6 py-6 flex-auto">
-                                <label className='font-Inter font-semibold tracking-[0.1em] text-[#232325]'>Attachments</label>
+                                <label className='font-Inter font-semibold tracking-widest text-primary-black'>Attachments</label>
                                 <div className='mt-[10px] flex flex-col items-center justify-evenly'>
                                     {
                                         existFiles.map((file: any, index: number) => {

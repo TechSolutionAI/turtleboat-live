@@ -35,15 +35,15 @@ const ListRowItem = ({ rowItem }: any) => {
                 className='w-[20px] h-[20px]'
             />
             <div className='flex items-center px-[10px]'>
-                {/* {rowItem.isLock ? <LockOpenIcon className='text-[#249F5D]' /> : <LockIcon className='text-[#6592D4]' />} */}
-                {locked ? <LockIcon className='text-[#6592D4]' /> : <LockOpenIcon className='text-[#249F5D]' />}
+                {/* {rowItem.isLock ? <LockOpenIcon className='text-secondary-green' /> : <LockIcon className='text-[#6592D4]' />} */}
+                {locked ? <LockIcon className='text-[#6592D4]' /> : <LockOpenIcon className='text-secondary-green' />}
             </div>
 
             <DescriptionIcon />
             <label className='font-Inter text-[16px] font-semibold ml-[18px]'>{rowItem.module.title}</label>
             <div className='ml-[10px]'>
-                <DragIndicatorOutlinedIcon className='text-[#6F727A] ml-[10px]' />
-                <label className='font-Inter text-[10px] font-semibold text-[#6F727A]'>{rowItem.module.item}</label>
+                <DragIndicatorOutlinedIcon className='text-secondary-gray-4 ml-[10px]' />
+                <label className='font-Inter text-[10px] font-semibold text-secondary-gray-4'>{rowItem.module.item}</label>
             </div>
         </div>
     )
@@ -148,11 +148,11 @@ const View = ({ viewModal, setViewModal, initialData }: any) => {
                                 <div className="border-0 rounded-lg relative flex flex-col w-full bg-white outline-none focus:outline-none sm:px-[20px]">
                                     <div className="relative p-6 flex-auto">
                                         <div>
-                                            <label className='font-Inter font-semibold tracking-[0.1em] text-[#232325]'>TITLE</label>
-                                            <p className='py-3 font-Inter tracking-[0.1em] text-[#333333]'>{title}</p>
+                                            <label className='font-Inter font-semibold tracking-widest text-primary-black'>TITLE</label>
+                                            <p className='py-3 font-Inter tracking-widest text-[#333333]'>{title}</p>
                                         </div>
                                     </div>
-                                    <label className='px-6 py-3 font-Inter font-semibold tracking-[0.1em] text-[#232325]'>MODULES</label>
+                                    <label className='px-6 py-3 font-Inter font-semibold tracking-widest text-primary-black'>MODULES</label>
                                     <div className="relative px-6 flex-auto overflow-y-auto">
                                         {
                                             isLoading ?
@@ -162,9 +162,9 @@ const View = ({ viewModal, setViewModal, initialData }: any) => {
                                         }
                                     </div>
                                     <div className="relative p-6 flex-auto">
-                                        <label className='font-Inter font-semibold tracking-[0.1em] text-[#232325]'>DESCRIPTION</label>
+                                        <label className='font-Inter font-semibold tracking-widest text-primary-black'>DESCRIPTION</label>
                                         
-                                        <p className='py-3 font-Inter tracking-[0.1em] text-[#333333]'>
+                                        <p className='py-3 font-Inter tracking-widest text-[#333333]'>
                                             {description}
                                         </p>
                                     </div>

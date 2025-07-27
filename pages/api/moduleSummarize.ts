@@ -101,12 +101,7 @@ async function updateSummarize(req: NextApiRequest, res: NextApiResponse) {
           moduleId: mid,
           createdAt: date,
         };
-        // emailNotifications.push({
-        //     fromName: session?.user?.name,
-        //     email: ventureData.mentee.email,
-        //     ventureTitle: ventureData.title,
-        //     notificationLink: `${process.env.HOME_URL}/dashboard/myventures/module/${ventureId}-${mid}`
-        // });
+
         notifications.push(notificationForComment);
         userIds.push(ventureData.mentee._id.toString());
         pusher.trigger(
@@ -136,12 +131,7 @@ async function updateSummarize(req: NextApiRequest, res: NextApiResponse) {
             moduleId: mid,
             createdAt: date,
           };
-          // emailNotifications.push({
-          //     fromName: session?.user?.name,
-          //     email: mentor.email,
-          //     ventureTitle: ventureData.title,
-          //     notificationLink: `${process.env.HOME_URL}/dashboard/myventures/module/${ventureId}-${mid}`
-          // });
+
           notifications.push(notificationForComment);
           userIds.push(mentor._id.toString());
           pusher.trigger(
@@ -185,12 +175,7 @@ async function updateSummarize(req: NextApiRequest, res: NextApiResponse) {
               moduleId: mid,
               createdAt: date,
             };
-            // emailNotifications.push({
-            //     fromName: session?.user?.name,
-            //     email: collaborator.email,
-            //     ventureTitle: ventureData.title,
-            //     notificationLink: `${process.env.HOME_URL}/dashboard/myventures/module/${ventureId}-${mid}`
-            // });
+
             notifications.push(notificationForComment);
             userIds.push(collaborator._id.toString());
             pusher.trigger(
@@ -201,28 +186,6 @@ async function updateSummarize(req: NextApiRequest, res: NextApiResponse) {
           }
         });
       }
-      // Send Notifications to Team Collaborators if this is team venture
-
-      // emailNotifications.map(async (notify: any, idx: any) => {
-      //     try {
-      //         await sendgrid.send({
-      //             to: notify.email,
-      //             from: "yCITIES1@gmail.com",
-      //             subject: `${session?.user?.name} commented in Venture "${notify.ventureTitle}"`,
-      //             cc: process.env.CC_EMAIL,
-      //             templateId: " d-6fd81650d7ad4fe9a43dee40f8502051",
-      //             dynamicTemplateData: {
-      //                 subject: `${session?.user?.name} commented in Venture "${notify.ventureTitle}"`,
-      //                 notificationlink: notify.notificationLink,
-      //                 ventureTitle: notify.ventureTitle,
-      //                 fromName: notify.fromName
-      //             },
-      //             isMultiple: false,
-      //         });
-      //     } catch (err: any) {
-      //         return res.status(500).json({ err: SERVER_ERR_MSG });
-      //     }
-      // });
 
       const notificationResult = await db
         .collection("notifications")

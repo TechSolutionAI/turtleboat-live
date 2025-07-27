@@ -1,11 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import sendgrid from "@sendgrid/mail";
 import { ObjectId } from "mongodb";
 import getDb from '@/utils/getdb';
+import { resend } from '@/utils/resend';
+import DailyDigest from '@/components/email/DailyDigest';
+import LemonadeInvite from '@/components/email/LemonadeInvite';
+import LemonadeReminder from '@/components/email/LomonadeReminder';
+import { delay } from '@/utils/utils';
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
-
-sendgrid.setApiKey(process.env.SENDGRID_API_KEY ?? "");
 
 export default async function handler(
     req: NextApiRequest,
@@ -35,32 +37,33 @@ export default async function handler(
                 }
             ]).toArray();
 
-        for (var i = 0; i < unreadNotifications.length; i++) {
+        for (const notification of unreadNotifications) {
             try {
-                const userId = new ObjectId(unreadNotifications[i]._id.toString());
-                const userInfo = await db.collection("users")
-                    .findOne({ _id: userId });
-                if (userInfo.dailyDigestEnabled) {
-                    await sendgrid.send({
+                const userId = new ObjectId(notification._id.toString());
+                const userInfo = await db.collection("users").findOne({ _id: userId });
+
+                if (userInfo?.dailyDigestEnabled) {
+                    const {data, error } = await resend.emails.send({
+                        from: process.env.FROM_EMAIL ?? 'Turtle Boat <vicky@youthcities.org>',
                         to: userInfo.email,
-                        from: {
-                            email: "yCITIES1@gmail.com",
-                            name: "Turtle Boat Daily Digest"
-                        },
-                        subject: 'Here is a summary of notifications from your CORE Community.',
-                        cc: process.env.CC_EMAIL,
-                        templateId: "d-6298f9b1ccc54fe08e5305c652d221a2",
-                        dynamicTemplateData: {
-                            subject: 'Here is a summary of notifications from your CORE Community.',
+                        subject: "Here is a summary of notifications from your CORE Community.",
+                        react: DailyDigest({
+                            name: userInfo.name,
+                            count: notification.count,
                             link: `${process.env.HOME_URL}/dashboard/messages`,
-                            count: unreadNotifications[i].count,
-                            name: userInfo.name
-                        },
-                        isMultiple: false,
+                            }),
+                        cc: process.env.CC_EMAIL,
                     });
+
+                    if (error) {
+                        console.error({ error });
+                    }
+
+                    await delay(600)
+
                 }
             } catch (err: any) {
-                console.log(err);
+                console.error("Failed to send Daily Digest:", err);
             }
         }
 
@@ -78,33 +81,32 @@ export default async function handler(
             })
             .toArray();
 
-        for (var j = 0; j < remindLemonades.length; j++) {
+        for (const lemonade of remindLemonades) {
             try {
-                let initiatorEmail = '';
-                remindLemonades[j].participants.map((participant: any) => {
-                    if (participant.isInitiator)
-                        initiatorEmail = participant.email;
-                })
-                await sendgrid.send({
-                    to: initiatorEmail,
-                    from: {
-                        email: "yCITIES1@gmail.com",
-                        name: "Turtle Boat"
-                    },
-                    subject: 'Reminder: Your Coffee Chat has no participants.',
+                // Find initiator email
+                const initiator = lemonade.participants.find((p: any) => p.isInitiator);
+
+                const {data, error } = await resend.emails.send({
+                    from: process.env.FROM_EMAIL ?? 'Turtle Boat <vicky@youthcities.org>',
+                    to: initiator.email,
+                    subject: "Reminder: Your Coffee Chat has no participants.",
                     cc: process.env.CC_EMAIL,
-                    templateId: "d-ca312bdf0b344d48b2a50e10a9977de6",
-                    dynamicTemplateData: {
-                        subject: 'Reminder: Your Coffee Chat has no participants.',
-                        inviteAddress: `${process.env.HOME_URL}/dashboard/toolbox/lemonade/${remindLemonades[j]._id.toString()}`
-                    },
-                    isMultiple: false,
+                    react: LemonadeReminder({
+                        inviteAddress: `${process.env.HOME_URL}/dashboard/toolbox/lemonade/${lemonade._id.toString()}`,
+                    }),
                 });
-                remindedLemonadeIds.push(new ObjectId(remindLemonades[j]._id.toString()));
-            } catch (err: any) {
-                console.log(err);
+
+                remindedLemonadeIds.push(new ObjectId(lemonade._id.toString()));
+
+                if (error) {
+                  console.error({ error });
+                }
+
+                await delay(600);
+            } catch (err) {
+                console.error(`Failed to send reminder for lemonade ${lemonade._id}`, err);
             }
-        }
+            }
 
         // Send Remind Lemonade Invite Emails To Participants
         let remindedInviteIds: ObjectId[] = [];
@@ -117,26 +119,28 @@ export default async function handler(
             })
             .toArray();
 
-        for (var k = 0; k < remindLemonadeInvites.length; k++) {
+        for (const invite of remindLemonadeInvites) {
             try {
-                await sendgrid.send({
-                    to: remindLemonadeInvites[k].to,
-                    from: {
-                        email: "yCITIES1@gmail.com",
-                        name: "Turtle Boat"
-                    },
-                    subject: 'Reminder: You did not accept invitation of Coffee Chat',
+                const {data, error} = await resend.emails.send({
+                    from: process.env.FROM_EMAIL ?? 'Turtle Boat <vicky@youthcities.org>',
+                    to: invite.to,
+                    subject: "Reminder: You did not accept invitation of Coffee Chat",
                     cc: process.env.CC_EMAIL,
-                    templateId: "d-fe729e80a4e64a18be0907571cfe5e61",
-                    dynamicTemplateData: {
-                        subject: 'Reminder: You did not accept invitation of Coffee Chat',
-                        inviteAddress: `${process.env.HOME_URL}/dashboard/toolbox/lemonade/invite?id=${remindLemonadeInvites[k].inviteId}`
-                    },
-                    isMultiple: false,
+                    react: LemonadeInvite({
+                        inviteAddress: `${process.env.HOME_URL}/dashboard/toolbox/lemonade/invite?id=${invite.inviteId}`,
+                    }),
                 });
-                remindedInviteIds.push(new ObjectId(remindLemonadeInvites[k]._id.toString()));
-            } catch (err: any) {
-                console.log(err);
+
+                remindedInviteIds.push(new ObjectId(invite._id.toString()));
+
+                if (error) {
+                  console.error({ error });
+                }
+
+                await delay(600);
+
+            } catch (err) {
+                console.error(`Failed to send Lemonade invite reminder to ${invite.to}`, err);
             }
         }
 

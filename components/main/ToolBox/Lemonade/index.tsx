@@ -195,7 +195,7 @@ const Index = () => {
               </h1>
             </div>
             <button
-              className="flex items-center justify-center bg-[#2E65F3] text-[white] w-[133px] h-[50px] text-[14px] font-Inter rounded-[50px]"
+              className="flex items-center justify-center bg-primary-blue text-[white] w-[133px] h-[50px] text-[14px] font-Inter rounded-[50px]"
               onClick={() => addBrainstorm()}
             >
               <AddIcon />
@@ -278,8 +278,8 @@ const StatusItem = ({ label, active }: { label: string; active?: boolean }) => {
            rounded-full
            ${
              active
-               ? "bg-tertiary-green text-secondary-green border-l-1 border-tertiary-green"
-               : "bg-primary-blue text-white border-l-1 border-primary-blue"
+               ? "bg-tertiary-green text-secondary-green border-l border-tertiary-green"
+               : "bg-primary-blue text-white border-l border-primary-blue"
            }`}
     >
       <span className="self-center text-sm font-medium">{label}</span>

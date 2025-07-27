@@ -128,12 +128,12 @@ const LevelEdit = () => {
                 </div> :
                 <div className="lg:w-2/3 w-full rounded-xl px-5 py-4 font-Inter">
                     <div className="py-[20px]">
-                        <label className="font-semibold tracking-[0.1em] text-primary-black">
+                        <label className="font-semibold tracking-widest text-primary-black">
                             Title <span className="text-secondary-red">*</span>
                         </label>
                         <input
                             type="text"
-                            className="w-full mt-[15px] border-secondary-gray border-[1px] rounded-[8px] h-[48px] placeholder:text-[16px] pl-[16px] focus:outline-none focus:border-primary-blue focus:ring-primary-blue"
+                            className="w-full mt-[15px] border-secondary-gray border rounded-[8px] h-[48px] placeholder:text-[16px] pl-[16px] focus:outline-none focus:border-primary-blue focus:ring-primary-blue"
                             placeholder="Enter Text Here..."
                             id="name"
                             onChange={(e) => {
@@ -149,7 +149,7 @@ const LevelEdit = () => {
                         <p className='font-Inter text-sm text-secondary-red pt-2'>{nameError}</p>
                     </div>
                     <div className="py-[20px]">
-                        <label className="font-semibold tracking-[0.1em] text-primary-black">
+                        <label className="font-semibold tracking-widest text-primary-black">
                             Description <span className="text-secondary-red">*</span>
                         </label>
                         <textarea rows={6} className="block p-3 mt-[15px] w-full text-[16px] text-gray-900 bg-white rounded-lg border border-gray-300 focus:outline-none focus:border-primary-blue focus:ring-primary-blue placeholder:text-[16px]"
@@ -167,12 +167,12 @@ const LevelEdit = () => {
                         <p className='font-Inter text-sm text-secondary-red pt-2'>{descriptionError}</p>
                     </div>
                     <div className="py-[20px]">
-                        <label className="font-semibold tracking-[0.1em] text-primary-black">
+                        <label className="font-semibold tracking-widest text-primary-black">
                             Tokens <span className="text-secondary-red">*</span>
                         </label>
                         <input
                             type="number"
-                            className="w-full mt-[15px] border-secondary-gray border-[1px] rounded-[8px] h-[48px] placeholder:text-[16px] pl-[16px] focus:outline-none focus:border-primary-blue focus:ring-primary-blue"
+                            className="w-full mt-[15px] border-secondary-gray border rounded-[8px] h-[48px] placeholder:text-[16px] pl-[16px] focus:outline-none focus:border-primary-blue focus:ring-primary-blue"
                             placeholder="Enter Number Here..."
                             id="tokenAmount"
                             onChange={(e) => {

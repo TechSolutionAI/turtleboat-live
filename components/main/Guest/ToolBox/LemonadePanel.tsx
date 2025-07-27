@@ -14,7 +14,7 @@ const LemonadePanel = () => {
                     <img className="w-9 h-9 border-2 border-white rounded-full" src={"/user.png"} alt={"ddd"} />
                     <img className="w-9 h-9 border-2 border-white rounded-full" src={"/user.png"} alt={"ddd"} />
                     <img className="w-9 h-9 border-2 border-white rounded-full" src={"/user.png"} alt={"ddd"} />
-                    <a className="flex items-center justify-center w-9 h-9 text-full font-medium text-white bg-gradient-to-r from-[#B32F1A] to-[#DF897C] border-2 border-white rounded-full" href="#">+5</a>
+                    <a className="flex items-center justify-center w-9 h-9 text-full font-medium text-white bg-linear-to-r from-[#B32F1A] to-[#DF897C] border-2 border-white rounded-full" href="#">+5</a>
                     <p className='text-[14px] text-secondary-gray-4 truncate pl-6'>
                         Pros and cons of lidar technology
                     </p>
@@ -24,7 +24,7 @@ const LemonadePanel = () => {
                     <img className="w-9 h-9 border-2 border-white rounded-full" src={"/user.png"} alt={"ddd"} />
                     <img className="w-9 h-9 border-2 border-white rounded-full" src={"/user.png"} alt={"ddd"} />
                     <img className="w-9 h-9 border-2 border-white rounded-full" src={"/user.png"} alt={"ddd"} />
-                    <a className="flex items-center justify-center w-9 h-9 text-full font-medium text-white bg-gradient-to-r from-[#B32F1A] to-[#DF897C] border-2 border-white rounded-full" href="#">+5</a>
+                    <a className="flex items-center justify-center w-9 h-9 text-full font-medium text-white bg-linear-to-r from-[#B32F1A] to-[#DF897C] border-2 border-white rounded-full" href="#">+5</a>
                     <p className='text-[14px] text-secondary-gray-4 truncate pl-6'>
                         Creating a survey
                     </p>

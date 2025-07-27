@@ -6,14 +6,53 @@
     src: url('/static/fonts/obelixpro/ObelixPro-cyr.woff') format("woff");
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-/* body {
-    background: #f7f7f9;
-} */
+@theme {
+  /* Fonts */
+  --font-Inter: "Inter", sans-serif;
+  --font-ObelixPro: "ObelixPro", sans-serif;
 
+  /* Colors */
+  --color-secondary-gray: #E0E2E7;
+  --color-secondary-gray-1: #F7F7F9;
+  --color-secondary-gray-2: #F7F7F9;
+  --color-secondary-gray-3: #9ca1ad;
+  --color-secondary-gray-4: #6F727A;
+  --color-primary-black: #232325;
+  --color-primary-blue: #2E65F3;
+  --color-secondary-red: #F32D2D;
+  --color-tertiary-red: #CE0000;
+  --color-secondary-red-1: #FFDBDB;
+  --color-secondary-green: #249F5D;
+  --color-tertiary-green: #DCFBEA;
+  --color-tertiary-blue: #DCECFB;
+  --color-accent-yellow: #ffecd0;
+  --color-arti-1: #DEE3F3;
+  --color-arti-2: #E0D8E9;
+  --color-arti-3: #DFEFEF;
+  --color-arti-4: #F6DCF8;
+  --color-eval-red: #F39A9A;
+  --color-eval-sel-red: #EB5757;
+  --color-eval-red-2: #EDAC9A;
+  --color-eval-sel-red-2: #EB7B57;
+  --color-eval-orange: #F1BE92;
+  --color-eval-sel-orange: #F2994A;
+  --color-eval-yellow: #F1DB94;
+  --color-eval-sel-yellow: #F2C94C;
+  --color-eval-green: #A3DEC1;
+  --color-eval-sel-green: #6FCF97;
+  --color-eval-green-2: #77CAA0;
+  --color-eval-sel-green-2: #27AE60;
+  --color-active-btn-border: #515151;
+
+  /* Background Images */
+  --bg-image-comic_bg: url('/static/images/comicbackground.svg');
+  --bg-image-active_btn: url('/static/images/toolbox/active_btn_bg.png');
+
+  /* Box Shadows */
+  --shadow-custom-md: 0 6px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -1px rgba(0, 0, 0, 0.06);
+}
 .ck-editor__editable {
     min-height: 150px !important;
 }
@@ -88,6 +127,15 @@ input[type="search"]::-webkit-search-cancel-button {
 
 .search-filter {
     width: calc(100% - 35px);
+}
+
+.ql-container {
+    border: 0px, 1px, 1px, 1px solid #CCC !important;
+}
+
+.ql-disabled {
+    border: none !important;
+    background-color: transparent !important;
 }
 
 @media (min-width: 640px) {

@@ -370,7 +370,7 @@ const Gameboard = () => {
             <hr className="my-3" />
             <div className="relative grid grid-cols-1 xl:grid-cols-2 gap-x-8 gap-y-8 opacity-75">
                 <div className="w-fit shadow-md rounded-lg px-5 py-0 pb-4 md:w-full justify-center pt-4">
-                    <h2 className="font-Inter font-bold text-[20px] text-[#232325] py-2">
+                    <h2 className="font-Inter font-bold text-[20px] text-primary-black py-2">
                         Thinkspace
                     </h2>
                     <p className="font-Inter text-[12px] mt-0 py-2">
@@ -412,19 +412,19 @@ const Gameboard = () => {
                 <div className="relative grid grid-cols-1 gap-x-8 gap-y-4">
                     <div className="relative rounded-xl shadow-md py-4 px-8">
                         <div className="font-Inter text-left">
-                            <h2 className="font-bold text-[20px] text-[#232325] py-2">
+                            <h2 className="font-bold text-[20px] text-primary-black py-2">
                                 Proof of Opportunity
                             </h2>
                             <p className="text-[12px] mt-0 py-2">
                                 Assess your progress both in terms of how many pieces of the puzzle have been thought about, AND how deeply you&#39;ve addressed them.
                             </p>
                         </div>
-                        <div className="flex flex-col justify-between grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-4">
+                        <div className="justify-between grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-4">
                             {riskMeters}
                         </div>
                     </div>
                     <div className="relative grid grid-cols-1 xl:grid-cols-3 gap-x-4 gap-y-4">
-                        <div className="col-span-1 flex flex-col justify-between grid grid-cols-1 gap-x-4 gap-y-4 py-2">
+                        <div className="col-span-1 justify-between grid grid-cols-1 gap-x-4 gap-y-4 py-2">
                             <RecordAudio
                                 isRecordable={false}
                                 audioData={null}
@@ -432,10 +432,10 @@ const Gameboard = () => {
                                 isAudioLoading={isAudioLoading}
                             />
                         </div>
-                        <div className="col-span-1 flex flex-col justify-between grid grid-cols-1 gap-x-4 gap-y-4 py-2">
+                        <div className="col-span-1 justify-between grid grid-cols-1 gap-x-4 gap-y-4 py-2">
                             <div className="w-full h-full min-h-[220px] rounded-xl mt-[10px] flex flex-col justify-between py-5 shadow-md">
                                 <div className="font-Inter text-center">
-                                    <h2 className="font-bold text-[20px] text-[#232325]">
+                                    <h2 className="font-bold text-[20px] text-primary-black">
                                         Need Help?
                                     </h2>
                                     <p className="text-[12px] px-2">
@@ -459,10 +459,10 @@ const Gameboard = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-span-1 flex flex-col justify-between grid grid-cols-1 gap-x-4 gap-y-4 py-2">
+                        <div className="col-span-1 justify-between grid grid-cols-1 gap-x-4 gap-y-4 py-2">
                             <div className="w-full h-full min-h-[220px] rounded-xl mt-[10px] flex flex-col justify-between py-5 shadow-md">
                                 <div className="font-Inter text-center">
-                                    <h2 className="font-bold text-[20px] text-[#232325]">
+                                    <h2 className="font-bold text-[20px] text-primary-black">
                                         Collaborate
                                     </h2>
                                     <p className="text-[12px] px-2">
@@ -562,7 +562,7 @@ const Gameboard = () => {
                 )}
             </div>
             <div className="relative mt-5 opacity-75 font-Inter">
-                <h2 className="font-bold text-[20px] text-[#232325]">
+                <h2 className="font-bold text-[20px] text-primary-black">
                     Brainstorming & Iteration Tools
                 </h2>
                 <p className="text-[12px]">

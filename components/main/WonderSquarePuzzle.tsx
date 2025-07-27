@@ -422,10 +422,10 @@ export default function WonderSquarePuzzle({
                         {
                             !settingPieces[0].isFlip ?
                                 <>
-                                    <PieceActive01 width={74} height={68} className='group-hover:block hidden absolute -left-[15px] top-[1px] overflow-visible z-20' />
-                                    <Piece01 width={74} height={68} className='group-hover:hidden block absolute -left-[15px] top-[1px] overflow-visible z-10' />
+                                    <PieceActive01 width={74} height={68} className='group-hover:block hidden absolute -left-[15px] top-px overflow-visible z-20' />
+                                    <Piece01 width={74} height={68} className='group-hover:hidden block absolute -left-[15px] top-px overflow-visible z-10' />
                                 </> :
-                                <PieceTrans01 width={74} height={68} className='absolute -left-[15px] top-[1px] overflow-visible z-10' />
+                                <PieceTrans01 width={74} height={68} className='absolute -left-[15px] top-px overflow-visible z-10' />
                         }
                         {
                             settingPieces[0]._id != '' ?
@@ -442,10 +442,10 @@ export default function WonderSquarePuzzle({
                         {
                             !characterPieces[0].isFlip ?
                                 <>
-                                    <PieceActive02 width={74} height={68} className='group-hover:block hidden absolute -left-[4px] top-[1px] overflow-visible z-20' />
-                                    <Piece02 width={74} height={68} className='group-hover:hidden block absolute -left-[4px] top-[1px] overflow-visible z-10' />
+                                    <PieceActive02 width={74} height={68} className='group-hover:block hidden absolute -left-[4px] top-px overflow-visible z-20' />
+                                    <Piece02 width={74} height={68} className='group-hover:hidden block absolute -left-[4px] top-px overflow-visible z-10' />
                                 </> :
-                                <PieceTrans02 width={74} height={68} className='absolute -left-[4px] top-[1px] overflow-visible z-10' />
+                                <PieceTrans02 width={74} height={68} className='absolute -left-[4px] top-px overflow-visible z-10' />
                         }
                         {
                             characterPieces[0]._id != '' ?
@@ -999,7 +999,7 @@ export default function WonderSquarePuzzle({
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0">
                     <div
-                        className={`fixed top-0 left-0 right-0 w-full flex justify-center items-center p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full z-[41]`}>
+                        className={`fixed top-0 left-0 right-0 w-full flex justify-center items-center p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full z-41`}>
                         <div className="relative w-full max-w-3xl max-h-full">
                             <div className="relative bg-white rounded-lg shadow">
                                 <button

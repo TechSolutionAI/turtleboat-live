@@ -9,7 +9,7 @@ const About = () => {
     return (
         <div className={"font-Inter text-[12px] sm:text-[16px] w-[90%] md:w-[70%] m-auto"}>
             <div>
-                <h1 className={"font-Inter font-bold text-[20px] sm:text-[24px] text-[#232325] leading-tight"}>
+                <h1 className={"font-Inter font-bold text-[20px] sm:text-[24px] text-primary-black leading-tight"}>
                     Turtle Boat:  To support, and be supported, in the entrepreneurial journey.
                 </h1>
                 <p className={"mt-5 font-Inter text-[14px]"}>
@@ -31,7 +31,7 @@ const About = () => {
                 </p>
             </div>
             <div className={"mt-10"}>
-                <h2 className={"font-Inter font-bold text-[20px] sm:text-[24px] text-[#232325] mt-10 leading-tight"}>
+                <h2 className={"font-Inter font-bold text-[20px] sm:text-[24px] text-primary-black mt-10 leading-tight"}>
                     Becoming a CORE Member
                 </h2>
                 <p className={"mt-5 font-Inter text-[14px]"}>
@@ -39,7 +39,7 @@ const About = () => {
                 </p>
             </div>
             <div className={"mt-10"}>
-                <h2 className={"font-Inter font-bold text-[20px] sm:text-[24px] text-[#232325] mt-10 leading-tight"}>
+                <h2 className={"font-Inter font-bold text-[20px] sm:text-[24px] text-primary-black mt-10 leading-tight"}>
                     Turtle Boat History and Special Thanks
                 </h2>
                 <p className={"mt-5 font-Inter text-[14px]"}>

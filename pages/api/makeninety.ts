@@ -3,10 +3,12 @@ import formidable from "formidable";
 import { v2 as cloudinary } from "cloudinary";
 import { Session, getServerSession } from "next-auth";
 import { authOptions } from "./auth/[...nextauth]";
-import sendgrid from "@sendgrid/mail";
 import getDb from "@/utils/getdb";
+import { pusher } from "@/utils/pusher-server";
+import { resend } from "@/utils/resend";
+import PostCoreVideo from "@/components/email/PostCoreVideo";
+import { delay } from "@/utils/utils";
 
-sendgrid.setApiKey(process.env.SENDGRID_API_KEY ?? "");
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -15,13 +17,6 @@ export const config = {
     bodyParser: false,
   },
 };
-
-interface FileObject {
-  originalFilename: string;
-  mimeType: string;
-  filepath: string;
-  size: number;
-}
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME ?? "",
@@ -53,7 +48,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
 async function saveNinetyVideo(req: NextApiRequest, res: NextApiResponse) {
   const session: Session | null = await getServerSession(req, res, authOptions);
-  const form = new formidable.IncomingForm();
+  const form = formidable();
   const db = await getDb();
 
   try {
@@ -104,68 +99,73 @@ async function saveNinetyVideo(req: NextApiRequest, res: NextApiResponse) {
         updatedAt: new Date(),
         expireAt: currentDate,
         comments: [],
-        type: parseInt(type.toString()),
+        type: parseInt(type?.toString() ?? ""),
         status: "private",
       };
 
       const result = await db.collection("ninetyvideos").insertOne(data);
       if (!result.acknowledged) {
-        return res.status(500).json({ success: false, err: SERVER_ERR_MSG });
-      } else {
-        // const admins = await db
-        //   .collection("users")
-        //   .find({ role: "admin" })
-        //   .toArray();
-
-        // const date = new Date();
-        // const options: Intl.DateTimeFormatOptions = {
-        //   weekday: "long",
-        //   month: "long",
-        //   day: "numeric",
-        // };
-        // const formattedDate = date.toLocaleDateString("en-US", options);
-
-        // if (admins.length > 0) {
-        //   let notifications: any[] = [];
-        //   admins.map(async (admin: any) => {
-        //     const notification = {
-        //       from: uid,
-        //       to: admin._id.toString(),
-        //       message: `${username} posted a new video on ${formattedDate}.`,
-        //       link: `/dashboard/admin/makeninety`,
-        //       isRead: false,
-        //       isFlag: false,
-        //       createdAt: new Date(),
-        //       type: "video",
-        //     };
-        //     notifications.push(notification);
-        //     pusher.trigger(
-        //       `user-${admin._id.toString()}`,
-        //       "comment",
-        //       notification
-        //     );
-
-        //     await sendgrid.send({
-        //       to: admin.email,
-        //       from: {
-        //         email: "yCITIES1@gmail.com",
-        //         name: "Turtle Boat",
-        //       },
-        //       subject: `${username} posted a new video.`,
-        //       templateId: "d-77068f2bc41e42efbfc9110a45e2b03d",
-        //       dynamicTemplateData: {
-        //         subject: `${username} posted a new video.`,
-        //         name: username,
-        //         link: `${process.env.HOME_URL}/dashboard/admin/makeninety`,
-        //       },
-        //       isMultiple: false,
-        //     });
-        //   });
-        //   await db.collection("notifications").insertMany(notifications);
-        // }
-
-        return res.status(200).json({ success: true });
-      }
+              return res.status(500).json({ success: false, err: SERVER_ERR_MSG });
+            } else {
+              const admins = await db
+                .collection("users")
+                .find({ role: "admin" })
+                .toArray();
+      
+              const date = new Date();
+              const options: Intl.DateTimeFormatOptions = {
+                weekday: "long",
+                month: "long",
+                day: "numeric",
+              };
+              const formattedDate = date.toLocaleDateString("en-US", options);
+      
+              if (admins.length > 0) {
+                const notifications: any[] = [];
+      
+                for (const admin of admins) {
+                  const notification = {
+                    from: uid,
+                    to: admin._id.toString(),
+                    message: `${username} posted a new video on ${formattedDate}.`,
+                    link: `/dashboard/admin/makeninety`,
+                    isRead: false,
+                    isFlag: false,
+                    createdAt: new Date(),
+                    type: "video",
+                  };
+                  notifications.push(notification);
+                  pusher.trigger(`user-${admin._id.toString()}`, "comment", notification);
+      
+                  try {
+                    const { data, error } = await resend.emails.send({
+                        from: process.env.FROM_EMAIL ?? 'Turtle Boat <vicky@youthcities.org>',
+                        to: admin.email,
+                        subject: `${username} posted a new video.`,
+                        react: PostCoreVideo({
+                          name: username,
+                          link: `${process.env.HOME_URL}/dashboard/admin/makeninety`,
+                        }),
+                        cc: process.env.CC_EMAIL,
+                    });
+                    
+                    if (error) {
+                        console.error({ error });
+                    }
+      
+                    await delay(600);
+      
+                  } catch (err) {
+                    console.error(`Failed to send video post notification to ${admin.email}`, err);
+                    // Optionally decide if you want to continue or break here
+                  }
+                }
+      
+                await db.collection("notifications").insertMany(notifications);
+              }
+      
+              return res.status(200).json({ success: true });
+            }
     });
   } catch (err) {
     console.log("Form parse error");

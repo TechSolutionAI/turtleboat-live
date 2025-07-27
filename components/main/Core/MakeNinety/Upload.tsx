@@ -44,7 +44,7 @@ const Upload = ({
 
     return (
         <div className='sm:mt-[35px] mt-[10px]'>
-            <label className='font-Inter font-semibold text-primary-black tracking-[0.1em] '>VIDEO FILE <span className="text-secondary-red">*</span></label>
+            <label className='font-Inter font-semibold text-primary-black tracking-widest '>VIDEO FILE <span className="text-secondary-red">*</span></label>
             <span className="text-[12px] text-red-500 ml-[100px]">{message}</span>
 
             {
@@ -52,8 +52,8 @@ const Upload = ({
                     <input type="file" onChange={handleFile} className="sm:h-[130px] h-[90px] w-full opacity-0 z-10 absolute" multiple={false} name="files" accept="video/*"/>
                     <div className='sm:h-[130px] h-[90px] w-full absolute z-1 flex flex-col items-center justify-evenly'>
                         <UploadFileOutlinedIcon />
-                        <label className='font-Inter font-semibold text-[14px]'><span className='text-primary-blue'>Upload a file </span><span className='text-[#6F727A]'>or Drag and drop</span></label>
-                        <label className='font-Inter font-normal text-[14px] text-[#6F727A]'>MPG, MP4, AVI (Max duration: { type == 4 ? '3 min' : '90 seconds'})</label>
+                        <label className='font-Inter font-semibold text-[14px]'><span className='text-primary-blue'>Upload a file </span><span className='text-secondary-gray-4'>or Drag and drop</span></label>
+                        <label className='font-Inter font-normal text-[14px] text-secondary-gray-4'>MPG, MP4, AVI (Max duration: { type == 4 ? '3 min' : '90 seconds'})</label>
                     </div>
                 </div>
             }

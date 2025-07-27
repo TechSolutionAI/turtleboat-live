@@ -61,7 +61,7 @@ const EvaluationBar = ({ evaluations, user, cMentor, memberType, setTempEvaluati
                 </div>
                 <div className="relative">
                     {value == 0 ? "" : <img className={`absolute h-[34px] z-10`} src={uiParams[value - 1].src} alt="" style={{ left: `${uiParams[value - 1].left}` }} />}
-                    <div className="relative flex border-gray-300 border-[2px] rounded-full overflow-hidden">
+                    <div className="relative flex border-gray-300 border-2 rounded-full overflow-hidden">
                         <button className="w-[35px] h-[26px] bg-eval-red hover:bg-eval-sel-red focus:outline-none m-[2px] rounded-l-full" onClick={(memberType=="mentor" && user._id == cMentor._id)?() => handleValue(1):undefined}></button>
                         <button className="w-[35px] h-[26px] bg-eval-red-2 hover:bg-eval-sel-red-2 focus:outline-none m-[2px]" onClick={(memberType=="mentor" && user._id == cMentor._id)?() => handleValue(2):undefined}></button>
                         <button className="relative w-[35px] h-[26px] bg-eval-orange hover:bg-eval-sel-orange focus:outline-none m-[2px]" onClick={(memberType=="mentor" && user._id == cMentor._id)?() => handleValue(3):undefined}></button>

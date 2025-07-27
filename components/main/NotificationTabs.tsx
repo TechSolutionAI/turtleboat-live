@@ -59,7 +59,7 @@ const NotificationTabs = ({
     return (
         <>
             <div className='block lg:flex justify-between items-center sticky top-0 bg-white z-10 pt-2 pb-4'>
-                <h1 className="font-Inter font-bold text-[20px] lg:text-[24px] text-[#232325] ">Notification Logs</h1>
+                <h1 className="font-Inter font-bold text-[20px] lg:text-[24px] text-primary-black ">Notification Logs</h1>
                 <div className="flex justify-center sm-w-full">
                     <ul className="block md:flex text-gray-500">
                         {

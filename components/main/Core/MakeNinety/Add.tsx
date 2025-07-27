@@ -432,12 +432,12 @@ const Add = () => {
       <div className="w-full flex justify-center">
         <div className="w-3/3 lg:w-2/3 xl:w-1/2 rounded-xl px-5 py-4 font-Inter">
           <div className="py-[20px]">
-            <label className="font-semibold tracking-[0.1em] text-primary-black">
+            <label className="font-semibold tracking-widest text-primary-black">
               TITLE <span className="text-secondary-red">*</span>
             </label>
             <input
               type="text"
-              className="w-full mt-[15px] border-secondary-gray border-[1px] rounded-[8px] h-[48px] placeholder:text-[16px] pl-[16px] focus:outline-none focus:border-primary-blue focus:ring-primary-blue"
+              className="w-full mt-[15px] border-secondary-gray border rounded-[8px] h-[48px] placeholder:text-[16px] pl-[16px] focus:outline-none focus:border-primary-blue focus:ring-primary-blue"
               placeholder="Enter Text Here..."
               id="title"
               onChange={(e) => {
@@ -455,7 +455,7 @@ const Add = () => {
             </p>
           </div>
           {/* <div className="py-[0px]">
-                        <label htmlFor={`videoType`} className="font-semibold tracking-[0.1em] text-primary-black">Select Video Type<span className="text-secondary-red">*</span></label>
+                        <label htmlFor={`videoType`} className="font-semibold tracking-widest text-primary-black">Select Video Type<span className="text-secondary-red">*</span></label>
                         <Select
                             options={videoTypeOptions}
                             value={videoType}
@@ -494,7 +494,7 @@ const Add = () => {
           <div className="py-[0px] relative">
             <label
               htmlFor={`description`}
-              className="font-semibold tracking-[0.1em] text-primary-black"
+              className="font-semibold tracking-widest text-primary-black"
             >
               DESCRIPTION
             </label>

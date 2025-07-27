@@ -1,11 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import sendgrid from "@sendgrid/mail";
 import { v4 as uuid } from "uuid";
 import { Session, getServerSession } from "next-auth";
 import { authOptions } from "./auth/[...nextauth]";
+import TurtleBoatInvite from "@/components/email/TurtleBoatInvite";
+import { resend } from "@/utils/resend";
+import { delay } from "@/utils/utils";
 import getDb from "@/utils/getdb";
-
-sendgrid.setApiKey(process.env.SENDGRID_API_KEY ?? "");
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -17,33 +17,32 @@ export default async function handler(
   const { invitees, courseId, note, type } = req.body;
   // Get session from request
   const session: Session | null = await getServerSession(req, res, authOptions);
+  
   // Send invite emails to invitees
-  invitees.map(async (invitee: any, idx: any) => {
-    const uniqueId: any = uuid();
+  for (const [idx, invitee] of invitees.entries()) {
+    const uniqueId = uuid();
     inviteIds.push(uniqueId);
 
-    try {
-      await sendgrid.send({
-        to: invitee,
-        from: {
-          email: "yCITIES1@gmail.com",
-          name: "Turtle Boat"
-        },
-        subject: `${session?.user?.name} has invited you to Turtle Boat`,
-        cc: process.env.CC_EMAIL,
-        templateId: "d-b1188b9523e949e3af6589ec3921efe0",
-        dynamicTemplateData: {
-          subject: `${session?.user?.name} has invited you to Turtle Boat`,
-          inviteAddress: `${process.env.HOME_URL}/invite?id=${uniqueId}`,
-          type: type,
-          note: note
-        },
-        isMultiple: false,
-      });
-    } catch (err: any) {
+    const { data, error } = await resend.emails.send({
+      from: process.env.FROM_EMAIL ?? 'Turtle Boat <vicky@youthcities.org>',
+      to: invitee,
+      subject: `${session?.user?.name} has invited you to Turtle Boat`,
+      react: TurtleBoatInvite({
+        type,
+        inviteAddress: `${process.env.HOME_URL}/invite?id=${uniqueId}`,
+        note,
+      }),
+      cc: process.env.CC_EMAIL,
+    });
+
+    if (error) {
+      console.error({ error });
       return res.status(500).json({ err: SERVER_ERR_MSG });
     }
-  });
+
+    await delay(600);
+
+  };
   // Prepare data to input into database
   let invites: Array<any> = [];
   const db = await getDb();

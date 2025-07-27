@@ -125,7 +125,7 @@ const ProfileBasic = ({
                                     setRegion('');
                                     setFormRegion('');
                                   }}
-                                  classes={`mt-1 px-3 py-2 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-primary-blue focus:ring-primary-blue block w-full rounded-md sm:text-sm focus:ring-1`} />
+                                  className={`mt-1 px-3 py-2 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-primary-blue focus:ring-primary-blue block w-full rounded-md sm:text-sm focus:ring-1`} />
                                 : question.name == "region"
                                   ?
                                   <RegionDropdown
@@ -137,7 +137,7 @@ const ProfileBasic = ({
                                       setFormRegion(val);
                                       setRegion(val);
                                     }}
-                                    classes={`mt-1 px-3 py-2 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-primary-blue focus:ring-primary-blue block w-full rounded-md sm:text-sm focus:ring-1`} />
+                                    className={`mt-1 px-3 py-2 bg-white border border-slate-300 placeholder-slate-400 focus:outline-none focus:border-primary-blue focus:ring-primary-blue block w-full rounded-md sm:text-sm focus:ring-1`} />
                                   :
                                   <InputText field={question} register={register} value={fieldValues[question.name]} handleChange={handleChange} />
                       }

@@ -89,7 +89,7 @@ const CircleOfResourceModal = ({
           className={`fixed top-0 left-0 right-0 w-full flex 
               justify-center items-center p-4 
               overflow-x-hidden overflow-y-auto 
-              md:inset-0 h-[calc(100%-1rem)] max-h-full z-[41]`}
+              md:inset-0 h-[calc(100%-1rem)] max-h-full z-41`}
         >
           <div className="relative w-full max-w-3xl max-h-full">
             <div className="relative bg-white rounded-lg shadow">
@@ -243,7 +243,7 @@ const CircleOfResourceModal = ({
                       };
                       setData(tempData);
                     }}
-                    className="bg-white border border-[#2E65F3] w-full rounded-md px-3 py-2.5 outline-[#2E65F3]"
+                    className="bg-white border border-primary-blue w-full rounded-md px-3 py-2.5 outline-primary-blue"
                   />
                   {!isValid && (
                     <p className="mt-2 text-sm text-red-600">

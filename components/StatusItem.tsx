@@ -15,7 +15,7 @@ const StatusItem = ({
          sm:py-3 py-4
          rounded-full
          min-w-fit
-         ${active ? "bg-tertiary-green text-secondary-green border-l-1 border-tertiary-green" : "bg-secondary-gray-2 text-secondary-gray-4 border-l-1 border-secondary-gray"}`
+         ${active ? "bg-tertiary-green text-secondary-green border-l border-tertiary-green" : "bg-secondary-gray-2 text-secondary-gray-4 border-l border-secondary-gray"}`
       }
       >
       <span className="self-center text-sm font-medium">{label}</span>

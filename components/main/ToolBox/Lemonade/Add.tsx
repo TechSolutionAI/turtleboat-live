@@ -197,7 +197,7 @@ const Add = ({}: {}) => {
 
         <div className="border-0 rounded-lg relative flex flex-col w-full sm:px-[20px]">
           <div className="relative mt-6 flex-auto">
-            <label className="font-Inter font-semibold tracking-[0.1em] text-[#232325]">
+            <label className="font-Inter font-semibold tracking-widest text-primary-black">
               PURPOSE <span className="text-secondary-red">*</span>
             </label>
             <Select
@@ -239,7 +239,7 @@ const Add = ({}: {}) => {
             )}
           </div>
           <div className="relative mt-6 flex-auto">
-            <label className="font-Inter font-semibold tracking-[0.1em] text-[#232325]">
+            <label className="font-Inter font-semibold tracking-widest text-primary-black">
               Bottleneck Pillar{" "}
               <span className="font-normal tracking-normal">
                 {`(select your buggest issue)`}
@@ -284,7 +284,7 @@ const Add = ({}: {}) => {
             )}
           </div>
           <div className="relative mt-6 flex-auto">
-            <label className="font-Inter font-semibold tracking-[0.1em] text-[#232325]">
+            <label className="font-Inter font-semibold tracking-widest text-primary-black">
               PARTICIPANT(S) <span className="text-secondary-red">*</span>
             </label>
           </div>
@@ -325,7 +325,7 @@ const Add = ({}: {}) => {
 
           </div>
           <div className="relative mt-6 flex-auto">
-            <label className="font-Inter font-semibold tracking-[0.1em] text-[#232325]">
+            <label className="font-Inter font-semibold tracking-widest text-primary-black">
               CONTEXT
             </label>
             <textarea
@@ -338,7 +338,7 @@ const Add = ({}: {}) => {
           </div>
 
           <div className="relative mt-6 flex-auto">
-            <label className="font-Inter font-semibold tracking-[0.1em] text-[#232325]">
+            <label className="font-Inter font-semibold tracking-widest text-primary-black">
               SOUND BITE
             </label>
             <LemonadePitch
@@ -359,7 +359,7 @@ const Add = ({}: {}) => {
 
           <div className="flex items-center justify-end font-Inter font-bold ">
             <button
-              className="text-[#232325] background-transparent px-6 py-2 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              className="text-primary-black background-transparent px-6 py-2 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
               type="button"
               onClick={() => {
                 router.push(`/dashboard/toolbox/lemonade`);

@@ -28,9 +28,9 @@ const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY ?? "", {
 });
 
 const messageColorClasses = [
-  "border border-secondary-gray-2 py-2 px-4 rounded-lg w-fit bg-[#DCECFB]",
-  "border border-secondary-gray-2 py-2 px-4 rounded-lg w-fit bg-[#DCFBEA]",
-  "border border-secondary-gray-2 py-2 px-4 rounded-lg w-fit bg-[#FFDBDB]",
+  "border border-secondary-gray-2 py-2 px-4 rounded-lg w-fit bg-tertiary-blue",
+  "border border-secondary-gray-2 py-2 px-4 rounded-lg w-fit bg-tertiary-green",
+  "border border-secondary-gray-2 py-2 px-4 rounded-lg w-fit bg-secondary-red-1",
   "border border-secondary-gray-2 py-2 px-4 rounded-lg w-fit bg-[#F2F3CE]",
   "border border-secondary-gray-2 py-2 px-4 rounded-lg w-fit bg-[#D0CEF3]",
 ];
@@ -375,7 +375,7 @@ const LemonadeDetail = () => {
         </a>
       </div>
       <div className="px-0 sm:px-5 font-Inter">
-        <div className="rounded-lg border border-1 border-secondary-gray-3 px-0 pt-7 lg:mb-0 mb-[30px]">
+        <div className="rounded-lg border border border-secondary-gray-3 px-0 pt-7 lg:mb-0 mb-[30px]">
           <div className="block md:flex justify-between items-center px-9">
             <h2 className="font-Inter font-bold text-black text-[20px] py-2">
               {lemonade?.name}
@@ -396,7 +396,7 @@ const LemonadeDetail = () => {
                 </button>
               ) : (
                 <div
-                  className={`justify-center flex flex-col text-center px-[15px] sm:py-3 py-4 rounded-full bg-tertiary-green text-secondary-green border-l-1 border-tertiary-green`}
+                  className={`justify-center flex flex-col text-center px-[15px] sm:py-3 py-4 rounded-full bg-tertiary-green text-secondary-green border-l border-tertiary-green`}
                 >
                   <span className="self-center text-sm font-medium">
                     Completed
@@ -453,7 +453,7 @@ const LemonadeDetail = () => {
               <p>{lemonade?.participants.length}/5 participants</p>
             </div>
           </div>
-          <hr className="mt-2 border-dotted border-[2px]" />
+          <hr className="mt-2 border-dotted border-2" />
           <div className="grid lg:grid-cols-2 grid-cols-1 px-0">
             {(windowWidth >= 1024 || messageOpen) && (
               <div className="px-5">
@@ -551,7 +551,7 @@ const LemonadeDetail = () => {
                               item == purpose
                                 ? "bg-primary-blue text-white"
                                 : "border-primary-blue text-primary-blue"
-                            } border border-1 border-primary-blue px-6 py-2 rounded-full w-fit cursor-pointer`}
+                            } border border border-primary-blue px-6 py-2 rounded-full w-fit cursor-pointer`}
                           >
                             {item}
                           </div>
@@ -585,7 +585,7 @@ const LemonadeDetail = () => {
                               item == focus
                                 ? "bg-primary-blue text-white"
                                 : "border-primary-blue text-primary-blue"
-                            } border border-1 border-primary-blue px-6 py-2 rounded-full w-fit cursor-pointer`}
+                            } border border border-primary-blue px-6 py-2 rounded-full w-fit cursor-pointer`}
                           >
                             {item}
                           </div>
@@ -641,7 +641,7 @@ const LemonadeDetail = () => {
                     >
                       {isSaving ? <Spinner text={`Posting...`} /> : "Post"}
                     </button>
-                    <p className="text-[22px] text-[#F2994A]">
+                    <p className="text-[22px] text-eval-sel-orange">
                       {remaining}/20 remaining
                     </p>
                   </div>
@@ -672,7 +672,7 @@ const LemonadeDetail = () => {
                       } py-2`}
                       key={`comment_${index}`}
                     >
-                      <div className={`${classStr} max-w-[100%]`}>
+                      <div className={`${classStr} max-w-full`}>
                         {comment.purpose != "" ? (
                           <>
                             <strong>
@@ -714,7 +714,7 @@ const LemonadeDetail = () => {
           </div>
         </div>
         {windowWidth < 1024 && (
-          <div className="bg-tertiary-red sticky text-white m-auto bottom-2 flex items-center border border-1 border-tertiary-red w-full rounded-full gap-2 px-3 py-4 justify-around">
+          <div className="bg-tertiary-red sticky text-white m-auto bottom-2 flex items-center border border border-tertiary-red w-full rounded-full gap-2 px-3 py-4 justify-around">
             <button
               className="hover:text-tertiary-blue cursor-pointer"
               onClick={() => setMessageOpen(true)}
@@ -779,7 +779,7 @@ const InstructionModal = ({
           className={`fixed top-0 left-0 right-0 w-full flex 
                         justify-center items-center p-4 
                         overflow-x-hidden overflow-y-auto 
-                        md:inset-0 h-[calc(100%-1rem)] max-h-full z-[41]`}
+                        md:inset-0 h-[calc(100%-1rem)] max-h-full z-41`}
         >
           <div className="relative w-full max-w-3xl max-h-full font-Inter">
             <div className="relative bg-accent-yellow rounded-lg shadow">

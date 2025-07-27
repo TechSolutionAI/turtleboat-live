@@ -164,7 +164,7 @@ const SolutionComicGenerator = ({
                         `fixed top-0 left-0 right-0 w-full flex 
                         justify-center items-center p-4 
                         overflow-x-hidden overflow-y-auto 
-                        md:inset-0 h-[calc(100%-1rem)] max-h-full z-[41]`
+                        md:inset-0 h-[calc(100%-1rem)] max-h-full z-41`
                     }>
                     <div className="relative w-full max-w-3xl max-h-full">
                         <div className="relative bg-white rounded-lg shadow">
@@ -197,10 +197,10 @@ const SolutionComicGenerator = ({
                             </div>
                             <div className="p-6">
                                 <div>
-                                    <p className="block mb-2 text-[#6F727A]">
+                                    <p className="block mb-2 text-secondary-gray-4">
                                         The purpose of the Solution Comic is to see how your proposed product will be used at the time of need, or how your solution prevents the problem from happening. By reflecting on your Problem Comic Strip, you should have a glimpse of what your relevant cast of characters are doing (the who, what, when, where, why, how).
                                     </p>
-                                    <p className="block mb-3 text-[#6F727A]">
+                                    <p className="block mb-3 text-secondary-gray-4">
                                         Where would you insert your product to alleviate/address the problem?
                                         <br />Since your product isn&#39;t going to just drop into their lap when they need it, your Solution comic should include panels illustrating that they were able to get your product, and that they had the product within reach when needed. You may have the best parachute, but if that parachute isn&#39;t in the plane when they need to jump, best doesn&#39;t matter.
                                     </p>

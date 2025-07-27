@@ -117,7 +117,7 @@ const TokenItem = () => {
                 <Image src={turtle_coin} alt={'Token Icon'} width={60} height={60}/>
                 {
                     hasNewToken && (
-                        <div className="absolute inline-flex items-center justify-center w-4 h-4 text-xs sm:w-5 sm:h-5 sm:text-sm font-bold text-white bg-[#27AE60] rounded-full top-1 right-0">!</div>
+                        <div className="absolute inline-flex items-center justify-center w-4 h-4 text-xs sm:w-5 sm:h-5 sm:text-sm font-bold text-white bg-eval-sel-green-2 rounded-full top-1 right-0">!</div>
                     )
                 }
                 {
@@ -131,7 +131,7 @@ const TokenItem = () => {
                             amount: 0
                         })
                     }}>
-                        <div className={`absolute z-50 right-[10px] top-[70px] mt-[10px] border-1 border-secondary-gray w-[480px] rounded-[8px] bg-white`}>
+                        <div className={`absolute z-50 right-[10px] top-[70px] mt-[10px] border border-secondary-gray w-[480px] rounded-[8px] bg-white`}>
                             <RedeemModal data={tokenData} newToken={newTokenInfo}/>
                         </div>
                     </OutsideClickHandler>

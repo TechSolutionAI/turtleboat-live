@@ -41,10 +41,6 @@ async function udateEvaluation(req: NextApiRequest, res: NextApiResponse) {
 
     const db = await getDb();
 
-    // const userInfo = await db
-    //   .collection("users")
-    //   .findOne({ email: user?.email });
-
     const evaluationData = {
       _id: userId.toString(),
       value: value,
@@ -130,12 +126,7 @@ async function udateEvaluation(req: NextApiRequest, res: NextApiResponse) {
         moduleId: mid,
         createdAt: date,
       };
-      // emailNotifications.push({
-      //     fromName: session?.user?.name,
-      //     email: ventureData.mentee.email,
-      //     ventureTitle: ventureData.title,
-      //     notificationLink: `${process.env.HOME_URL}/dashboard/myventures/module/${ventureId}-${mid}`
-      // });
+
       notifications.push(notificationForEvaluation);
       userIds.push(ventureData.mentee._id.toString());
       pusher.trigger(
@@ -146,122 +137,6 @@ async function udateEvaluation(req: NextApiRequest, res: NextApiResponse) {
 
       res.status(200).json({ success: true, result: evaluationData });
     }
-
-    // Send Notifications to Team Collaborators if this is team venture
-    // if (ventureData.isTeam) {
-    //   const collabData = await db.collection("collaborations").findOne({
-    //     _id: ventureData.collabId,
-    //   });
-
-    //   const allCollaborators = [...collabData.mentors, ...collabData.mentees];
-
-    //   allCollaborators.map((collaborator: any) => {
-    //     if (
-    //       collaborator._id.toString() != uid.toString() &&
-    //       userIds.find((item) => item === collaborator._id.toString()) ==
-    //       undefined
-    //     ) {
-    //       const date = new Date();
-    //       const options: Intl.DateTimeFormatOptions = {
-    //         weekday: "long",
-    //         month: "long",
-    //         day: "numeric",
-    //       };
-    //       const formattedDate = date.toLocaleDateString("en-US", options);
-    //       const notificationForComment = {
-    //         from: uid.toString(),
-    //         to: collaborator._id.toString(),
-    //         message: `${user?.name} contributed to "${ventureData.title}" on ${formattedDate}`,
-    //         link: `/dashboard/myventures/module/${ventureId}-${mid}`,
-    //         isRead: false,
-    //         isFlag: false,
-    //         ventureTitle: ventureData.title,
-    //         ventureId: vid,
-    //         moduleId: mid,
-    //         createdAt: date,
-    //       };
-    //       // emailNotifications.push({
-    //       //     fromName: session?.user?.name,
-    //       //     email: collaborator.email,
-    //       //     ventureTitle: ventureData.title,
-    //       //     notificationLink: `${process.env.HOME_URL}/dashboard/myventures/module/${ventureId}-${mid}`
-    //       // });
-    //       notifications.push(notificationForComment);
-    //       userIds.push(collaborator._id.toString());
-    //       pusher.trigger(
-    //         `user-${collaborator._id.toString()}`,
-    //         "comment",
-    //         notificationForComment
-    //       );
-    //     }
-    //   });
-    // }
-    // Send Notifications to Team Collaborators if this is team venture
-
-    // emailNotifications.map(async (notify: any, idx: any) => {
-    //     try {
-    //         await sendgrid.send({
-    //             to: notify.email,
-    //             from: "yCITIES1@gmail.com",
-    //             subject: `${session?.user?.name} commented in Venture "${notify.ventureTitle}"`,
-    //             cc: process.env.CC_EMAIL,
-    //             templateId: " d-6fd81650d7ad4fe9a43dee40f8502051",
-    //             dynamicTemplateData: {
-    //                 subject: `${session?.user?.name} commented in Venture "${notify.ventureTitle}"`,
-    //                 notificationlink: notify.notificationLink,
-    //                 ventureTitle: notify.ventureTitle,
-    //                 fromName: notify.fromName
-    //             },
-    //             isMultiple: false,
-    //         });
-    //     } catch (err: any) {
-    //         return res.status(500).json({ err: SERVER_ERR_MSG });
-    //     }
-    // });
-
-    // const notificationResult = await db
-    //   .collection("notifications")
-    //   .insertMany(notifications);
-
-    // // Get Token Action for "Post/Comment within a Wonder Square": no is 3
-    // const tokenAction = await db
-    //   .collection("token_actions")
-    //   .findOne({ no: 3 });
-
-    // const tokenHistory = await db.collection("token_history").insertOne({
-    //   userId: new ObjectId(uid.toString()),
-    //   createdAt: new Date(),
-    //   amount: tokenAction.tokenAmount,
-    //   isView: false,
-    //   updatedAt: new Date(),
-    //   actionNo: 3,
-    //   type: "action",
-    // });
-
-    // pusher.trigger(`user-token-${uid.toString()}`, "token-history", {
-    //   type: 1,
-    //   name: tokenAction.name,
-    //   tokenAmount: tokenAction.tokenAmount,
-    // });
-    // Update User Tokens
-    // await db.collection("users").updateOne(
-    //   {
-    //     _id: userId,
-    //   },
-    //   {
-    //     $set: {
-    //       tokens: userInfo.tokens + tokenAction.tokenAmount,
-    //       totalEarnedTokens:
-    //         userInfo.totalEarnedTokens + tokenAction.tokenAmount,
-    //     },
-    //   }
-    // );
-
-    // if (!notificationResult.acknowledged && !tokenHistory.acknowledged) {
-    //   res.status(500).json({ success: false, err: SERVER_ERR_MSG });
-    // } else {
-    //   res.status(200).json({ success: true, result: commentData });
-    // }
 
   } catch (err) {
     debugger;

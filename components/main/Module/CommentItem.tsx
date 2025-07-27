@@ -15,8 +15,11 @@ const CommentItem = ({
     comment: Comment;
     serverTime: string;
 }) => {
+    if ((comment.content.length === 0 || comment.content[0] === "")&& comment.files.length === 0) {
+        return null;
+    }
     return (
-        <div className="border-b border-[#6F727A] py-[15px]">
+        <div className="border-b border-secondary-gray-4 py-[15px]">
             {/* <div className='flex items-baseline gap-x-3'> */}
             <div className="items-baseline gap-x-3">
                 <div className="flex items-center">
@@ -25,11 +28,11 @@ const CommentItem = ({
                         size={33}
                         classes={"w-[30px] h-[30px] rounded-full cursor-pointer"}
                     />
-                    <label className="font-bold ml-2 text-sm">{comment.user.name}</label>
+                    <p className="font-bold ml-2 text-sm">{comment.user.name}</p>
                 </div>
                 {/* <div className='comment-view -ml-[30px]'> */}
                 <div className="comment-view">
-                    <EditorView value={comment.content} />
+                    {comment.content != null && comment.content != "" && <EditorView value={comment.content} />}
                 </div>
             </div>
             {
@@ -39,7 +42,7 @@ const CommentItem = ({
                     return (
                         <div
                             key={`${comment.user?.name}-${fileItem.name}-${index}`}
-                            className="flex items-center text-[#2E65F3] pl-[28px] mt-[10px] gap-x-3"
+                            className="flex items-center text-primary-blue pl-[28px] mt-[10px] gap-x-3"
                         >
                             {/* <Image src={ico_document} alt="ico_doc" /> */}
                             <IcoDocument alt="ico_doc" />

@@ -23,9 +23,9 @@ const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY ?? "", {
 });
 
 const messageColorClasses = [
-  "border border-secondary-gray-2 py-2 px-4 rounded-lg w-fit bg-[#DCECFB]",
-  "border border-secondary-gray-2 py-2 px-4 rounded-lg w-fit bg-[#DCFBEA]",
-  "border border-secondary-gray-2 py-2 px-4 rounded-lg w-fit bg-[#FFDBDB]",
+  "border border-secondary-gray-2 py-2 px-4 rounded-lg w-fit bg-tertiary-blue",
+  "border border-secondary-gray-2 py-2 px-4 rounded-lg w-fit bg-tertiary-green",
+  "border border-secondary-gray-2 py-2 px-4 rounded-lg w-fit bg-secondary-red-1",
   "border border-secondary-gray-2 py-2 px-4 rounded-lg w-fit bg-[#F2F3CE]",
   "border border-secondary-gray-2 py-2 px-4 rounded-lg w-fit bg-[#D0CEF3]",
 ];
@@ -203,7 +203,7 @@ const LemonadeDetailAdmin = () => {
         </a>
       </div>
       <div className="px-0 sm:px-5 font-Inter">
-        <div className="rounded-lg border border-1 border-secondary-gray-3 px-0 pt-7 lg:mb-0 mb-[30px]">
+        <div className="rounded-lg border border border-secondary-gray-3 px-0 pt-7 lg:mb-0 mb-[30px]">
           <h2 className="font-Inter font-bold text-black text-[20px] px-9">
             {lemonade?.name}
           </h2>
@@ -247,7 +247,7 @@ const LemonadeDetailAdmin = () => {
               <p>{lemonade?.participants.length}/5 participants</p>
             </div>
           </div>
-          <hr className="mt-2 border-dotted border-[2px]" />
+          <hr className="mt-2 border-dotted border-2" />
           <div className="grid lg:grid-cols-2 grid-cols-1 px-0">
             <div className="px-5">
               <div className="">
@@ -284,7 +284,7 @@ const LemonadeDetailAdmin = () => {
                     } py-2`}
                     key={`comment_${index}`}
                   >
-                    <div className={`${classStr} max-w-[100%]`}>
+                    <div className={`${classStr} max-w-full`}>
                       {comment.purpose != "" ? (
                         <>
                           <strong>
@@ -367,7 +367,7 @@ const InstructionModal = ({
           className={`fixed top-0 left-0 right-0 w-full flex 
                         justify-center items-center p-4 
                         overflow-x-hidden overflow-y-auto 
-                        md:inset-0 h-[calc(100%-1rem)] max-h-full z-[41]`}
+                        md:inset-0 h-[calc(100%-1rem)] max-h-full z-41`}
         >
           <div className="relative w-full max-w-3xl max-h-full font-Inter">
             <div className="relative bg-accent-yellow rounded-lg shadow">

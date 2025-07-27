@@ -139,15 +139,15 @@ const List = ({ data, editData, deleteData, duplicateData, setSelectedTitle }: {
                             return (
                                 deletingIndex === index
                                     ?
-                                    <div className='flex justify-between py-[20px] font-Inter text-[16px] font-semibold border-[#6F727A] border-b-2' key={'deleting_' + index}>
+                                    <div className='flex justify-between py-[20px] font-Inter text-[16px] font-semibold border-secondary-gray-4 border-b-2' key={'deleting_' + index}>
                                         <Spinner text="Deleting..." />
                                     </div>
                                     :
                                     duplicatingIndex === index ?
-                                        <div className='flex justify-between py-[20px] font-Inter text-[16px] font-semibold border-[#6F727A] border-b-2' key={'duplicating' + index}>
+                                        <div className='flex justify-between py-[20px] font-Inter text-[16px] font-semibold border-secondary-gray-4 border-b-2' key={'duplicating' + index}>
                                             <Spinner text="Duplicating..." />
                                         </div> : 
-                                        <div className='flex justify-between py-[20px] font-Inter text-[16px] font-semibold border-[#6F727A] border-b-2 hover:bg-gray-100' key={'ini_' + index}>
+                                        <div className='flex justify-between py-[20px] font-Inter text-[16px] font-semibold border-secondary-gray-4 border-b-2 hover:bg-gray-100' key={'ini_' + index}>
                                             <div className='w-[60%] truncate'>
                                                 <a className='cursor-pointer' onClick={() => handleViewClicked(item, index)}>
                                                     <DescriptionIcon />
@@ -157,11 +157,11 @@ const List = ({ data, editData, deleteData, duplicateData, setSelectedTitle }: {
                                                 </a>
                                             </div>
                                             <div className='w-[30%]'>
-                                                <DragIndicatorOutlinedIcon className='text-[#6F727A] ml-[10px]' />
-                                                <label className='font-Inter text-[10px] font-semibold text-[#6F727A] ml-[10px]'>{item.item}</label>
+                                                <DragIndicatorOutlinedIcon className='text-secondary-gray-4 ml-[10px]' />
+                                                <label className='font-Inter text-[10px] font-semibold text-secondary-gray-4 ml-[10px]'>{item.item}</label>
                                             </div>
                                             <div className='relative w-[10%]'>
-                                                <button className={`rounded-[50px] text-secondary-gray-4 border-2 border-transparent hover:border-[#6F727A] float-right ${dropdownOpen === true && index === dropdownIndex && 'bg-[#DCECFB]'}`} onClick={() => {
+                                                <button className={`rounded-[50px] text-secondary-gray-4 border-2 border-transparent hover:border-secondary-gray-4 float-right ${dropdownOpen === true && index === dropdownIndex && 'bg-tertiary-blue'}`} onClick={() => {
                                                     setDropdownOpen(!dropdownOpen);
                                                     setDropdownIndex(index);
                                                 }}>

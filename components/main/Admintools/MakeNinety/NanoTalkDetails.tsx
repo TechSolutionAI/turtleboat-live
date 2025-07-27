@@ -208,20 +208,19 @@ const NanoTalkDetails = () => {
                         <a
                           key={`video_item_${index}`}
                           className="grid grid-cols-10 gap-3 font-Inter cursor-pointer"
-                          href={`/dashboard/core/makeninety/${videoItem._id}`}
+                          href={`/dashboard/admin/nanotalks/${videoItem._id}`}
                         >
                           <div className="col-span-4">
-                            <video className="rounded-lg max-h-[100px] w-[100%] object-cover">
+                            <video className="rounded-lg max-h-[100px] w-full object-cover">
                               <source src={videoItem.video.url} />
                             </video>
                           </div>
                           <div className="col-span-6">
-                            <a
-                              href={`/dashboard/core/makeninety/${videoItem._id}`}
+                            <p
                               className="text-md break-words text-[#333] font-bold font-Inter cursor-pointer"
                             >
                               {videoItem.title}
-                            </a>
+                            </p>
                           </div>
                         </a>
                       );

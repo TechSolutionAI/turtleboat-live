@@ -3,11 +3,10 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { ObjectId } from "mongodb";
 import { Session, getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
-import sendgrid from "@sendgrid/mail";
 import { pusher } from "@/utils/pusher-server";
 import getDb from "@/utils/getdb";
-
-sendgrid.setApiKey(process.env.SENDGRID_API_KEY ?? "");
+import { resend } from "@/utils/resend";
+import ClaimReward from "@/components/email/ClaimReward";
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -116,29 +115,27 @@ async function approveClaimRequest(req: NextApiRequest, res: NextApiResponse) {
                 }
             );
 
-        
         try {
-            await sendgrid.send({
+            const {data, error } = await resend.emails.send({
+                from: process.env.FROM_EMAIL ?? 'Turtle Boat <vicky@youthcities.org>',
                 to: notify.email,
-                from: {
-                    email: "yCITIES1@gmail.com",
-                    name: "Turtle Boat"
-                },
                 subject: "Redemption Alert",
                 cc: process.env.CC_EMAIL,
-                templateId: "d-47f6fc1034d4470e98d8a4ead5d1d117",
-                dynamicTemplateData: {
-                    subject: "Redemption Alert",
+                react: ClaimReward({
+                    summary: "You claimed Reward Successfully.",
+                    redemption: rewardInfo.name,
                     oldBalance: userInfo.tokens,
                     transactionAmount: rewardInfo.cost,
                     newBalance: userInfo.tokens - rewardInfo.cost,
-                    summary: "You claimed Reward Successfully.",
-                    redemption: rewardInfo.name
-                },
-                isMultiple: false,
+                }),
             });
+            
+            if (error) {
+                  console.error({ error });
+            }
+
         } catch (err: any) {
-            console.log(err);
+            console.error(err);
             return res.status(500).json({ err: SERVER_ERR_MSG });
         }
 

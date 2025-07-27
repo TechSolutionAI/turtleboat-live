@@ -481,7 +481,7 @@ const Gameboard = () => {
             <Tab.Panels>
               <Tab.Panel>
                 <div className="w-fit shadow-md rounded-lg px-5 py-0 pb-4 md:w-full justify-center pt-4">
-                  <h2 className="font-Inter font-bold text-[20px] text-[#232325] py-2">
+                  <h2 className="font-Inter font-bold text-[20px] text-primary-black py-2">
                     Thinkspace
                   </h2>
                   <p className="font-Inter text-[12px] mt-0 py-2">
@@ -526,7 +526,7 @@ const Gameboard = () => {
               </Tab.Panel>
               <Tab.Panel>
                 <div className="w-fit shadow-md rounded-lg px-5 py-0 pb-4 md:w-full justify-center pt-4">
-                  <h2 className="font-Inter font-bold text-[20px] text-[#232325] py-2">
+                  <h2 className="font-Inter font-bold text-[20px] text-primary-black py-2">
                     Latest Activity
                   </h2>
                   <hr className="my-2 border-[1.5px]" />
@@ -562,7 +562,7 @@ const Gameboard = () => {
         <div className="relative grid grid-cols-1 gap-x-8 gap-y-4">
           <div className="relative rounded-xl shadow-md py-4 px-8">
             <div className="font-Inter text-left">
-              <h2 className="font-bold text-[20px] text-[#232325] py-2">
+              <h2 className="font-bold text-[20px] text-primary-black py-2">
                 Proof of Opportunity
               </h2>
               <p className="text-[12px] mt-0 py-2">
@@ -606,7 +606,7 @@ const Gameboard = () => {
             <div className="col-span-1 flex-col justify-between grid grid-cols-1 gap-x-4 gap-y-4 py-2">
               <div className="w-full h-full min-h-[220px] rounded-xl mt-[10px] flex flex-col justify-between py-5 shadow-md">
                 <div className="font-Inter text-center">
-                  <h2 className="font-bold text-[20px] text-[#232325]">
+                  <h2 className="font-bold text-[20px] text-primary-black">
                     Need Help?
                   </h2>
                   <p className="text-[12px] px-2">
@@ -637,7 +637,7 @@ const Gameboard = () => {
             <div className="col-span-1 flex-col justify-between grid grid-cols-1 gap-x-4 gap-y-4 py-2">
               <div className="w-full h-full min-h-[220px] rounded-xl mt-[10px] flex flex-col justify-between py-5 shadow-md">
                 <div className="font-Inter text-center">
-                  <h2 className="font-bold text-[20px] text-[#232325]">
+                  <h2 className="font-bold text-[20px] text-primary-black">
                     Collaborate
                   </h2>
                   <p className="text-[12px] px-2">
@@ -680,7 +680,7 @@ const Gameboard = () => {
             </div>
             <div className="relative rounded-xl shadow-md py-4 px-8">
               <div className='font-Inter text-left'>
-                <label className='font-bold text-[20px] text-[#232325]'>Risk Meters</label>
+                <label className='font-bold text-[20px] text-primary-black'>Risk Meters</label>
                 <p className="text-[12px] mt-2 py-2">The more your assumptions of <q>I wonder If this is true</q> becomes <q>I know this is true</q> from testing and iteration, the less risky your venture become. These meters are tied to your discovery in your Wonder Squares below.</p>
               </div>
               <div className='flex flex-col justify-between grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-4'>
@@ -706,7 +706,7 @@ const Gameboard = () => {
         )}
       </div>
       <div className="relative mt-5 font-Inter">
-        <label className="font-bold text-[20px] text-[#232325]">
+        <label className="font-bold text-[20px] text-primary-black">
           Brainstorming & Iteration Tools
         </label>
         <p className="text-[12px]">

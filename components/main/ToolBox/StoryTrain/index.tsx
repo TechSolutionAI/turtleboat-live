@@ -21,9 +21,6 @@ import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownR
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 import Spinner from "@/components/Spinner";
-import CommentItem from "@/components/main/Module/CommentItem";
-import Upload from "@/components/main/Module/Upload";
-import Editor from "@/components/main/Module/Editor";
 import { Venture } from "@/types/venture.type";
 import { Comment } from "@/types/module.type";
 import { trains } from "@/utils/constant";
@@ -284,7 +281,7 @@ const Index = () => {
         </div>
       ) : (
         <>
-          <div className="flex flex-row w-full bg-white justify-between items-center p-[20px] z-20 sticky top-0 pb-4 pt-2 bg-white ">
+          <div className="flex flex-row w-full bg-white justify-between items-center p-[20px] z-20 sticky top-0 pb-4 pt-2">
             <a
               onClick={handleCancelClicked}
               className="cursor-pointer flex items-center text-[20px] font-Inter font-bold lg:flex"
@@ -431,7 +428,7 @@ const Index = () => {
                       return (
                         <div
                           key={item.id}
-                          className="border border-dashed border-1 border-primary-black px-4 pt-5 pb-8"
+                          className="border border-dashed border-primary-black px-4 pt-5 pb-8"
                         >
                           <h2 className="text-black font-Inter text-md text-center font-bold">
                             {item.label}
@@ -470,7 +467,7 @@ const Index = () => {
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                               ref={provided.innerRef}
-                              className="border border-dashed border-1 border-primary-black px-4 pt-5 pb-8"
+                              className="border border-dashed border-primary-black px-4 pt-5 pb-8"
                             >
                               {isEditable && (
                                 <DragIndicatorIcon className="absolute text-secondary-gray-4" />
@@ -504,77 +501,6 @@ const Index = () => {
               )}
             </Droppable>
           </DragDropContext>
-
-          {/* <div className="mt-[40px] rounded-xl bg-[#F7F7F9] px-[40px] py-[34px] flex flex-col justify-center font-Inter">
-            <h1 className="font-Inter font-bold text-xl sm:mt-[35px] mt-[10px]">
-              Mentor/Mentee Discussion
-            </h1>
-            {
-              comments != null &&
-              comments.length > 0 &&
-              comments.map((comment: Comment, index: number) => {
-                return (
-                  <div key={`comment-${index}`}>
-                    <CommentItem comment={comment} serverTime={serverTime} />
-                  </div>
-                );
-              })
-            }
-            {
-              memberType == "mentee" ? (
-                <Upload setFormFiles={setFormFiles} isInit={isCommentSaved} />
-              ) : (
-                <></>
-              )
-            }
-            <Editor
-              value={commentContent}
-              onChange={(data) => {
-                setCommentContent(data);
-              }}
-            />
-            <div className="flex items-center justify-end font-Inter font-bold pt-5">
-              <button
-                className="text-[#232325] background-transparent px-6 py-2 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="button"
-                onClick={handleCancelClicked}
-              >
-                Cancel
-              </button>
-              <button
-                className="bg-primary-blue text-white active:bg-primary-blue px-6 py-3 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="button"
-                onClick={saveComment}
-              >
-                {isCreating ? <Spinner text="Posting..." /> : "Post"}
-              </button>
-            </div>
-          </div> */}
-          {/* <ul className="grid grid-cols-6 gap-y-[30px] gap-x-8 trains">
-                            {
-                                trains.map((item: any, index: number) => { 
-                                    return (
-                                        <li className="border border-dashed border-1 border-primary-black px-4 pt-5 pb-8">
-                                            <div className="text-black font-Inter text-md text-center">
-                                                {item.label}
-                                            </div>
-                                        </li>
-                                    )
-                                })
-                            }
-                        </ul> */}
-          {/* {
-                            isEditable &&
-                            <div className="flex items-center justify-end font-Inter font-bold pt-5">
-                                <button
-                                    className="bg-primary-blue text-white active:bg-primary-blue px-6 py-3 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                    type="button"
-                                    onClick={saveStoryTrain}
-                                >
-                                    {isSaving ? <Spinner text='Saving ...'/> : 'Save story train'}
-                                </button>
-                            </div>
-                        } */}
         </>
       )}
     </>

@@ -14,9 +14,10 @@ import TokenItem from "@/components/layouts/TokenItem";
 import Pillar from "@/components/main/MyVentures/GameBoard/Pillar";
 import CommentItem from "@/components/main/Module/CommentItem";
 import Upload from "@/components/main/Module/Upload";
-// import Editor from "@/components/main/Module/Editor";
-const Editor = dynamic(() => import("@/components/main/Module/Editor"), { ssr: false });
+
 import dynamic from "next/dynamic";
+const Editor = dynamic(() => import("@/components/main/Module/Editor"), { ssr: false });
+
 import CharacterItem from "./CharacterItem";
 import HelpIcon from "@mui/icons-material/Help";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
@@ -305,6 +306,7 @@ const CharacterBrainstorm = () => {
   const [files, setFormFiles] = useState<FileList | null>(null);
   const [isCommentSaved, setIsCommentSaved] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
+  const [resetEditor, setResetEditor] = useState(false);
 
   const getVenture = async () => {
     if (ventureId != "") {
@@ -469,7 +471,7 @@ const CharacterBrainstorm = () => {
         setComments((prevComments) => [...prevComments, result]);
         setCommentContent("");
         setIsCreating(false);
-        // addComment(result);
+        setResetEditor(true);
       }
     }
   };
@@ -1290,7 +1292,9 @@ const CharacterBrainstorm = () => {
               value={commentContent}
               onChange={(data: string) => {
                 setCommentContent(data);
+                setResetEditor(false);
               }}
+              reset={resetEditor}
             />
             <div className="flex items-center justify-end font-Inter font-bold pt-5">
               <button

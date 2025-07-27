@@ -2,10 +2,13 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { ObjectId } from "mongodb";
 import { v2 as cloudinary } from 'cloudinary';
-import sendgrid from "@sendgrid/mail";
 import { v4 as uuid } from "uuid";
 import { pusher } from "@/utils/pusher-server";
 import getDb from "@/utils/getdb";
+import { resend } from "@/utils/resend";
+import LemonadeInvite from "@/components/email/LemonadeInvite";
+import LemonadeResponse from "@/components/email/LemonadeReponse";
+import { delay } from "@/utils/utils";
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -14,8 +17,6 @@ export const config = {
         responseLimit: '20mb',
     },
 }
-
-sendgrid.setApiKey(process.env.SENDGRID_API_KEY ?? "");
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME ?? '',
@@ -99,18 +100,20 @@ async function inviteMembers(req: NextApiRequest, res: NextApiResponse) {
 
         let invites: Array<any> = [];
         let notifications: any[] = [];
-        participants.map(async (participant: any, idx: any) => {
-            const uniqueId: any = uuid();
+
+        for (const participant of participants) {
+            const uniqueId = uuid();
+
             invites.push({
                 inviteId: uniqueId,
-                from: from,
-                fromEmail: fromEmail,
-                image: image,
+                from,
+                fromEmail,
+                image,
                 to: participant.email,
-                lemonadeId: lemonadeId,
+                lemonadeId,
                 time: new Date(),
                 isExpired: false,
-                isRemind: false
+                isRemind: false,
             });
 
             const notificationForComment = {
@@ -121,31 +124,33 @@ async function inviteMembers(req: NextApiRequest, res: NextApiResponse) {
                 isRead: false,
                 isFlag: false,
                 createdAt: new Date(),
-                type: 'lemonade'
+                type: "lemonade",
             };
             notifications.push(notificationForComment);
-            pusher.trigger(`user-${participant._id.toString()}`, 'comment', notificationForComment);
+            pusher.trigger(`user-${participant._id.toString()}`, "comment", notificationForComment);
 
             try {
-                await sendgrid.send({
+                const {data, error} = await resend.emails.send({
+                    from: process.env.FROM_EMAIL ?? 'Turtle Boat <vicky@youthcities.org>',
                     to: participant.email,
-                    from: {
-                        email: "yCITIES1@gmail.com",
-                        name: "Turtle Boat"
-                    },
                     subject: `${from} has invited you to Coffee Chat`,
                     cc: process.env.CC_EMAIL,
-                    templateId: "d-fe729e80a4e64a18be0907571cfe5e61",
-                    dynamicTemplateData: {
-                        subject: `${from} has invited you to Coffee Chat`,
+                    react: LemonadeInvite({
                         inviteAddress: `${process.env.HOME_URL}/dashboard/toolbox/lemonade/invite?id=${uniqueId}`,
-                    },
-                    isMultiple: false,
+                    }),
                 });
+
+                if (error) {
+                  console.error({ error });
+                }
+                
+                await delay(600);
+
             } catch (err: any) {
+                console.error(`Failed to send invite to ${participant.email}`, err);
                 return res.status(500).json({ err: SERVER_ERR_MSG });
             }
-        });
+        }
 
         const insertResult = await db
             .collection("lemonade_invites")
@@ -278,30 +283,27 @@ async function postMessage(req: NextApiRequest, res: NextApiResponse) {
                 }
             );
 
-        emailNotifications.map(async (notify: any, idx: any) => {
+        for (const notify of emailNotifications) {
             try {
-                await sendgrid.send({
+                await resend.emails.send({
+                    from: process.env.FROM_EMAIL ?? 'Turtle Boat <vicky@youthcities.org>',
                     to: notify.email,
-                    from: {
-                        email: "yCITIES1@gmail.com",
-                        name: "Turtle Boat"
-                    },
                     subject: `${user?.name} post messages to Coffee Chat`,
                     cc: process.env.CC_EMAIL,
-                    templateId: "d-a7c7bab476384b6c89207cfc067fc285",
-                    dynamicTemplateData: {
-                        subject: `${user?.name} post messages to Coffee Chat`,
+                    react: LemonadeResponse({
                         notificationlink: notify.notificationLink,
                         ventureTitle: orgLemonade.name,
-                        fromName: notify.fromName
-                    },
-                    isMultiple: false,
+                        fromName: notify.fromName,
+                    }),
                 });
-            } catch (err: any) {
+
+                await delay(600);
+
+            } catch (err) {
+                console.error(`Failed to send notification to ${notify.email}`, err);
                 return res.status(500).json({ err: SERVER_ERR_MSG });
             }
-        });
-
+        }
         let notificationResult = null;
 
         if (notifications.length > 0) {

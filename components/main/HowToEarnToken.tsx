@@ -71,7 +71,7 @@ const HowToEarnToken = () => {
 
     return (
         <>
-            <label className={"font-Inter font-bold text-[20px] sm:text-[30px] text-[#232325] mt-[100px] leading-tight"}>
+            <label className={"font-Inter font-bold text-[20px] sm:text-[30px] text-primary-black mt-[100px] leading-tight"}>
                 How to Earn Tokens
             </label>
             <p className={"mt-5 font-Inter text-[14px]"}>

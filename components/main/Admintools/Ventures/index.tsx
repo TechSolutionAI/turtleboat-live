@@ -161,7 +161,7 @@ const Ventures = () => {
           }`}
         >
           <button
-            className="flex items-center justify-center bg-[#2E65F3] text-[white] w-[133px] h-[50px] text-[12px] font-Inter rounded-[50px]"
+            className="flex items-center justify-center bg-primary-blue text-[white] w-[133px] h-[50px] text-[12px] font-Inter rounded-[50px]"
             onClick={() => setAddModal(true)}
           >
             <AddIcon />
@@ -170,7 +170,7 @@ const Ventures = () => {
           <div className={`flex`}>
             <input
               type="text"
-              className="border-secondary-gray border-[1px] rounded-[8px] h-[48px] mx-[20px] placeholder:text-[16px] pl-[16px] focus:outline-none focus:border-primary-blue focus:ring-primary-blue"
+              className="border-secondary-gray border rounded-[8px] h-[48px] mx-[20px] placeholder:text-[16px] pl-[16px] focus:outline-none focus:border-primary-blue focus:ring-primary-blue"
               placeholder="Search ..."
               id="search"
               onChange={(e) => {

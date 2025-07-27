@@ -5,10 +5,8 @@ import { User } from "next-auth";
 import dynamic from "next/dynamic";
 import { MentorEvaluation, Comment, ModuleItem } from "@/types/module.type";
 
-import Image from "next/image";
 import Swal from "sweetalert2";
 
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import InfoIcon from "@mui/icons-material/Info";
 import OutsideClickHandler from "react-outside-click-handler";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
@@ -19,7 +17,6 @@ import Upload from "./Upload";
 import CommentItem from "./CommentItem";
 import EvaluationBar from "./EvaluationBar";
 import { checkListLabels } from "@/database/modules";
-import { Venture } from "@/types/venture.type";
 const EditorView = dynamic(() => import("@/components/EditorView"), {
     ssr: false,
 });
@@ -61,6 +58,7 @@ const Index = () => {
     const [myEvaluation, setMyevaluation] = useState<MentorEvaluation | null>(null);
     const [tempEvaluation, setTempEvaluation] = useState<MentorEvaluation | null>(null);
     const [menteeId, setMenteeId] = useState<string | null>(null);
+    const [resetEditor, setResetEditor] = useState(false);
 
     const getModule = async () => {
         setIsLoading(true);
@@ -143,6 +141,7 @@ const Index = () => {
         setCommentContent("");
         setFormFiles(null);
         setIsCommentSaved(true);
+        setResetEditor(true);
     };
 
     const handleCancelClicked = () => {
@@ -350,6 +349,7 @@ const Index = () => {
 
         if (!response.ok) {
             setSummarizing(false);
+            setResetEditor(true);
             const { err } = await response.json();
             Swal.fire({
                 icon: "error",
@@ -399,7 +399,7 @@ const Index = () => {
                                     Back to {menteeName}&#39;s Dashboard
                                 </h1>
                             </a>
-                            <div className="md:w-auto w-[100%] relative inline-flex items-center cursor-pointer gap-x-2">
+                            <div className="md:w-auto w-full relative inline-flex items-center cursor-pointer gap-x-2">
                                 {/* <button className={`rounded-[50px] my-[7px] text-secondary-gray-4 float-right bg-[#F3F4F6]`} onClick={() => {
                                     setMoreOpen(!moreOpen);
                                 }}>
@@ -484,10 +484,10 @@ const Index = () => {
                                         moduleItem?.module?.files != undefined &&
                                         moduleItem?.module?.files?.length > 0 && (
                                             <div className="pt-[30px]">
-                                                <label className="text-[14px] text-[#232325]">
+                                                <label className="text-[14px] text-primary-black">
                                                     ATTACHMENTS
                                                 </label>
-                                                <div className="text-[#2E65F3] font-semibold text-[14px] pt-[15px]">
+                                                <div className="text-primary-blue font-semibold text-[14px] pt-[15px]">
                                                     {
                                                         moduleItem?.module.files.map(
                                                             (fileItem: any, index: number) => {
@@ -521,7 +521,10 @@ const Index = () => {
                                                 value={summarize}
                                                 onChange={(data: string) => {
                                                     setSummarize(data);
+                                                    setResetEditor(false);
                                                 }}
+                                                reset = {resetEditor}
+                                    
                                             />
                                             <div className="flex flex-row justify-end mt-[20px]">
                                                 <button type="button" className="font-Inter font-semibold">Cancel</button>
@@ -573,11 +576,13 @@ const Index = () => {
                                         value={commentContent}
                                         onChange={(data: string) => {
                                             setCommentContent(data);
+                                            setResetEditor(false);
                                         }}
+                                         reset = {resetEditor}
                                     />
                                     <div className="flex items-center justify-end font-Inter font-bold pt-5">
                                         <button
-                                            className="text-[#232325] background-transparent px-6 py-2 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                            className="text-primary-black background-transparent px-6 py-2 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                             type="button"
                                             onClick={handleCancelClicked}
                                         >

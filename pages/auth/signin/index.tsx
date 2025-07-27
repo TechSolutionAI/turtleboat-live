@@ -57,7 +57,7 @@ const Index = () => {
                     hover:border-blue-400 focus:bg-blue-50 active:bg-blue-100`}
                   onClick={onLinkedinBtnClicked}
                 >
-                  <div className="relative flex items-center space-x-10 justify-start">
+                  <div className="relative flex flex-col items-center space-x-10 justify-start">
                     <Image
                       alt="google logo"
                       src="/linkedin.svg"
@@ -80,7 +80,7 @@ const Index = () => {
                     focus:bg-blue-50 active:bg-blue-100`}
                   onClick={onGoogleBtnClicked}
                 >
-                  <div className="relative flex items-center space-x-10 justify-start">
+                  <div className="relative flex flex-col items-center space-x-10 justify-start">
                     <Image
                       alt="google logo"
                       src="/google.svg"

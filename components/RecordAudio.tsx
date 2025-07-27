@@ -28,9 +28,9 @@ const RecordAudio = ({isRecordable, audioData, saveAudio, isAudioLoading} : any)
   };
 
   useEffect(() => {
-    let intervalId: NodeJS.Timer | undefined;
+    let intervalId: number | undefined;
     if (isRunning) {
-      intervalId = setInterval(() => {
+      intervalId = window.setInterval(() => {
         setTime((time) => time + 1);
       }, 1000);
     }
@@ -123,7 +123,7 @@ const RecordAudio = ({isRecordable, audioData, saveAudio, isAudioLoading} : any)
     <div>
       <div className='w-full h-full min-h-[220px] rounded-xl mt-[10px] flex flex-col justify-between py-5 shadow-md'>
         <div className='font-Inter text-center'>
-          <h2 className='font-bold text-[20px] text-[#232325]'>Elevator pitch</h2>
+          <h2 className='font-bold text-[20px] text-primary-black'>Elevator pitch</h2>
           <p className="text-[12px] px-2">practice, listen, repeat your 90 second story</p>
         </div>
         <div className='flex justify-center'>
@@ -147,10 +147,10 @@ const RecordAudio = ({isRecordable, audioData, saveAudio, isAudioLoading} : any)
           <div className='text-center'>
             {
               recording ?
-              <button onClick={handleStop} className='font-Inter font-semibold text-[16px] text-[#6F727A]'>Stop</button>
+              <button onClick={handleStop} className='font-Inter font-semibold text-[16px] text-secondary-gray-4'>Stop</button>
               : 
                 isRecordable ? 
-                <button onClick={handleStart} className='font-Inter font-semibold text-[16px] text-[#6F727A]'>Create</button>
+                <button onClick={handleStart} className='font-Inter font-semibold text-[16px] text-secondary-gray-4'>Create</button>
                 : <>{isLoading ? 'Loading...': 'No Audio'}</>
             }
           </div>
@@ -159,11 +159,11 @@ const RecordAudio = ({isRecordable, audioData, saveAudio, isAudioLoading} : any)
         {audioBlob &&
           <div className='text-center flex flex-row justify-around'>
             {playStatus ?
-              <button onClick={pauseAudio} className='font-Inter font-semibold text-[16px] text-[#6F727A]'>Pause</button> :
-              <button onClick={playAudio} className='font-Inter font-semibold text-[16px] text-[#6F727A]'>Play</button>
+              <button onClick={pauseAudio} className='font-Inter font-semibold text-[16px] text-secondary-gray-4'>Pause</button> :
+              <button onClick={playAudio} className='font-Inter font-semibold text-[16px] text-secondary-gray-4'>Play</button>
             }
             {
-              isRecordable && <button onClick={handleStart} className='font-Inter font-semibold text-[16px] text-[#6F727A]'>Update</button> 
+              isRecordable && <button onClick={handleStart} className='font-Inter font-semibold text-[16px] text-secondary-gray-4'>Update</button> 
             }
             {/* <audio src={URL.createObjectURL(audioBlob)} ref={audioRef} /> */}
           </div>

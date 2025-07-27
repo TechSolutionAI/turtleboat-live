@@ -4,12 +4,9 @@ import { ObjectId } from "mongodb";
 import { v2 as cloudinary } from "cloudinary";
 import { Session, getServerSession } from "next-auth";
 import { authOptions } from "./auth/[...nextauth]";
-import sendgrid from "@sendgrid/mail";
 import { User } from "@/types/user.type";
 import { pusher } from "@/utils/pusher-server";
 import getDb from "@/utils/getdb";
-
-sendgrid.setApiKey(process.env.SENDGRID_API_KEY ?? "");
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -18,13 +15,6 @@ export const config = {
     bodyParser: false,
   },
 };
-
-interface FileObject {
-  originalFilename: string;
-  mimeType: string;
-  filepath: string;
-  size: number;
-}
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME ?? "",
@@ -53,7 +43,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 async function saveComment(req: NextApiRequest, res: NextApiResponse) {
   const session: Session | null = await getServerSession(req, res, authOptions);
   const user = session?.user as User;
-  const form = new formidable.IncomingForm();
+  const form = formidable();
   form.parse(req, async (err, fields, files) => {
     if (err) {
       console.error(err);
@@ -61,34 +51,45 @@ async function saveComment(req: NextApiRequest, res: NextApiResponse) {
     }
 
     const { cid, uid, vid, content, type } = fields;
-    const collabId = new ObjectId(cid.toString());
-    const ventureId = new ObjectId(vid.toString());
+    const collabId = new ObjectId(cid?.toString());
+    const ventureId = new ObjectId(vid?.toString());
 
     let fileFields = [];
 
-    for (const file of Object.values(files)) {
-      const fileObject: FileObject = file as unknown as FileObject;
-      try {
-        const uploadResult = await cloudinary.uploader.upload(
-          fileObject.filepath,
-          {
-            public_id: `ycity_files/${fileObject.originalFilename}`,
-            overwrite: true,
-            timestamp: new Date().getTime(),
-            resource_type: "auto",
-            folder: "collaborations",
-            invalidate: true,
+    for (const key of Object.keys(files)) {
+      const fileEntry = files[key];
+
+      // Handle single or multiple file uploads
+      const fileArray = Array.isArray(fileEntry) ? fileEntry : [fileEntry];
+
+      for (const file of fileArray) {
+        if (file && typeof file === "object" && "filepath" in file && "originalFilename" in file) {
+          const { filepath, originalFilename } = file;
+
+          try {
+            const uploadResult = await cloudinary.uploader.upload(filepath, {
+              public_id: `ycity_files/${originalFilename}`,
+              overwrite: true,
+              timestamp: new Date().getTime(),
+              resource_type: "auto",
+              folder: "collaborations",
+              invalidate: true,
+            });
+
+            fileFields.push({
+              url: uploadResult.secure_url,
+              assetId: uploadResult.asset_id,
+              name: originalFilename,
+              publicId: uploadResult.public_id,
+            });
+          } catch (error) {
+            console.error("File upload error:", error);
+            return res.status(500).json({ success: false, err: SERVER_ERR_MSG });
           }
-        );
-        fileFields.push({
-          url: uploadResult.secure_url,
-          assetId: uploadResult.asset_id,
-          name: fileObject.originalFilename,
-          publicId: uploadResult.public_id,
-        });
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ success: false, err: SERVER_ERR_MSG });
+        } else {
+          console.error("File object missing required properties", file);
+          return res.status(500).json({ success: false, err: SERVER_ERR_MSG });
+        }
       }
     }
 
@@ -104,10 +105,10 @@ async function saveComment(req: NextApiRequest, res: NextApiResponse) {
         email: user?.email,
         name: user?.name,
         image: userInfo.image,
-        _id: uid.toString(),
+        _id: uid?.toString(),
       },
       createdAt: new Date(),
-      type: parseInt(type.toString()),
+      type: parseInt(type?.toString() ?? ""),
     };
     await db.collection("collaborations").updateOne(
       {
@@ -152,26 +153,21 @@ async function saveComment(req: NextApiRequest, res: NextApiResponse) {
         .findOne({ _id: ventureId });
 
       collabData.mentees.map((mentee: any) => {
-        if (mentee._id.toString() != uid.toString()) {
+        if (mentee._id.toString() != uid?.toString()) {
           const notificationForComment = {
-            from: uid.toString(),
+            from: uid?.toString(),
             to: mentee._id.toString(),
             message: `${user?.name} posted comment in collaboration on ${formattedDate}`,
-            link: `/dashboard/myventures/collaboration/${collabId}-${ventureId}?type=${type.toString()}`,
+            link: `/dashboard/myventures/collaboration/${collabId}-${ventureId}?type=${type?.toString()}`,
             isRead: false,
             isFlag: false,
             ventureTitle: venture.title,
             ventureId: vid,
             collaborationId: cid,
-            tabId: type.toString(),
+            tabId: type?.toString(),
             createdAt: date,
           };
-          // emailNotifications.push({
-          //     fromName: session?.user?.name,
-          //     email: mentee.email,
-          //     ventureTitle: ventureData.title,
-          //     notificationLink: `${process.env.HOME_URL}/dashboard/myventures/collaboration/${collabId}`
-          // });
+
           notifications.push(notificationForComment);
           pusher.trigger(
             `user-${mentee._id.toString()}`,
@@ -182,26 +178,21 @@ async function saveComment(req: NextApiRequest, res: NextApiResponse) {
       });
 
       collabData.mentors.map((mentor: any) => {
-        if (mentor._id.toString() != uid.toString()) {
+        if (mentor._id.toString() != uid?.toString()) {
           const notificationForComment = {
-            from: uid.toString(),
+            from: uid?.toString(),
             to: mentor._id.toString(),
             message: `${user?.name} posted comment in collaboration on ${formattedDate}`,
-            link: `/dashboard/myventures/collaboration/${collabId}-${ventureId}?type=${type.toString()}`,
+            link: `/dashboard/myventures/collaboration/${collabId}-${ventureId}?type=${type?.toString()}`,
             isRead: false,
             isFlag: false,
             ventureTitle: venture.title,
             ventureId: vid,
             collaborationId: cid,
-            tabId: type.toString(),
+            tabId: type?.toString(),
             createdAt: date,
           };
-          // emailNotifications.push({
-          //     fromName: session?.user?.name,
-          //     email: mentor.email,
-          //     ventureTitle: ventureData.title,
-          //     notificationLink: `${process.env.HOME_URL}/dashboard/myventures/collaboration/${collabId}`
-          // });
+
           notifications.push(notificationForComment);
           pusher.trigger(
             `user-${mentor._id.toString()}`,
@@ -210,27 +201,6 @@ async function saveComment(req: NextApiRequest, res: NextApiResponse) {
           );
         }
       });
-
-      // emailNotifications.map(async (notify: any, idx: any) => {
-      //     try {
-      //         await sendgrid.send({
-      //             to: notify.email,
-      //             from: "yCITIES1@gmail.com",
-      //             subject: `${session?.user?.name} commented in Venture "${notify.ventureTitle}"`,
-      //             cc: process.env.CC_EMAIL,
-      //             templateId: " d-6fd81650d7ad4fe9a43dee40f8502051",
-      //             dynamicTemplateData: {
-      //                 subject: `${session?.user?.name} commented in Venture "${notify.ventureTitle}"`,
-      //                 notificationlink: notify.notificationLink,
-      //                 ventureTitle: notify.ventureTitle,
-      //                 fromName: notify.fromName
-      //             },
-      //             isMultiple: false,
-      //         });
-      //     } catch (err: any) {
-      //         return res.status(500).json({ err: SERVER_ERR_MSG });
-      //     }
-      // });
 
       const notificationResult = await db
         .collection("notifications")

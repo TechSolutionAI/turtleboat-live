@@ -247,7 +247,7 @@ const Index = () => {
                                                     return (
                                                         <div
                                                             key={item.id}
-                                                            className="border border-dashed border-1 border-primary-black px-4 pt-5 pb-8"
+                                                            className="border border-dashed border border-primary-black px-4 pt-5 pb-8"
                                                         >
                                                             <h2 className='text-black font-Inter text-md text-center font-bold'>{item.label}</h2>
                                                             <div className='mt-4 text-black font-Inter text-sm text-center'>
@@ -278,7 +278,7 @@ const Index = () => {
                                                             {...provided.draggableProps}
                                                             {...provided.dragHandleProps}
                                                             ref={provided.innerRef}
-                                                            className="border border-dashed border-1 border-primary-black px-4 pt-5 pb-8"
+                                                            className="border border-dashed border border-primary-black px-4 pt-5 pb-8"
                                                             >
                                                                 {
                                                                     isEditable &&

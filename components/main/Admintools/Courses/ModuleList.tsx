@@ -53,8 +53,8 @@ const ListRowItem = ({ index, rowItem, handleModuleClicked }: any) => {
                     updateModule(rowItem.module, !temp, checked);
                 }
             }}>
-                {/* {rowItem.isLock ? <LockOpenIcon className='text-[#249F5D]' /> : <LockIcon className='text-[#6592D4]' />} */}
-                {locked ? <LockIcon className='text-[#6592D4]' /> : <LockOpenIcon className='text-[#249F5D]' />}
+                {/* {rowItem.isLock ? <LockOpenIcon className='text-secondary-green' /> : <LockIcon className='text-[#6592D4]' />} */}
+                {locked ? <LockIcon className='text-[#6592D4]' /> : <LockOpenIcon className='text-secondary-green' />}
             </div>
 
             <DescriptionIcon onClick={() => handleModuleClicked(index)} 
@@ -62,8 +62,8 @@ const ListRowItem = ({ index, rowItem, handleModuleClicked }: any) => {
             />
             <label className='font-Inter text-[16px] font-semibold ml-[18px]'>{rowItem.module.title}</label>
             <div className='ml-[10px]'>
-                <DragIndicatorOutlinedIcon className='text-[#6F727A] ml-[10px]' />
-                <label className='font-Inter text-[10px] font-semibold text-[#6F727A]'>{rowItem.module.item}</label>
+                <DragIndicatorOutlinedIcon className='text-secondary-gray-4 ml-[10px]' />
+                <label className='font-Inter text-[10px] font-semibold text-secondary-gray-4'>{rowItem.module.item}</label>
             </div>
         </div>
     )

@@ -450,7 +450,7 @@ const RoadAssistanceRequest = ({
                 </h1>
               </div>
               <div className="px-6 py-4 max-h-[750px] overflow-y-scroll">
-                <p className="block mb-2 text-[#6F727A]">
+                <p className="block mb-2 text-secondary-gray-4">
                   Need some quick advice or pointers to help you get unstuck?
                   Your mentors and members of the CORE community will see your
                   question and be able to respond. They will also receive your
@@ -507,7 +507,7 @@ const RoadAssistanceRequest = ({
                   Specific Help Request{" "}
                   <span className="text-secondary-red">*</span>
                 </label>
-                <p className="block mb-2 text-[#6F727A]">
+                <p className="block mb-2 text-secondary-gray-4">
                   Request must be distilled into a specific task to get to your
                   immediate next step. Imagine your car is stuck on the side of
                   the highway, not being brought into the auto body shop. Be
@@ -618,7 +618,7 @@ const RoadAssistanceRequest = ({
                   What did you do to address this question or problem on your
                   own? <span className="text-secondary-red">*</span>
                 </label>
-                <p className="block mb-2 text-[#6F727A]">
+                <p className="block mb-2 text-secondary-gray-4">
                   What was the prior task you did leading up to this request?
                   This entry shows you are at the right stage of your
                   entrepreneurial journey and are ready to receive the help you

@@ -4,9 +4,7 @@ import Konva from "konva";
 import {
   Stage,
   Layer,
-  Line,
   Transformer,
-  Text,
   Rect,
   Group,
 } from "react-konva";
@@ -14,18 +12,14 @@ import { Tooltip } from "react-tooltip";
 import TitleIcon from "@mui/icons-material/Title";
 import HelpIcon from "@mui/icons-material/Help";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import ImageIcon from "@mui/icons-material/Image";
 import { ComicPanel } from "@/types/comicstrip.type";
 import Spinner from "@/components/Spinner";
 import CommentItem from "@/components/main/Module/CommentItem";
 import Upload from "@/components/main/Module/Upload";
-// import Editor from "@/components/main/Module/Editor";
 const Editor = dynamic(() => import("@/components/main/Module/Editor"), { ssr: false });
 import { Comment } from "@/types/module.type";
-import CropOriginalIcon from "@mui/icons-material/CropOriginal";
 import Swal from "sweetalert2";
-import $ from "jquery";
 
 interface LineType {
   tool: string;
@@ -99,6 +93,8 @@ const ComicStripEditor = ({
   const [isToolSelected, setIsToolSelected] = useState(false);
   const [lines, setLines] = useState<LineType[]>([]);
   const isDrawing = useRef(false);
+
+  const [resetEditor, setResetEditor] = useState(false);
 
   const handleMouseDown = (e: any) => {
     if (!isEditable) {
@@ -1027,6 +1023,7 @@ const ComicStripEditor = ({
       setCommentContent("");
       setFormFiles(null);
       setComments((prevComments) => [...prevComments, result.comment]);
+      setResetEditor(true);
     } else {
       Swal.fire({
         icon: "error",
@@ -1066,31 +1063,8 @@ const ComicStripEditor = ({
             backgroundImage={backgroundImage}
           >
             <Layer ref={layerRef}>
-              {/* {lines.map((line, i) => (
-                                <Line
-                                    key={i}
-                                    points={line.points}
-                                    stroke="#000000"
-                                    strokeWidth={2}
-                                    tension={0.5}
-                                    lineCap="round"
-                                    lineJoin="round"
-                                    globalCompositeOperation={
-                                        line.tool === 'eraser' ? 'destination-out' : 'source-over'
-                                    }
-                                >
-                                </Line>
-                            ))} */}
               <Group ref={groupRef}></Group>
               <Rect {...selectionProps} ref={selectionRef} />
-              {/* {
-                                tool == 'drawing' && visibleDrawingCursor && (
-                                    drawingTool == 'pen' ?
-                                    <Image image={pencilImage} width={20} height={20} x={position.x} y={position.y} />
-                                    :
-                                    <Image image={eraserImage} width={15} height={15} x={position.x - 7.5} y={position.y + 7.5} />
-                                )
-                            } */}
             </Layer>
             <Layer>
               <Transformer {...transformProps} ref={transformerRef} />
@@ -1112,7 +1086,7 @@ const ComicStripEditor = ({
               className={`${tool == "image"
                 ? "bg-[#E5632B] text-white border-[#E5632B]"
                 : "bg-white text-black border-secondary-gray-4"
-                } border border-1 text-black px-2 py-2 rounded shadow outline-none focus:outline-none ease-linear transition-all duration-150 hover:bg-[#E5632B] hover:text-white hover:border-[#E5632B]`}
+                } border text-black px-2 py-2 rounded shadow outline-none focus:outline-none ease-linear transition-all duration-150 hover:bg-[#E5632B] hover:text-white hover:border-[#E5632B]`}
               onClick={addImageElement}
               data-tooltip-id={"panel-tool-tip"}
               data-tooltip-content="Image"
@@ -1124,7 +1098,7 @@ const ComicStripEditor = ({
               className={`${tool == "text"
                 ? "bg-[#E5632B] text-white border-[#E5632B]"
                 : "bg-white text-black border-secondary-gray-4"
-                } border border-1 border-[#E5632B] text-black px-2 py-2 rounded shadow outline-none focus:outline-none ease-linear transition-all duration-150 hover:bg-[#E5632B] hover:text-white hover:border-[#E5632B]`}
+                } border border-[#E5632B] text-black px-2 py-2 rounded shadow outline-none focus:outline-none ease-linear transition-all duration-150 hover:bg-[#E5632B] hover:text-white hover:border-[#E5632B]`}
               onClick={addTextElement}
               data-tooltip-id={"panel-tool-tip"}
               data-tooltip-content="Text"
@@ -1136,7 +1110,7 @@ const ComicStripEditor = ({
               className={`${tool == "arrow"
                 ? "bg-[#E5632B] text-white border-[#E5632B]"
                 : "bg-white text-black border-secondary-gray-4"
-                } border border-1 border-[#E5632B] text-black px-2 py-2 rounded shadow outline-none focus:outline-none ease-linear transition-all duration-150 hover:bg-[#E5632B] hover:text-white hover:border-[#E5632B]`}
+                } border border-[#E5632B] text-black px-2 py-2 rounded shadow outline-none focus:outline-none ease-linear transition-all duration-150 hover:bg-[#E5632B] hover:text-white hover:border-[#E5632B]`}
               onClick={addArrowElement}
               data-tooltip-id={"panel-tool-tip"}
               data-tooltip-content="Arrow"
@@ -1144,27 +1118,6 @@ const ComicStripEditor = ({
             >
               <ArrowForwardIcon fontSize="large" />
             </button>
-            {/* <button
-                            className={`${tool == 'drawing' && drawingTool == 'pen' ? 'bg-tertiary-red text-white' : 'bg-white text-tertiary-red'} border border-1 border-tertiary-red px-1 py-1 rounded shadow outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 hover:bg-tertiary-red hover:text-white`}
-                            onClick={addDrawingElement}
-                            data-tooltip-id={"panel-tool-tip"}
-                            data-tooltip-content="Pencil"
-                            data-tooltip-place="top"
-                        >
-                            <DriveFileRenameOutlineIcon />
-                        </button>
-                        <button
-                            className={`${tool == 'drawing' && drawingTool == 'eraser' ? 'bg-tertiary-red text-white' : 'bg-white text-tertiary-red'} border border-1 border-tertiary-red px-1 py-1 rounded shadow outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 hover:bg-tertiary-red hover:text-white`}
-                            onClick={() => {
-                                setTool('drawing');
-                                setDrawingTool('eraser');
-                            }}
-                            data-tooltip-id={"panel-tool-tip"}
-                            data-tooltip-content="Erase"
-                            data-tooltip-place="top"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m16.24 3.56l4.95 4.94c.78.79.78 2.05 0 2.84L12 20.53a4.008 4.008 0 0 1-5.66 0L2.81 17c-.78-.79-.78-2.05 0-2.84l10.6-10.6c.79-.78 2.05-.78 2.83 0M4.22 15.58l3.54 3.53c.78.79 2.04.79 2.83 0l3.53-3.53l-4.95-4.95l-4.95 4.95Z" /></svg>
-                        </button> */}
 
             <Tooltip id={"panel-tool-tip"} />
           </div>
@@ -1208,16 +1161,11 @@ const ComicStripEditor = ({
           value={commentContent}
           onChange={(data) => {
             setCommentContent(data);
+            setResetEditor(false);
           }}
+          reset={resetEditor}
         />
         <div className="flex items-center justify-end font-Inter font-bold pt-5">
-          {/* <button
-            className="text-[#232325] background-transparent px-6 py-2 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-            type="button"
-            onClick={handleCancelClicked}
-          >
-            Cancel
-          </button> */}
           <button
             className="bg-primary-blue text-white active:bg-primary-blue px-6 py-3 rounded-lg shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
             type="button"

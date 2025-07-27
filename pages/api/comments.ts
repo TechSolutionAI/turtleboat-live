@@ -4,12 +4,9 @@ import { ObjectId } from "mongodb";
 import { v2 as cloudinary } from "cloudinary";
 import { Session, getServerSession } from "next-auth";
 import { authOptions } from "./auth/[...nextauth]";
-import sendgrid from "@sendgrid/mail";
 import { User } from "@/types/user.type";
 import { pusher } from "@/utils/pusher-server";
 import getDb from "@/utils/getdb";
-
-sendgrid.setApiKey(process.env.SENDGRID_API_KEY ?? "");
 
 const SERVER_ERR_MSG = "Something went wrong in a server.";
 
@@ -18,13 +15,6 @@ export const config = {
     bodyParser: false,
   },
 };
-
-interface FileObject {
-  originalFilename: string;
-  mimeType: string;
-  filepath: string;
-  size: number;
-}
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME ?? "",
@@ -53,43 +43,52 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 async function saveComment(req: NextApiRequest, res: NextApiResponse) {
   const session: Session | null = await getServerSession(req, res, authOptions);
   const user = session?.user as User;
-  const form = new formidable.IncomingForm();
+  const form = formidable();
   form.parse(req, async (err, fields, files) => {
     if (err) {
-      console.error(err);
       return res.status(500).send(err.message);
     }
 
     const { mid, vid, uid, content } = fields;
-    const moduleId = new ObjectId(mid.toString());
-    const ventureId = new ObjectId(vid.toString());
-    const userId = new ObjectId(uid.toString());
+    const moduleId = new ObjectId(mid?.toString());
+    const ventureId = new ObjectId(vid?.toString());
+    const userId = new ObjectId(uid?.toString());
 
     let fileFields = [];
 
-    for (const file of Object.values(files)) {
-      const fileObject: FileObject = file as unknown as FileObject;
-      try {
-        const uploadResult = await cloudinary.uploader.upload(
-          fileObject.filepath,
-          {
-            public_id: `ycity_files/${fileObject.originalFilename}`,
-            overwrite: true,
-            timestamp: new Date().getTime(),
-            resource_type: "auto",
-            folder: "comments",
-            invalidate: true,
+    for (const key of Object.keys(files)) {
+      const fileEntry = files[key];
+
+      // Handle single or multiple file uploads
+      const fileArray = Array.isArray(fileEntry) ? fileEntry : [fileEntry];
+
+      for (const file of fileArray) {
+        if (file && typeof file === "object" && "filepath" in file && "originalFilename" in file) {
+          const { filepath, originalFilename } = file;
+
+          try {
+            const uploadResult = await cloudinary.uploader.upload(filepath, {
+              public_id: `ycity_files/${originalFilename}`,
+              overwrite: true,
+              resource_type: "auto",
+              folder: "comments",
+              invalidate: true,
+            });
+
+            fileFields.push({
+              url: uploadResult.secure_url,
+              assetId: uploadResult.asset_id,
+              name: originalFilename,
+              publicId: uploadResult.public_id,
+            });
+          } catch (error) {
+            console.error("File upload error:", error);
+            return res.status(500).json({ success: false, err: SERVER_ERR_MSG });
           }
-        );
-        fileFields.push({
-          url: uploadResult.secure_url,
-          assetId: uploadResult.asset_id,
-          name: fileObject.originalFilename,
-          publicId: uploadResult.public_id,
-        });
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ success: false, err: SERVER_ERR_MSG });
+        } else {
+          console.error("File object missing required properties", file);
+          return res.status(500).json({ success: false, err: SERVER_ERR_MSG });
+        }
       }
     }
 
@@ -106,7 +105,7 @@ async function saveComment(req: NextApiRequest, res: NextApiResponse) {
         email: user?.email,
         name: user?.name,
         image: userInfo.image,
-        _id: uid.toString(),
+        _id: uid?.toString(),
       },
       createdAt: new Date(),
     };
@@ -156,7 +155,7 @@ async function saveComment(req: NextApiRequest, res: NextApiResponse) {
       let userIds: any[] = [];
       if (
         ventureData.mentee != null &&
-        ventureData.mentee._id.toString() != uid.toString()
+        ventureData.mentee._id.toString() != uid?.toString()
       ) {
         const date = new Date();
         const options: Intl.DateTimeFormatOptions = {
@@ -166,7 +165,7 @@ async function saveComment(req: NextApiRequest, res: NextApiResponse) {
         };
         const formattedDate = date.toLocaleDateString("en-US", options);
         const notificationForComment = {
-          from: uid.toString(),
+          from: uid?.toString(),
           to: ventureData.mentee._id.toString(),
           message: `${user?.name} contributed to "${ventureData.title}" on ${formattedDate}`,
           link: `/dashboard/myventures/module/${ventureId}-${mid}`,
@@ -177,12 +176,7 @@ async function saveComment(req: NextApiRequest, res: NextApiResponse) {
           moduleId: mid,
           createdAt: date,
         };
-        // emailNotifications.push({
-        //     fromName: session?.user?.name,
-        //     email: ventureData.mentee.email,
-        //     ventureTitle: ventureData.title,
-        //     notificationLink: `${process.env.HOME_URL}/dashboard/myventures/module/${ventureId}-${mid}`
-        // });
+
         notifications.push(notificationForComment);
         userIds.push(ventureData.mentee._id.toString());
         pusher.trigger(
@@ -192,7 +186,7 @@ async function saveComment(req: NextApiRequest, res: NextApiResponse) {
         );
       }
       ventureData.mentors.map((mentor: any) => {
-        if (mentor._id.toString() != uid.toString()) {
+        if (mentor._id.toString() != uid?.toString()) {
           const date = new Date();
           const options: Intl.DateTimeFormatOptions = {
             weekday: "long",
@@ -201,7 +195,7 @@ async function saveComment(req: NextApiRequest, res: NextApiResponse) {
           };
           const formattedDate = date.toLocaleDateString("en-US", options);
           const notificationForComment = {
-            from: uid.toString(),
+            from: uid?.toString(),
             to: mentor._id.toString(),
             message: `${user?.name} contributed to "${ventureData.title}" on ${formattedDate}`,
             link: `/dashboard/myventures/module/${ventureId}-${mid}`,
@@ -212,12 +206,7 @@ async function saveComment(req: NextApiRequest, res: NextApiResponse) {
             moduleId: mid,
             createdAt: date,
           };
-          // emailNotifications.push({
-          //     fromName: session?.user?.name,
-          //     email: mentor.email,
-          //     ventureTitle: ventureData.title,
-          //     notificationLink: `${process.env.HOME_URL}/dashboard/myventures/module/${ventureId}-${mid}`
-          // });
+
           notifications.push(notificationForComment);
           userIds.push(mentor._id.toString());
           pusher.trigger(
@@ -238,7 +227,7 @@ async function saveComment(req: NextApiRequest, res: NextApiResponse) {
 
         allCollaborators.map((collaborator: any) => {
           if (
-            collaborator._id.toString() != uid.toString() &&
+            collaborator._id.toString() != uid?.toString() &&
             userIds.find((item) => item === collaborator._id.toString()) ==
               undefined
           ) {
@@ -250,7 +239,7 @@ async function saveComment(req: NextApiRequest, res: NextApiResponse) {
             };
             const formattedDate = date.toLocaleDateString("en-US", options);
             const notificationForComment = {
-              from: uid.toString(),
+              from: uid?.toString(),
               to: collaborator._id.toString(),
               message: `${user?.name} contributed to "${ventureData.title}" on ${formattedDate}`,
               link: `/dashboard/myventures/module/${ventureId}-${mid}`,
@@ -261,12 +250,7 @@ async function saveComment(req: NextApiRequest, res: NextApiResponse) {
               moduleId: mid,
               createdAt: date,
             };
-            // emailNotifications.push({
-            //     fromName: session?.user?.name,
-            //     email: collaborator.email,
-            //     ventureTitle: ventureData.title,
-            //     notificationLink: `${process.env.HOME_URL}/dashboard/myventures/module/${ventureId}-${mid}`
-            // });
+
             notifications.push(notificationForComment);
             userIds.push(collaborator._id.toString());
             pusher.trigger(
@@ -277,28 +261,6 @@ async function saveComment(req: NextApiRequest, res: NextApiResponse) {
           }
         });
       }
-      // Send Notifications to Team Collaborators if this is team venture
-
-      // emailNotifications.map(async (notify: any, idx: any) => {
-      //     try {
-      //         await sendgrid.send({
-      //             to: notify.email,
-      //             from: "yCITIES1@gmail.com",
-      //             subject: `${session?.user?.name} commented in Venture "${notify.ventureTitle}"`,
-      //             cc: process.env.CC_EMAIL,
-      //             templateId: " d-6fd81650d7ad4fe9a43dee40f8502051",
-      //             dynamicTemplateData: {
-      //                 subject: `${session?.user?.name} commented in Venture "${notify.ventureTitle}"`,
-      //                 notificationlink: notify.notificationLink,
-      //                 ventureTitle: notify.ventureTitle,
-      //                 fromName: notify.fromName
-      //             },
-      //             isMultiple: false,
-      //         });
-      //     } catch (err: any) {
-      //         return res.status(500).json({ err: SERVER_ERR_MSG });
-      //     }
-      // });
 
       const notificationResult = await db
         .collection("notifications")
@@ -310,7 +272,7 @@ async function saveComment(req: NextApiRequest, res: NextApiResponse) {
         .findOne({ no: 3 });
 
       const tokenHistory = await db.collection("token_history").insertOne({
-        userId: new ObjectId(uid.toString()),
+        userId: new ObjectId(uid?.toString()),
         createdAt: new Date(),
         amount: tokenAction.tokenAmount,
         isView: false,
@@ -319,7 +281,7 @@ async function saveComment(req: NextApiRequest, res: NextApiResponse) {
         type: "action",
       });
 
-      pusher.trigger(`user-token-${uid.toString()}`, "token-history", {
+      pusher.trigger(`user-token-${uid?.toString()}`, "token-history", {
         type: 1,
         name: tokenAction.name,
         tokenAmount: tokenAction.tokenAmount,
@@ -351,7 +313,7 @@ async function saveComment(req: NextApiRequest, res: NextApiResponse) {
 
 async function updateCheckStatus(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const form = new formidable.IncomingForm();
+    const form = formidable();
     form.parse(req, async (err, fields, files) => {
       if (err) {
         console.error(err);
@@ -359,8 +321,8 @@ async function updateCheckStatus(req: NextApiRequest, res: NextApiResponse) {
       }
 
       const { mid, vid, checked } = fields;
-      const moduleId = new ObjectId(mid.toString());
-      const ventureId = new ObjectId(vid.toString());
+      const moduleId = new ObjectId(mid?.toString());
+      const ventureId = new ObjectId(vid?.toString());
 
       const db = await getDb();
       const result = await db.collection("ventures").updateOne(
@@ -373,7 +335,7 @@ async function updateCheckStatus(req: NextApiRequest, res: NextApiResponse) {
         },
         {
           $set: {
-            "course.modules.$.isCheckedOff": checked == "1" ? true : false,
+            "course.modules.$.isCheckedOff": (Array.isArray(checked) ? checked[0] : checked) === "1" ? true : false,
             "course.modules.$.lastUpdated": new Date(),
           },
         }

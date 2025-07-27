@@ -37,7 +37,7 @@ const VideoWithUser = ({
       >
         <video
           key={item.video.url}
-          className="rounded-2xl min-h-[190px] max-h-[190px] w-[100%] object-cover"
+          className="rounded-2xl min-h-[190px] max-h-[190px] w-full object-cover"
           onClick={() => {
             console.log("video clicked");
           }}

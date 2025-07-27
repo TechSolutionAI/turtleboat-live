@@ -54,7 +54,7 @@ const Index = () => {
   return (
     <div>
       <div className="pb-[32px]">
-        <h1 className="font-Inter font-bold text-[24px] text-[#232325] mt-[0px]">
+        <h1 className="font-Inter font-bold text-[24px] text-primary-black mt-[0px]">
           yCITIES TOOLBOX
         </h1>
         <p className={"mt-5 font-Inter text-[14px]"}>

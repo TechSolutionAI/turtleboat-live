@@ -1,4 +1,4 @@
-import cookie from "cookie";
+import * as cookie from 'cookie';
 import { NextApiRequest, NextApiResponse } from "next";
 import NextAuth, { User } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";

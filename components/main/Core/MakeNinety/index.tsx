@@ -9,7 +9,7 @@ const Index = () => {
     return (
         <div>
             <div className="pb-[32px]">
-                <h1 className="font-Inter font-bold text-[24px] text-[#232325]">
+                <h1 className="font-Inter font-bold text-[24px] text-primary-black">
                     <span className={"underline underline-offset-2 decoration-3"}>C</span>ircle <span className={"underline underline-offset-2 decoration-3"}>o</span>f <span className={"underline underline-offset-2 decoration-3"}>R</span>esources <span className={"underline underline-offset-2 decoration-3"}>E</span>xchange
                 </h1>
                 <p className={"mt-5 font-Inter text-[14px]"}>

@@ -166,7 +166,7 @@ const Index = () => {
   return (
     <div>
       <div className="pt-[40px] pb-[32px]">
-        <h1 className="font-Inter font-bold text-[36px] text-[#232325] mt-[100px]">
+        <h1 className="font-Inter font-bold text-[36px] text-primary-black mt-[100px]">
           My Ventures
         </h1>
       </div>
@@ -284,7 +284,7 @@ const Index = () => {
                         className="shadow-md h-[195px] font-Inter rounded-lg"
                         key={`venture_${index}`}
                       >
-                        <div className="text-[20px] bg-[#F3F4F6] rounded-t-lg font-bold text-[#232325] px-[40px] py-[10px] ">
+                        <div className="text-[20px] bg-[#F3F4F6] rounded-t-lg font-bold text-primary-black px-[40px] py-[10px] ">
                           <a
                             className="block truncate"
                             href={`/dashboard/myventures/${item._id}`}
@@ -311,7 +311,7 @@ const Index = () => {
                             })}
                             {memberList.length > 2 && (
                               <a
-                                className="flex items-center justify-center w-9 h-9 text-full font-medium text-white bg-gradient-to-r from-[#B32F1A] to-[#DF897C] border-2 border-white rounded-full"
+                                className="flex items-center justify-center w-9 h-9 text-full font-medium text-white bg-linear-to-r from-[#B32F1A] to-[#DF897C] border-2 border-white rounded-full"
                                 href="#"
                               >
                                 +{memberList.length - 2}
@@ -366,7 +366,7 @@ const Index = () => {
                         className="shadow-md h-[195px] font-Inter rounded-lg"
                         key={`venture_${index}`}
                       >
-                        <div className="text-[20px] bg-[#F3F4F6] rounded-t-lg font-bold text-[#232325] px-[40px] py-[10px] ">
+                        <div className="text-[20px] bg-[#F3F4F6] rounded-t-lg font-bold text-primary-black px-[40px] py-[10px] ">
                           <a
                             className="block truncate"
                             href={`/dashboard/myventures/${item._id}`}
@@ -393,7 +393,7 @@ const Index = () => {
                             })}
                             {memberList.length > 2 && (
                               <a
-                                className="flex items-center justify-center w-9 h-9 text-full font-medium text-white bg-gradient-to-r from-[#B32F1A] to-[#DF897C] border-2 border-white rounded-full"
+                                className="flex items-center justify-center w-9 h-9 text-full font-medium text-white bg-linear-to-r from-[#B32F1A] to-[#DF897C] border-2 border-white rounded-full"
                                 href="#"
                               >
                                 +{memberList.length - 2}

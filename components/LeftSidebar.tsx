@@ -194,7 +194,7 @@ const LeftSidebar = ({ noSelNav }: { noSelNav?: boolean }) => {
                   onOutsideClick={() => setShowUserDropMenu(false)}
                 >
                   <ul
-                    className={`absolute left-10 bottom-16 z-[1000] 
+                    className={`absolute left-10 bottom-16 z-1000 
                                 float-left m-0 min-w-max list-none overflow-hidden 
                                 rounded-lg border-none bg-white bg-clip-padding 
                                 text-left text-base shadow-lg`}

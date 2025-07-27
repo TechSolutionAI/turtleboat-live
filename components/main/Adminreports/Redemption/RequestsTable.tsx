@@ -174,7 +174,7 @@ const RequestsTable = ({
                                           key={row.values.action + "-" + idx}
                                           className={`${
                                             idx == 0 ? "mt-0" : "mt-1"
-                                          } justify-center flex flex-col text-center px-2 sm:py-2 py-1       rounded-full min-w-fit bg-tertiary-green text-secondary-green border-l-1 border-tertiary-green w-[120px]`}
+                                          } justify-center flex flex-col text-center px-2 sm:py-2 py-1       rounded-full min-w-fit bg-tertiary-green text-secondary-green border-l border-tertiary-green w-[120px]`}
                                         >
                                           <span className="self-center text-sm font-medium">
                                             {item}

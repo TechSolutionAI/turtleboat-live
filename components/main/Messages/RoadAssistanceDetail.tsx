@@ -172,7 +172,7 @@ const RoadAssistanceDetail = () => {
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-9 gap-x-4 my-[10px] px-0 sm:px-10">
             <div className="col-span-1 xl:col-span-6">
-              <div className="bg-secondary-gray-1 rounded-lg border border-1 border-secondary-gray-3 px-9 py-7">
+              <div className="bg-secondary-gray-1 rounded-lg border border border-secondary-gray-3 px-9 py-7">
                 <div className="flex items-center gap-x-2">
                   {/* <Image className='rounded-full' src={venture?.mentee.image ?? '/user.png'} alt={venture?.mentee.name} width={40} height={40}/> */}
                   <UserAvatar user={venture?.mentee} size={40} classes={""} />
@@ -183,7 +183,7 @@ const RoadAssistanceDetail = () => {
                 {requestData != null && (
                   <>
                     <div className="flex items-center gap-x-2 mt-4">
-                      <div className="px-4 py-2 rounded-[20px] border border-1 border-secondary-gray bg-white">
+                      <div className="px-4 py-2 rounded-[20px] border border border-secondary-gray bg-white">
                         <label>{requestData.type.label}</label>
                       </div>
                     </div>
@@ -205,14 +205,14 @@ const RoadAssistanceDetail = () => {
                       </h2>
                       <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 md:grid-cols-1 xl:grid-cols-3 gap-x-4 gap-y-4">
                         {requestData.elevatorType == "0" && (
-                          <div className="flex flex-col items-center justify-around py-5 shadow-md rounded-lg bg-white border border-1 border-secondary-gray-3">
+                          <div className="flex flex-col items-center justify-around py-5 shadow-md rounded-lg bg-white border border border-secondary-gray-3">
                             <h3 className="font-Inter text-center font-bold">
                               Elevator Pitch
                             </h3>
                             <AudioPlayer audioData={venture?.audio} />
                           </div>
                         )}
-                        <div className="flex flex-col items-center justify-around py-5 shadow-md rounded-lg bg-white border border-1 border-secondary-gray-3">
+                        <div className="flex flex-col items-center justify-around py-5 shadow-md rounded-lg bg-white border border border-secondary-gray-3">
                           <h3 className="font-Inter text-center font-bold">
                             Comic Strip
                           </h3>
@@ -229,7 +229,7 @@ const RoadAssistanceDetail = () => {
                             return (
                               <div
                                 key={`file_item_${index}`}
-                                className="flex flex-col items-center justify-around py-5 shadow-md rounded-lg bg-white border border-1 border-secondary-gray-3"
+                                className="flex flex-col items-center justify-around py-5 shadow-md rounded-lg bg-white border border border-secondary-gray-3"
                               >
                                 <h3 className="font-Inter text-center font-bold">
                                   {fileItem.name}
@@ -304,7 +304,7 @@ const RoadAssistanceDetail = () => {
                       return (
                         <div
                           key={`reponseitem-${index}`}
-                          className="bg-secondary-gray-1 rounded-lg border border-1 border-secondary-gray-3 px-9 py-7 mt-4"
+                          className="bg-secondary-gray-1 rounded-lg border border border-secondary-gray-3 px-9 py-7 mt-4"
                         >
                           <div className="flex items-center gap-x-2">
                             <UserAvatar
@@ -331,7 +331,7 @@ const RoadAssistanceDetail = () => {
                   </>
                 )}
             </div>
-            <div className="mt-5 lg:mt-0 bg-accent-yellow rounded-lg border border-1 border-secondary-gray-3 px-9 py-7 col-span-1 xl:col-span-3">
+            <div className="mt-5 lg:mt-0 bg-accent-yellow rounded-lg border border border-secondary-gray-3 px-9 py-7 col-span-1 xl:col-span-3">
               <div className="flex items-center gap-x-2">
                 <Image
                   className="rounded-full"
@@ -345,15 +345,15 @@ const RoadAssistanceDetail = () => {
                 </h2>
               </div>
               <div className="mt-4 grid grid-cols-1 gap-y-5">
-                {/* <Link href='#' className='bg-white px-7 py-8 shadow-md rounded-lg border border-1 border-secondary-gray-3'>
+                {/* <Link href='#' className='bg-white px-7 py-8 shadow-md rounded-lg border border border-secondary-gray-3'>
                                 <label className='font-Inter font-bold text-black'>Schedule a 15 minute Zoom</label>
                             </Link>
-                            <Link href='#' className='bg-white px-7 py-8 shadow-md rounded-lg border border-1 border-secondary-gray-3'>
+                            <Link href='#' className='bg-white px-7 py-8 shadow-md rounded-lg border border border-secondary-gray-3'>
                                 <label className='font-Inter font-bold text-black'>Upload a 3 minute video response</label>
                             </Link> */}
                 <div
                   onClick={handleResponseWithText}
-                  className="bg-white px-7 py-8 shadow-md rounded-lg border border-1 border-secondary-gray-3 cursor-pointer"
+                  className="bg-white px-7 py-8 shadow-md rounded-lg border border border-secondary-gray-3 cursor-pointer"
                 >
                   <h3 className="font-Inter font-bold text-black cursor-pointer">
                     Send a text-based response
@@ -361,7 +361,7 @@ const RoadAssistanceDetail = () => {
                 </div>
                 <div
                   onClick={handleResponseWithEmail}
-                  className="bg-white px-7 py-8 shadow-md rounded-lg border border-1 border-secondary-gray-3 cursor-pointer"
+                  className="bg-white px-7 py-8 shadow-md rounded-lg border border border-secondary-gray-3 cursor-pointer"
                 >
                   <h3 className="font-Inter font-bold text-black cursor-pointer">
                     Forward this request to someone in your network that you
@@ -370,7 +370,7 @@ const RoadAssistanceDetail = () => {
                 </div>
                 <Link
                   href="/dashboard/toolbox/lemonade/add"
-                  className="bg-white px-7 py-8 shadow-md rounded-lg border border-1 border-secondary-gray-3 cursor-pointer"
+                  className="bg-white px-7 py-8 shadow-md rounded-lg border border border-secondary-gray-3 cursor-pointer"
                 >
                   <h3 className="font-Inter font-bold text-black">
                     Start a Coffee Chat

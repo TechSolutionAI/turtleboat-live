@@ -38,6 +38,7 @@ const Index = () => {
   const [selectedTab, setSelectedTab] = useState(
     type != null ? parseInt(type.toString()) : 0
   );
+  const [resetEditor, setResetEditor] = useState(false);
 
   const getCollaboration = async () => {
     setIsLoading(true);
@@ -76,6 +77,8 @@ const Index = () => {
     setCommentContent("");
     setFormFiles(null);
     setIsCommentSaved(true);
+    setResetEditor(true);
+
   };
 
   const handleCancelClicked = () => {
@@ -214,11 +217,13 @@ const Index = () => {
               value={commentContent}
               onChange={(data: string) => {
                 setCommentContent(data);
+                setResetEditor(false);
               }}
+              reset={resetEditor}
             />
             <div className="flex items-center justify-end font-Inter font-bold pt-5">
               <button
-                className="text-[#232325] background-transparent px-6 py-2 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                className="text-primary-black background-transparent px-6 py-2 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
                 onClick={handleCancelClicked}
               >

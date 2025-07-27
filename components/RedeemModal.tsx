@@ -51,7 +51,7 @@ const RedeemModal = ({ data, newToken }: { data: any; newToken: any }) => {
             Tokens earned this quarter
           </div>
           {newToken != null && newToken.name != "" && (
-            <div className="font-Inter text-[12px] text-white bg-[#27AE60] px-2 py-1 inline-block rounded-md">
+            <div className="font-Inter text-[12px] text-white bg-eval-sel-green-2 px-2 py-1 inline-block rounded-md">
               ! {newToken.name} {`${newToken.type == 0 ? "-" : newToken.amount >= 0 ? "+" : ""}`}
               {newToken.amount}
             </div>

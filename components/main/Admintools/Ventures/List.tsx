@@ -197,10 +197,10 @@ const List = ({
                   >
                     <Spinner text="Archiving..." />
                   </th>
-                  <td className="py-[20px] text-[#6F727A] text-[12px] w-[15%]"></td>
-                  <td className="py-[20px] text-[#6F727A] text-[12px] w-[15%]"></td>
-                  <td className="py-[20px] text-[#6F727A] text-[12px] w-[25%] truncate"></td>
-                  <td className="relative py-[20px] text-[#6F727A] w-[5%]"></td>
+                  <td className="py-[20px] text-secondary-gray-4 text-[12px] w-[15%]"></td>
+                  <td className="py-[20px] text-secondary-gray-4 text-[12px] w-[15%]"></td>
+                  <td className="py-[20px] text-secondary-gray-4 text-[12px] w-[25%] truncate"></td>
+                  <td className="relative py-[20px] text-secondary-gray-4 w-[5%]"></td>
                 </tr>
               ) : deletingIndex === index ? (
                 <tr className="bg-white border-b" key={"deleting_" + index}>
@@ -210,10 +210,10 @@ const List = ({
                   >
                     <Spinner text="Deleting..." />
                   </th>
-                  <td className="py-[20px] text-[#6F727A] text-[12px] w-[15%]"></td>
-                  <td className="py-[20px] text-[#6F727A] text-[12px] w-[15%]"></td>
-                  <td className="py-[20px] text-[#6F727A] text-[12px] w-[25%] truncate"></td>
-                  <td className="relative py-[20px] text-[#6F727A] w-[5%]"></td>
+                  <td className="py-[20px] text-secondary-gray-4 text-[12px] w-[15%]"></td>
+                  <td className="py-[20px] text-secondary-gray-4 text-[12px] w-[15%]"></td>
+                  <td className="py-[20px] text-secondary-gray-4 text-[12px] w-[25%] truncate"></td>
+                  <td className="relative py-[20px] text-secondary-gray-4 w-[5%]"></td>
                 </tr>
               ) : (
                 <tr
@@ -241,27 +241,27 @@ const List = ({
                       </label>
                     </a>
                   </th>
-                  <td className="py-[20px] px-[5px] text-[#6F727A] text-[12px] w-[15%]">
+                  <td className="py-[20px] px-[5px] text-secondary-gray-4 text-[12px] w-[15%]">
                     <label className="font-Inter font-semibold">
                       {formatDate(item.createdAt)}
                     </label>
                   </td>
-                  <td className="py-[20px] px-[5px] text-[#6F727A] text-[12px] w-[15%]">
+                  <td className="py-[20px] px-[5px] text-secondary-gray-4 text-[12px] w-[15%]">
                     <label className="font-Inter font-semibold">
                       {formatDate(item.updatedAt)}
                     </label>
                   </td>
-                  <td className="py-[20px] px-[5px] text-[#6F727A] text-[12px] w-[25%] truncate">
+                  <td className="py-[20px] px-[5px] text-secondary-gray-4 text-[12px] w-[25%] truncate">
                     <label className="font-Inter font-semibold">
                       {item.course.title}
                     </label>
                   </td>
-                  <td className="relative py-[20px] px-[5px] text-[#6F727A] w-[5%]">
+                  <td className="relative py-[20px] px-[5px] text-secondary-gray-4 w-[5%]">
                     <button
-                      className={`rounded-[50px] border-2 border-transparent hover:border-[#6F727A] float-right  ${
+                      className={`rounded-[50px] border-2 border-transparent hover:border-secondary-gray-4 float-right  ${
                         dropdownOpen === true &&
                         index === dropdownIndex &&
-                        "bg-[#DCECFB]"
+                        "bg-tertiary-blue"
                       }`}
                       onClick={() => {
                         setDropdownOpen(!dropdownOpen);
