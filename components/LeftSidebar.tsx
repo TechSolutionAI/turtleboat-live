@@ -147,9 +147,9 @@ const LeftSidebar = ({ noSelNav }: { noSelNav?: boolean }) => {
           />
           <div
             style={visible ? { display: "flex" } : {}}
-            className={`sm:flex hidden flex-col overflow-visible
+            className={`sm:flex hidden flex-col 
                         items-center justify-between fixed z-30
-                        sm:w-28 w-20 h-screen text-gray-700 bg-gray-100 rounded`}
+                        sm:w-28 w-20 h-screen text-gray-700 bg-gray-100 overflow-y-auto`}
           >
             <a className="flex w-full px-3 sm:mt-6 mt-3 mb-3 justify-center">
               <Image alt="logo" src="/betalogo.svg" width={80} height={128} />
@@ -194,7 +194,7 @@ const LeftSidebar = ({ noSelNav }: { noSelNav?: boolean }) => {
                   onOutsideClick={() => setShowUserDropMenu(false)}
                 >
                   <ul
-                    className={`absolute left-10 bottom-16 z-1000 
+                    className={`fixed left-10 bottom-16 z-1000 
                                 float-left m-0 min-w-max list-none overflow-hidden 
                                 rounded-lg border-none bg-white bg-clip-padding 
                                 text-left text-base shadow-lg`}

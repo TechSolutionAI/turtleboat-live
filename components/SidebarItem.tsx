@@ -32,7 +32,7 @@ const SidebarItem = ({
           <div className="absolute inline-flex items-center justify-center w-4 h-4 text-xs sm:w-6 sm:h-6 sm:text-sm font-bold text-white bg-primary-blue rounded-full top-4 sm:top-3 right-6">{badge}</div>
         )
       }
-      <span className="self-center text-sm font-medium">{label}</span>
+      <span className="self-center text-sm font-medium mx-4">{label}</span>
     </a>
   );
 }
